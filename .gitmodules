@@ -1,0 +1,3 @@
+[submodule "serencity"]
+	path = serencity
+	url = https://github.com/lbatschelet/serencity
