@@ -1,0 +1,50 @@
+\section{Grundlegende Anforderungen an die Anwendung}
+\label{sec:grundlegende_anforderungen}
+
+Die im Folgenden beschriebenen Anforderungen bilden die Basis für die Entwicklung einer App, die zur Durchführung von Befragungen im intersektionalen Kontext eingesetzt wird. Dabei stehen Datensicherheit, Nutzerfreundlichkeit und eine flexible Fragebogenverwaltung im Vordergrund.
+
+\subsection{Datenschutz und Datensicherheit}
+\begin{itemize}
+  \item \textbf{Pseudonymisierung:} Es wird lediglich eine gerätespezifische Kennung (DeviceID) gespeichert, um alle Antworten eindeutig zuordnen zu können. Persönliche Identifikationsmerkmale werden nicht erhoben.
+  \item \textbf{Datenminimierung:} Über die App werden ausschließlich Antworten auf die Fragen erfasst. Es werden keine weiteren Nutzerdaten (z.\,B. Name, IP-Adresse oder Standort) gespeichert oder verarbeitet.
+  \item \textbf{Row-Level Security (RLS):} Die Datenbankzugriffe sind so konfiguriert, dass jeder Datensatz nur vom zugehörigen DeviceID-Inhaber gelesen und verändert werden kann.
+  \item \textbf{HTTPS-Verschlüsselung:} Sämtliche Kommunikation mit dem Backend (Supabase) erfolgt über sichere HTTPS-Verbindungen, um Abhörangriffe oder Manipulationen zu verhindern.
+  \item \textbf{Nutzergesteuerte Datenlöschung:} Ein App-internes Feature ermöglicht den vollständigen und irreversiblen Löschvorgang aller mit einer DeviceID verbundenen Datensätze.
+\end{itemize}
+
+\subsection{Benutzeroberfläche und Mehrsprachigkeit}
+\begin{itemize}
+  \item \textbf{Grundlegendes Layout:} Die App besitzt ein klares, auf mobilen Endgeräten leicht bedienbares Design mit zentralen Navigations- und Einstellungsoptionen.
+  \item \textbf{Sprachunterstützung:} Zu Beginn wird die Systemsprache des Smartphones als Voreinstellung genutzt. Eine optionale Sprachauswahl im Menü erlaubt es, die App-Oberfläche manuell auf eine andere verfügbare Sprache umzustellen.
+  \item \textbf{Informationsseiten:} Ein \textit{About}-Bildschirm fasst Hintergrundinformationen zum Projekt zusammen, während ein separater \textit{Privacy-Policy}-Bereich detailliert über die Datenerhebung und -verarbeitung informiert.
+\end{itemize}
+
+\subsection{Fragebogen-Logik und Zeitfenster}
+\begin{itemize}
+  \item \textbf{Zeitgesteuerte Befragungen:} Die Applikation versendet bis zu drei Benachrichtigungen pro Tag (Morgen, Mittag, Abend), die jeweils ein einstündiges Zeitfenster für das Ausfüllen des Fragebogens eröffnen.
+  \item \textbf{Erstbefragung:} Beim ersten Start erhält der Nutzer einen Einführungsfragebogen (z.\,B. Demographiedaten), der einmalig ausgefüllt werden soll.
+  \item \textbf{Dynamische Fragenzuordnung:} Auf Basis der Tageszeit und möglicher bereits ausgefüllter Fragebögen werden lediglich die relevanten Fragen aus der Datenbank abgerufen.
+  \item \textbf{Fortschrittskontrolle:} Ein internes Protokoll steuert, ob ein Nutzer bereits einen bestimmten Fragenblock beantwortet hat, um redundante Abfragen zu vermeiden.
+\end{itemize}
+
+\subsection{Benachrichtigungen}
+\begin{itemize}
+  \item \textbf{Push-Mechanismus:} Die App nutzt ein Benachrichtigungssystem (z.\,B. über Expo), um den Nutzer auf anstehende Fragezeiten hinzuweisen.
+  \item \textbf{Zufallskomponente:} Leichte zeitliche Variationen bei der Benachrichtigungsauslösung erhöhen die Akzeptanz und verringern Vorhersehbarkeit.
+  \item \textbf{Gültigkeitsfenster:} Jede Umfrage kann nur innerhalb einer bestimmten Zeitspanne beantwortet werden. Nach Ablauf dieses Zeitfensters wird sie automatisch deaktiviert.
+\end{itemize}
+
+\subsection{Fragetypen}
+\begin{itemize}
+  \item \textbf{Single Choice:} Nur eine Antwort kann ausgewählt werden (Radiobutton-Struktur).
+  \item \textbf{Multiple Choice:} Mehrfachauswahl ist möglich (Checkbox-Struktur).
+  \item \textbf{Slider:} Skalen zur Bewertung (beispielsweise 1--10), die durch eine Touch-Bewegung eingestellt werden.
+  \item \textbf{Freitext:} Offen formulierte Eingabefelder für individuelle Anmerkungen oder qualitative Antworten.
+\end{itemize}
+
+\subsection{Teststrategie}
+\begin{itemize}
+  \item \textbf{Modul- und Integrationstests:} Sicherstellen der korrekten Funktion bei Datenbankanbindung, DeviceID-Generierung und Fragebogenverwaltung.
+  \item \textbf{Optionale End-to-End-Tests:} Simulieren eines kompletten Nutzungsablaufs (Push-Benachrichtigung, Fragebeantwortung, Datenübermittlung).
+  \item \textbf{Abdeckungskriterien:} Durch definierte Abdeckungsziele (z.\,B. 80\,\%) wird eine solide Testbasis für wesentliche Funktionen erreicht.
+\end{itemize}
