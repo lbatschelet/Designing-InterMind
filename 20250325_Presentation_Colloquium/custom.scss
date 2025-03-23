@@ -1,0 +1,132 @@
+/*-- scss:defaults --*/
+
+// Fonts über Adobe Fonts
+@import url("https://use.typekit.net/box2vwe.css");
+
+// Typografie
+// Standard-Font: Extra Thin (verwende hier den Display-Font, z. B. für große Überschriften)
+$font-family-sans-serif: "neue-haas-grotesk-display", sans-serif !default;
+$presentation-heading-font: "termina", sans-serif !default;
+
+// Textausrichtung
+$presentation-slide-text-align: left !default;
+$presentation-title-slide-text-align: left !default;
+
+// Farben
+$body-bg: #ffffff !default;
+$body-color: #111111 !default;
+$link-color: #0066cc !default;
+$selection-bg: lighten($link-color, 25%) !default;
+$selection-color: $body-bg !default;
+
+// Schriftgrößen und Abstände
+$presentation-font-size-root: 30px !default;
+$presentation-line-height: 1.5 !default;
+$presentation-heading-line-height: 1.2 !default;
+$presentation-heading-font-weight: 700 !default;
+$presentation-font-weight-normal: 300 !default;
+$presentation-font-weight-bold: 600 !default;
+
+/*-- scss:rules --*/
+
+// Links innerhalb von Fetttext auch fett darstellen
+.reveal strong a,
+.reveal b a {
+  font-weight: inherit;
+}
+
+// Allgemeine Textausrichtung für Inhalte
+.reveal p,
+.reveal ul,
+.reveal ol {
+  text-align: left;
+}
+
+.reveal .slide-number {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.reveal img {
+  max-width: 100%;
+  border-radius: 0.25rem;
+  display: block;
+  margin: 0.5em 0;
+}
+
+.reveal .quarto-title-author,
+.reveal .date {
+  font-size: 0.6em !important;
+  margin-top: 0.5em;
+}
+
+// Regenbogenband rechts – fixiert am Viewport
+.reveal::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 3vh;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #ff6b6b,
+    #feca57,
+    #1dd1a1,
+    #54a0ff,
+    #5f27cd
+  );
+  z-index: 10;
+  pointer-events: none;
+}
+
+// Wenn der aktive Slide (z. B. Titelfolie oder Abschnittsheader) den Zustand "no-band" hat,
+// wird Reveal.js die Klasse no-band auf .reveal setzen – der Balken wird dann ausgeblendet.
+.reveal.no-band::after {
+  display: none;
+}
+
+// Positionierung der Seitenzahlen (genug Abstand zum Balken)
+.reveal .slide-number {
+  right: 4vh !important;
+  bottom: 1.5vh;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+// Optional: Schutzbereich für den Inhalt (damit nichts unter den Balken rutscht)
+.reveal .slides {
+  padding-right: 40px;
+}
+
+/*--------------------------------------------------------
+  Gemeinsamer Stil für Titelfolien und Abschnittsheader-Folien
+--------------------------------------------------------*/
+
+// Definiere ein Mixin für den gemeinsamen Layout-Stil
+@mixin title-slide-style {
+  text-align: $presentation-title-slide-text-align;
+  font-family: $font-family-sans-serif;
+  padding: 4rem; // Hier kannst du den Innenabstand anpassen
+  // Weitere gemeinsame Eigenschaften (z. B. Hintergründe oder Farben) lassen sich hier ergänzen
+}
+
+// Stil für die Titelfolie
+// (In Quarto: class: title-slide)
+.reveal .slide.title-slide {
+  @include title-slide-style;
+}
+.reveal .slide.title-slide h1 {
+  font-size: 3rem; // Beispielwert für Titelfolien
+  margin: 0;
+}
+
+// Stil für Abschnittsheader-Folien
+// (In Quarto: class: section-header no-band)
+.reveal .slide.section-header {
+  @include title-slide-style;
+}
+.reveal .slide.section-header h2 {
+  font-size: 4.5rem; // "Riesiger" Text für Abschnittsheader
+  margin-top: 10vh;
+}
