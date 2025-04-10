@@ -1,0 +1,64 @@
+\section{Appentwicklung}
+\subsection{Anforderungskatalog}
+
+Dieser Abschnitt beschreibt detailliert die funktionalen und nicht-funktionalen Anforderungen an die App, die intersektionales Wohlbefinden im Stadtraum erfasst. Ziel der App ist es, mittels ortsbasierter Erhebungen in Echtzeit subjektive Wohlbefindensdaten zu sammeln – unter besonderer Berücksichtigung intersektionaler Merkmale – und dabei möglichst wenig persönliche Daten der Nutzer zu erfassen. Die Anforderungen wurden unter Anwendung etablierter Methoden (vgl. \cite{clegg_case_1994}) ermittelt und in die Kategorien Funktionalität, Sicherheit/Datenschutz, Mehrsprachigkeit sowie Erweiterbarkeit und Wartbarkeit unterteilt.
+
+\paragraph{Funktionale Anforderungen}
+\begin{itemize}
+    \item \textbf{Gerätebasierte Identifikation und Datenerfassung:}  
+    Die App verzichtet bewusst auf eine klassische Anmeldung oder Nutzerkonten. Stattdessen wird jedem Gerät eine eindeutige ID zugewiesen, anhand derer sämtliche Daten erfasst und verwaltet werden. Dieses Vorgehen minimiert die Erhebung personenbezogener Daten, birgt jedoch technische Herausforderungen hinsichtlich der dauerhaften Identifikation und der Datensicherheit. Sollte sich herausstellen, dass die gerätebasierte Identifikation nicht zuverlässig implementiert werden kann, wäre alternativ eine Anmeldefunktion in Erwägung zu ziehen – was allerdings im Widerspruch zum Ziel der minimal-invasiven Datenerfassung stehen würde.
+
+    \item \textbf{Standortbasierte und intersektionale Datenerhebung:}  
+    Die Erhebung erfolgt in Echtzeit, indem automatisch der aktuelle Standort des Geräts erfasst wird. Ergänzend dazu wird in einmaligen und wiederkehrenden Erhebungen das subjektive Wohlbefinden abgefragt sowie verschiedene intersektionale Merkmale (z.B. Geschlecht, Herkunft, sozioökonomischer Status) abgefragt, um einen vielschichtigen Blick auf urbane Lebenswelten zu erhalten.
+
+    \item \textbf{Erinnerungsfunktion:}  
+    Um eine möglichst repräsentative Datenerhebung zu ermöglichen, ist eine Erinnerungsfunktion implementiert, die den Nutzer dreimal täglich zu zufälligen, variierenden Zeiten (innerhalb definierter Zeitfenster) dazu auffordert, an der Befragung teilzunehmen. Die leichte Randomisierung der Erinnerungszeitpunkte soll sicherstellen, dass Daten aus unterschiedlichen Kontexten und Tageszeiten erfasst werden.
+
+    \item \textbf{Datenselbstverwaltung und Löschfunktion:}  
+    Die Nutzer sollen jederzeit in die Lage versetzt werden, ihre Daten selbstständig zu verwalten. Insbesondere ist eine Funktion zur vollständigen Löschung aller auf dem Gerät gespeicherten Daten vorgesehen, um den Prinzipien der Selbstbestimmung und des Datenschutzes gerecht zu werden.
+\end{itemize}
+
+\paragraph{Nicht-funktionale Anforderungen}
+\begin{itemize}
+    \item \textbf{Sicherheit und Datenschutz:}  
+    Neben der Minimierung der erhobenen Personendaten (nur gerätebasierte ID) ist es essenziell, die Datensicherheit zu gewährleisten. Technisch sollen Massnahmen wie die Verschlüsselung der übertragenen Daten sowie regelmäßige Sicherheitsupdates implementiert werden. Sollte sich die gerätebasierte Identifikation als technisch unzureichend herausstellen, wäre die Einführung eines Anmeldesystems als zusätzliche Schutzmassnahme zu prüfen – dies erfolgt jedoch nur, wenn der Mehrwert hinsichtlich der Datensicherheit den potenziellen Verlust an Anonymität überwiegt.
+
+    \item \textbf{Mehrsprachigkeit:}  
+    Angesichts der intersektionalen Zielsetzung der App wird besonderer Wert auf Mehrsprachigkeit gelegt. Die Benutzeroberfläche soll in mehreren Sprachen verfügbar sein, um eine diverse Nutzergruppe anzusprechen und kulturelle Hürden beim Datenaustausch zu minimieren.
+
+    \item \textbf{Barrierefreiheit:}  
+    Obwohl der zeitliche Rahmen der Entwicklung Einschränkungen mit sich bringt, ist die Berücksichtigung von Barrierefreiheit (z.B. intuitive Navigation, Anpassbarkeit der Schriftgrössen, kontrastreiche Darstellung) ein zentrales Anliegen. Die tatsächliche Realisierung von Barrierefreiheitsstandards wird im weiteren Entwicklungsprozess konkret überprüft und angepasst.
+
+    \item \textbf{Plattformübergreifende Kompatibilität und technische Umsetzung:}  
+    Die App wird mittels React Native (Expo) entwickelt, was grundsätzlich eine plattformübergreifende Nutzung auf Android- und iOS-Geräten sicherstellt. Diese Entscheidung unterstützt die schnelle Entwicklung und die einfache Wartung der App, da die grundlegende Infrastruktur standardisiert und modular aufgebaut ist.
+
+    \item \textbf{Erweiterbarkeit und Wartbarkeit:}  
+    Eine klare Modulstruktur, umfassende Dokumentation sowie standardisierte Schnittstellen sind essenziell, um zukünftige Erweiterungen und Anpassungen zu ermöglichen. Diese Massnahmen gewährleisten, dass die App nicht nur im aktuellen Projektkontext besteht, sondern auch in zukünftigen Forschungs- und Entwicklungsprojekten weiterentwickelt werden kann.
+\end{itemize}
+
+\paragraph{Priorisierung der Anforderungen}  
+Zur systematischen Priorisierung wurde die MoSCoW-Methode angewandt (vgl. \cite{clegg_case_1994}):
+\begin{itemize}
+    \item \textbf{Must have:}  
+    \begin{itemize}
+        \item Gerätebasierte Identifikation und standortbasierte Datenerhebung
+        \item Intersektionale Erfassung von Daten zum Wohlbefinden
+        \item Erinnerungsfunktion (dreimal täglich, variabel)
+        \item Datenselbstverwaltung inklusive Löschfunktion
+    \end{itemize}
+    \item \textbf{Should have:}  
+    \begin{itemize}
+        \item Umfassende Mehrsprachigkeit der Benutzeroberfläche
+        \item Erweiterte Sicherheitsmassnahmen und optionales Anmeldesystem (falls die gerätebasierte Lösung unzureichend ist)
+    \end{itemize}
+    \item \textbf{Could have:}  
+    \begin{itemize}
+        \item Zusätzliche Anpassungen und Optimierungen der Barrierefreiheit
+    \end{itemize}
+    \item \textbf{Won’t have:}  
+    \begin{itemize}
+        \item Funktionen zur Datenvisualisierung, da die App ausschliesslich zur Erfassung der Daten konzipiert ist
+    \end{itemize}
+\end{itemize}
+
+Zusammenfassend adressiert der Anforderungskatalog sowohl die funktionalen Aufgaben der App als auch wesentliche Qualitätsaspekte, die zur Realisierung einer sicheren, nutzerfreundlichen und erweiterbaren Daten-Erhebungsplattform erforderlich sind. Die systematische Dokumentation dieser Anforderungen bildet die Basis für die technische Umsetzung und die spätere Evaluation der Anwendung.
