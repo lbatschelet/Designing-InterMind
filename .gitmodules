@@ -1,3 +1,7 @@
-[submodule "serencity"]
-	path = serencity
-	url = https://github.com/lbatschelet/serencity
+[submodule "InterMind"]
+	path = InterMind
+	url = https://github.com/lbatschelet/InterMind
+
+[submodule "intermind.ch"]
+	path = intermind.ch
+	url = https://github.com/lbatschelet/intermind.ch
