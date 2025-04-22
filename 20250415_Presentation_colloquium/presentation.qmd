@@ -1,0 +1,27 @@
+---
+title: "Gradient Presentation"
+format:
+  revealjs:
+    theme: [default, custom-gradient.scss]
+    transition: slide
+    transition-speed: fast
+    center-title-slide: false
+---
+
+# Regular Slide
+This is the default slide styling.
+
+---
+
+<section class="zwischentitel">
+  <h1>Section Title</h1>
+</section>
+
+---
+
+<section class="zitat-slide">
+  <blockquote>
+    <p>"A bold quote on a black background."</p>
+    <footer>— Author</footer>
+  </blockquote>
+</section>

@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.6.42">
 
   <meta name="author" content="Lukas Batschelet">
-  <title>Intersektionales Wohlbefinden im Stadtraum</title>
+  <title>Intersektionales Wohlbefinden im Raum</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -149,7 +149,7 @@
     <div class="slides">
 
 <section id="title-slide" data-background-color="#283b95" class="quarto-title-block center">
-  <h1 class="title">Intersektionales Wohlbefinden im Stadtraum</h1>
+  <h1 class="title">Intersektionales Wohlbefinden im Raum</h1>
   <p class="subtitle">Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden</p>
 
 <div class="quarto-title-authors">
@@ -160,17 +160,17 @@ Lukas Batschelet
 </div>
 </div>
 
-  <p class="date">25. März 2025</p>
+  <p class="date">15. April 2025</p>
 </section>
 <section id="gliederung" class="slide level2">
 <h2>Gliederung</h2>
 <div>
 <ol type="1">
-<li>Forschungsstand (Literatur)</li>
+<li>Forschungsstand</li>
 <li>Fragestellung</li>
-<li>Geplantes Forschungsdesign (inkl. Plan B)</li>
-<li>Verfügbare Daten und Ressourcen</li>
-<li>Erster Einblick in die App</li>
+<li>Forschungsdesign</li>
+<li>Nächste Schritte</li>
+<li>Erste Ergebnisse</li>
 </ol>
 </div>
 </section>
@@ -180,17 +180,18 @@ Lukas Batschelet
 <section id="forschungsstand-intersektionalität-raum" class="slide level2">
 <h2>1. Forschungsstand – Intersektionalität &amp; Raum</h2>
 <aside class="notes">
-<ul>
-<li>Rodó-de-Zárate: intersektionale Raumwahrnehmung → Relief Maps &amp; InterMaps<br>
-</li>
-<li>Fokus: subjektives Erleben, soziale Kategorien wirken gleichzeitig<br>
-</li>
-<li>Beebeejaun: macht intersektionale Ausschlüsse in Planungsprozessen sichtbar<br>
-</li>
-<li>Webster &amp; Zhang: Plattformen als Orte algorithmischer Ungleichheit<br>
-</li>
-<li>→ Frage: Wie lässt sich Intersektionalität dynamisch &amp; systematisch erfassen?</li>
-</ul>
+<p><strong>Kimberlé Crenshaw (1991):</strong><br>
+- Führte den Begriff Intersectionality ein, um Überschneidungen von Geschlecht und Race zu verdeutlichen.<br>
+- Betonung, dass soziale Kategorien (Gender, Race, Klasse etc.) nicht unabhängig wirken, sondern sich überschneiden und neuartige Formen von Diskriminierung erzeugen.</p>
+<p><strong>Maria Rodó-de-Zárate (2014, 2018):</strong><br>
+- Beschreibt „Relief Maps“ und „InterMaps“ als Werkzeuge, um zu zeigen, wie verschiedene Identitäten (z. B. Geschlecht, Ethnizität, Klasse, Sexualität) in konkreten Räumen gleichzeitig wirksam werden.<br>
+- Konzentriert sich auf subjektive Raumwahrnehmung und die wechselseitige Beeinflussung räumlicher und sozialer Dimensionen.</p>
+<p><strong>Yasminah Beebeejaun (2022):</strong><br>
+- Analysiert, wie bestimmte Gruppen in Planungsprozessen unterrepräsentiert werden.<br>
+- Zeigt, dass ein intersektionaler Ansatz helfen kann, strukturelle Ungleichheiten in der Stadtplanung sichtbar zu machen und Gegenvorschläge zu entwickeln.</p>
+<!-- **Webster & Zhang (2021):**  
+- Untersuchen Plattformurbanismus (z. B. Wohnraumbörsen oder Sharing-Apps) und zeigen, dass algorithmische Verfahren marginalisierte Gruppen systematisch benachteiligen können.  
+- Diskutieren, wie (Un-)Sichtbarkeit im digitalen Raum soziale Positionen verstärken oder abschwächen kann. -->
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -202,31 +203,31 @@ Lukas Batschelet
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<div>
 <ul>
-<li class="fragment"><strong><span class="citation" data-cites="rodo-de-zarate_developing_2014">Rodó-de-Zárate (<a href="#/literatur" role="doc-biblioref" onclick="">2014</a>)</span>, <span class="citation" data-cites="rodo-de-zarate_intersectionality_2018">Rodó-de-Zárate und Baylina (<a href="#/literatur" role="doc-biblioref" onclick="">2018</a>)</span>:</strong> Relief Maps &amp; InterMaps – subjektive Raumwahrnehmung nach sozialen Kategorien</li>
-<li class="fragment"><strong><span class="citation" data-cites="beebeejaun_race_2022">Beebeejaun (<a href="#/literatur" role="doc-biblioref" onclick="">2022</a>)</span>:</strong> Intersektionalität in Planungsprozessen sichtbar machen</li>
-<li class="fragment"><strong><span class="citation" data-cites="webster_centering_2021">Webster und Zhang (<a href="#/literatur" role="doc-biblioref" onclick="">2021</a>)</span>:</strong> Plattformurbanismus &amp; soziale Ungleichheiten</li>
+<li><span class="citation" data-cites="crenshaw_mapping_1991">Crenshaw (<a href="#/literatur" role="doc-biblioref" onclick="">1991</a>)</span>: Mapping the Margins: Intersectionality, Identity Politics, and Violence against Women of Color<br>
+</li>
+<li><span class="citation" data-cites="rodo-de-zarate_developing_2014">Rodó-de-Zárate (<a href="#/literatur" role="doc-biblioref" onclick="">2014</a>)</span>: Developing geographies of intersectionality with Relief Maps: reflections from youth research in Manresa, Catalonia<br>
+</li>
+<li><span class="citation" data-cites="rodo-de-zarate_intersectionality_2018">Rodó-de-Zárate und Baylina (<a href="#/literatur" role="doc-biblioref" onclick="">2018</a>)</span>: Intersectionality in feminist geographies<br>
+</li>
+<li><span class="citation" data-cites="beebeejaun_race_2022">Beebeejaun (<a href="#/literatur" role="doc-biblioref" onclick="">2022</a>)</span>: Race, Gender, and Positionality in Urban Planning Research<br>
+<!-- @webster_centering_2021: Centering social-technical relations in studying platform urbanism: intersectionality for just futures in European cities --></li>
 </ul>
-<div class="fragment">
-<p>→ Soziale Kategorien (Gender, Herkunft, Klasse) formen Raumerfahrung</p>
 </div>
 </section>
-<section id="forschungsstand-urbanes-wohlbefinden" class="slide level2">
-<h2>1. Forschungsstand – Urbanes Wohlbefinden</h2>
+<section id="forschungsstand-wohlbefinden-im-raum" class="slide level2">
+<h2>1. Forschungsstand – Wohlbefinden im Raum</h2>
 <aside class="notes">
-<ul>
-<li>Wichtig: Dies ist eine Auswahl aus sehr vielen Studien<br>
-</li>
-<li>Viel Forschung auch ausserhalb der Geographie (z. B. Psychologie, Public Health)<br>
-</li>
-<li>Kan: Wohnumfeld &amp; mentale Gesundheit<br>
-</li>
-<li>Hammoud: EMA, Naturvielfalt → positive, teils verzögerte Effekte<br>
-</li>
-<li>Bergou: Wasserflächen beruhigend<br>
-</li>
-<li>→ Frage: Wie hängen physische und soziale Raumdimensionen mit Wohlbefinden zusammen?</li>
-</ul>
+<p><strong>Kan et al.&nbsp;(2022):</strong><br>
+- Untersucht mithilfe umfangreicher Surveys den Zusammenhang zwischen Wohnumfeld (Lärm, Grünflächen, Infrastruktur) und psychischer Gesundheit in städtischen Gebieten.<br>
+- Zeigt, dass subjektives Wohlbefinden stark von physischen und sozialen Faktoren in der Nachbarschaft beeinflusst wird.</p>
+<p><strong>Hammoud et al.&nbsp;(2024):</strong><br>
+- Entwickeln eine Smartphone-basierte Studie (EMA), um zu messen, wie Biodiversität und Naturerleben (z. B. Vogelgesang, Bäume) das tägliche Wohlbefinden beeinflussen.<br>
+- Ergebnis: Naturnahe Mikro-Pausen wirken sich positiv auf die Stimmung aus.</p>
+<p><strong>Bergou (2022):</strong><br>
+- Fokus auf Wasserelemente (Flüsse, Seen, Küsten): Entspannung und Stressreduktion durch visuelle und auditive Reize.<br>
+- Empfehlung, Gewässer in urbane Planungen einzubeziehen, um Erholungsfaktoren zu stärken.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -238,29 +239,23 @@ Lukas Batschelet
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<div>
 <ul>
-<li class="fragment">Zusammenhang von Stadtstruktur und psychischer Gesundheit:
-<ul>
-<li class="fragment"><strong><span class="citation" data-cites="kan_impacts_2022">Kan et al. (<a href="#/literatur" role="doc-biblioref" onclick="">2022</a>)</span>:</strong> Wohnumfeld beeinflusst mentales Wohlbefinden</li>
-<li class="fragment"><strong><span class="citation" data-cites="hammoud_smartphone-based_2024">Hammoud et al. (<a href="#/literatur" role="doc-biblioref" onclick="">2024</a>)</span>:</strong> Vielfalt natürlicher Elemente wirkt positiv (EMA via App)</li>
-<li class="fragment"><strong><span class="citation" data-cites="bergou_mental_2022">Bergou et al. (<a href="#/literatur" role="doc-biblioref" onclick="">2022</a>)</span>:</strong> Nähe zu Wasserflächen wirkt entspannend</li>
-</ul></li>
-<li class="fragment">Relevanz: Städte als Orte psychischer Belastung <em>und</em> potenzieller Resilienz</li>
+<li><span class="citation" data-cites="kan_impacts_2022">Kan et al. (<a href="#/literatur" role="doc-biblioref" onclick="">2022</a>)</span>: The Impacts of Housing Characteristics and Built-Environment Features on Mental Health<br>
+</li>
+<li><span class="citation" data-cites="hammoud_smartphone-based_2024">Hammoud et al. (<a href="#/literatur" role="doc-biblioref" onclick="">2024</a>)</span>: Smartphone-based ecological momentary assessment reveals an incremental association between natural diversity and mental wellbeing<br>
+</li>
+<li><span class="citation" data-cites="bergou_mental_2022">Bergou et al. (<a href="#/literatur" role="doc-biblioref" onclick="">2022</a>)</span>: The mental health benefits of visiting canals and rivers: An ecological momentary assessment study</li>
 </ul>
+</div>
 </section>
 <section id="forschungsstand-forschungslücke" class="slide level2">
 <h2>1. Forschungsstand – Forschungslücke</h2>
 <aside class="notes">
 <ul>
-<li>Urban Mind: spannend für Echtzeit-EMA, aber ohne soziale Differenzierung<br>
-</li>
-<li>InterMaps: intersektional &amp; subjektiv, aber nicht automatisiert / dynamisch<br>
-</li>
-<li>Beide Tools nicht offen nutzbar<br>
-</li>
-<li>→ Lücke: Echtzeit × Intersektionalität × Open Source<br>
-</li>
-<li>→ Frage: Wie kann man komplexe soziale Kategorien technisch und ethisch sinnvoll abbilden?</li>
+<li>Urban Mind (Bakolis et al.&nbsp;2018) → Echtzeit, fokus jedoch stark auf Mental Health und Grünraum</li>
+<li>InterMaps → intersektional, aber nicht in Echtzeit, immer erst retrospektiv</li>
+<li>Fehlende Open-Source-Lösungen</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -273,27 +268,14 @@ Lukas Batschelet
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<div>
 <ul>
-<li>Bestehende Tools:
-<ul>
-<li><strong>Urban Mind:</strong> Echtzeit, geolokalisiert – aber keine Intersektionalität</li>
-<li><strong>InterMaps:</strong> Intersektional, aber retrospektiv, nicht dynamisch</li>
-<li>Beide nicht Open Source</li>
-</ul></li>
+<li class="fragment"><strong>Urban Mind</strong> <span class="citation" data-cites="bakolis_urban_2018">(<a href="#/literatur" role="doc-biblioref" onclick="">Bakolis et al. 2018</a>)</span><br>
+Echtzeit- &amp; Ortsdaten, jedoch mit starkem Fokus auf Mental Health und Grünraum</li>
+<li class="fragment"><strong>InterMaps</strong> <span class="citation" data-cites="rodo-de-zarate_developing_2014">(<a href="#/literatur" role="doc-biblioref" onclick="">Rodó-de-Zárate 2014</a>)</span><br>
+Intersektionale Perspektive, jedoch retrospektiv</li>
 </ul>
-</div>
 <div class="fragment">
-<div>
-<ul>
-<li><strong>Fehlend:</strong>
-<ul>
-<li>Kombination von Intersektionalität &amp; Echtzeit</li>
-<li>Wiederholte Messungen</li>
-<li>Offene technische Weiterverwendbarkeit</li>
-</ul></li>
-</ul>
-</div>
+<p><strong>→</strong> Noch keine Kombination aus Intersektionalität und Echtzeit-Ansatz</p>
 </div>
 </section>
 <section id="fragestellung" class="slide level2 section-header" data-background-color="#283b95">
@@ -302,16 +284,15 @@ Lukas Batschelet
 <section id="fragestellung-1" class="slide level2">
 <h2>2. Fragestellung</h2>
 <p><br style="line-height:2em"></p>
-<p><strong>Wie kann intersektionales Wohlbefinden mit einer App erfasst werden?</strong></p>
+<p><strong>Wie kann Wohlbefinden intersektionalmit einer App erfasst werden?</strong></p>
 <div class="fragment">
 <p><br style="line-height:2em"></p>
 <div>
 <p>Unterfragen</p>
 <ul>
-<li>Wie müssen Fragebögen &amp; Abläufe gestaltet sein?</li>
-<li>Wie werden soziale Kategorien integriert?</li>
-<li>Wie lassen sich die Daten räumlich sinnvoll visualisieren?</li>
-<li>Welche technischen &amp; ethischen Herausforderungen gibt es?</li>
+<li>Welche methodischen und technischen Anforderungen muss eine solche App erfüllen?</li>
+<li>Wie müssen Fragen zur Erfassung von intersektionalem Wohlbefinden formuliert sein?</li>
+<li>Wie kann intersektionales Wohlbefinden räumlich dargestellt werden?</li>
 </ul>
 </div>
 </div>
@@ -321,50 +302,150 @@ Lukas Batschelet
 </section>
 <section id="geplantes-forschungsdesign" class="slide level2">
 <h2>3. Geplantes Forschungsdesign</h2>
+<div>
+<ul>
+<li><strong>Vorgehen</strong>:
 <ol type="1">
-<li class="fragment"><strong>Fragebogenentwicklung</strong> (Skalen + neue Items)</li>
-<li class="fragment"><strong>Pretest &amp; Überarbeitung</strong></li>
-<li class="fragment"><strong>App-Integration (React Native + Supabase)</strong></li>
-<li class="fragment"><strong>Pilotphase (5–10 TN, 3× täglich)</strong></li>
-<li class="fragment"><strong>Auswertung &amp; Visualisierung</strong></li>
-</ol>
+<li><strong>Fragebogenkonzeption</strong> (Theoriegestützt)</li>
+<li><strong>Technische Umsetzung</strong> (App als Erhebungs-Tool)</li>
+<li><strong>Pretest</strong> und Feinjustierung</li>
+<li><strong>Pilotphase</strong> mit wiederholten Kurzabfragen</li>
+<li><strong>Auswertung</strong> (Statistik, Visualisierungen)</li>
+</ol></li>
+</ul>
+</div>
 <div class="fragment">
 <p>→ Fokus: explorativ, iterativ, machbar im BA-Zeitrahmen</p>
 </div>
 </section>
-<section id="forschungsdesign-fragebogen-pretest" class="slide level2">
-<h2>3. Forschungsdesign – Fragebogen &amp; Pretest</h2>
+<section id="forschungsdesign-fragebogenentwicklung" class="slide level2">
+<h2>3. Forschungsdesign – Fragebogenentwicklung</h2>
+<div>
 <ul>
-<li class="fragment">Kombination bewährter Skalen:
+<li><strong>Grundlagen:</strong>
 <ul>
-<li class="fragment"><strong>WHO-5</strong>, <strong>SWEMWBS</strong>, <strong>PANAS</strong></li>
-</ul></li>
-<li class="fragment">Ergänzung durch eigene Items zu:
-<ul>
-<li class="fragment">Sicherheit, Zugehörigkeit, Diskriminierung</li>
-</ul></li>
-<li class="fragment">Einmalige Abfrage von:
-<ul>
-<li class="fragment">Alter, Geschlecht, Bildung, etc. (kategorisiert)</li>
+<li><em>Intersektionalität</em> <span class="citation" data-cites="crenshaw_mapping_1991 rodo-de-zarate_developing_2014">(<a href="#/literatur" role="doc-biblioref" onclick="">Crenshaw 1991</a>; <a href="#/literatur" role="doc-biblioref" onclick="">Rodó-de-Zárate 2014</a>)</span></li>
+<li><em>Ecological Momentary Assessment</em> (EMA) zur Echtzeit-Erhebung <span class="citation" data-cites="shiffman_ecological_2008">(<a href="#/literatur" role="doc-biblioref" onclick="">Shiffman et al. 2008</a>)</span></li>
+<li>Echtzeit-Erhebung von Wohlbefinden <span class="citation" data-cites="bakolis_urban_2018">(<a href="#/literatur" role="doc-biblioref" onclick="">Bakolis et al. 2018</a>)</span></li>
 </ul></li>
 </ul>
+</div>
+</section>
+<section id="forschungsdesign-fragebogenentwicklung-1" class="slide level2">
+<h2>3. Forschungsdesign – Fragebogenentwicklung</h2>
+<div>
+<ul>
+<li><strong>Zielsetzung:</strong>
+<ul>
+<li>Mehrdimensionale, ortsnahe Erfassung</li>
+<li><em>Minimale Belastung</em> (max. 5 Min. pro Befragung)</li>
+<li>Hohe Güte (validierte Kurzskalen, Pretest)</li>
+</ul></li>
+</ul>
+</div>
 <div class="fragment">
-<p><strong>Pretestmethoden:</strong> Think-aloud, Peer-Review, kognitive Interviews</p>
+<div>
+<ul>
+<li><strong>Aufbau:</strong>
+<ol type="1">
+<li><strong>Einmalige Basisdaten</strong> (z.B. Alter, Geschlecht)</li>
+<li><strong>Wiederholte Kurzabfragen</strong> (Wohlbefinden + soziale Kategorien)</li>
+</ol></li>
+</ul>
+</div>
 </div>
 </section>
 <section id="forschungsdesign-technische-umsetzung" class="slide level2">
 <h2>3. Forschungsdesign – Technische Umsetzung</h2>
+<div>
 <ul>
-<li class="fragment"><strong>Frontend:</strong> React Native mit Expo</li>
-<li class="fragment"><strong>Backend:</strong> Supabase (PostgreSQL + Auth + Storage)</li>
-<li class="fragment"><strong>Features:</strong>
+<li><strong>Frontend:</strong> React Native mit Expo</li>
+<li><strong>Backend:</strong> Supabase (PostgreSQL + Auth + Storage)</li>
+<li><strong>Features:</strong>
 <ul>
-<li class="fragment">Geolokalisierte Erhebung (GPS ~200m Genauigkeit)</li>
-<li class="fragment">Pseudonyme User-IDs</li>
-<li class="fragment">Push-Erinnerungen 3×/Tag</li>
-<li class="fragment">Open Source (Transparenz &amp; Nachnutzung)</li>
+<li>Geolokalisierte Erhebung (mit reduzierter Genauigkeit)</li>
+<li>Pseudonyme User-IDs</li>
+<li>Push-Erinnerungen 3×/Tag</li>
+<li>Open Source (Transparenz &amp; Nachnutzung)</li>
 </ul></li>
 </ul>
+</div>
+</section>
+<section id="forschungsdesign-funktionale-anforderungen-der-app" class="slide level2 scrollable">
+<h2>3. Forschungsdesign – Funktionale Anforderungen der App</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Anforderung</strong></th>
+<th><strong>Kurzbeschreibung</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Standortbasierte Erhebung</td>
+<td>Erfasst automatisch den aktuellen Standort</td>
+</tr>
+<tr class="even">
+<td>Intersektionale Erfassung</td>
+<td>Erfasst Wohlbefinden + relevante demografische Daten</td>
+</tr>
+<tr class="odd">
+<td>Erinnerungsfunktion</td>
+<td>Zufällig 3x täglich, um unterschiedliche Kontexte zu erfassen</td>
+</tr>
+<tr class="even">
+<td>Datenlöschung</td>
+<td>Nutzer können ihre Daten eigenständig löschen</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="forschungsdesign-nicht-funktionale-anforderungen-der-app" class="slide level2">
+<h2>3. Forschungsdesign – Nicht-funktionale Anforderungen der App</h2>
+<div class="r-fit-text">
+<table class="caption-top">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Anforderung</strong></th>
+<th><strong>Kurzbeschreibung</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Minimale Datenerfassung</td>
+<td>Nur essenzielle, nicht personenbezogene Daten (z. B. keine Anmeldung)</td>
+</tr>
+<tr class="even">
+<td>Sicherheit &amp; Datenschutz</td>
+<td>Verschlüsselung u. Sicherheitsupdates; optionale Anmeldung bei technischen Problemen</td>
+</tr>
+<tr class="odd">
+<td>Mehrsprachigkeit</td>
+<td>UI in mehreren Sprachen verfügbar</td>
+</tr>
+<tr class="even">
+<td>Barrierefreiheit</td>
+<td>Intuitive Bedienung, anpassbare Schriftgrößen u. kontrastreiche Darstellung (umsetzbar je nach Ressourcen)</td>
+</tr>
+<tr class="odd">
+<td>Plattformübergreifend</td>
+<td>Entwicklung mit React Native (Expo) für Android und iOS</td>
+</tr>
+<tr class="even">
+<td>Erweiterbarkeit &amp; Wartbarkeit</td>
+<td>Modulare Architektur und umfassende Dokumentation</td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 <section id="forschungsdesign-visualisierung" class="slide level2">
 <h2>3. Forschungsdesign – Visualisierung</h2>
@@ -385,75 +466,38 @@ Lukas Batschelet
 </div>
 </div></div>
 </section>
-<section id="forschungsdesign-plan-b" class="slide level2">
-<h2>3. Forschungsdesign – Plan B</h2>
-<p>Falls technische Umsetzung scheitert:</p>
-<ul>
-<li class="fragment"><strong>Online-Fragebogen</strong> (z. B. Google Forms + manuelle Kartierung)</li>
-<li class="fragment">Fokus auf inhaltliche Fragen &amp; Visualisierungen</li>
-<li class="fragment">Visualisierung über <strong>QGIS</strong> oder <strong>Relief Map-ähnliche Darstellungen</strong></li>
-</ul>
-<div class="fragment">
-<p>→ Ziel: Forschungsinteresse bleibt auch ohne App realisierbar</p>
+<section id="nächste-schritte" class="slide level2">
+<h2>4. Nächste Schritte</h2>
+<div>
+<ol type="1">
+<li>Klare Kriterien, wann die App “vollständig” ist</li>
+<li>Fertigstellen der Fragen</li>
+<li>Beta Testing</li>
+<li>Rechtliche Aspekte (Datenschutz, Nutzungsbedingungen)</li>
+<li>App-Store-Einreichung</li>
+<li>Datenanalyse</li>
+<li>Schreiben…</li>
+</ol>
 </div>
 </section>
-<section id="verfügbare-daten-ressourcen" class="slide level2">
-<h2>4. Verfügbare Daten &amp; Ressourcen</h2>
-<ul>
-<li class="fragment"><strong>Pilotdaten:</strong>
-<ul>
-<li class="fragment">ca. 5–10 TN, über 5–7 Tage</li>
-<li class="fragment">3 Einträge täglich × TN × Tage → ~100–200 Datenpunkte</li>
-<li class="fragment">Standort, Zeit, Wohlbefinden, soziale Kategorien</li>
-</ul></li>
-<li class="fragment"><strong>Technische Tools:</strong>
-<ul>
-<li class="fragment">Expo, Supabase, QGIS</li>
-</ul></li>
-</ul>
-</section>
-<section id="erster-einblick-in-die-app" class="slide level2">
-<h2>5. Erster Einblick in die App</h2>
-<p><strong>Screenshots &amp; Funktionen:</strong></p>
-<ul>
-<li class="fragment">Begrüssungsbildschirm &amp; Einwilligung</li>
-<li class="fragment">Beispiel-Frage mit Skala</li>
-<li class="fragment">Standortansicht</li>
-<li class="fragment">Tageserinnerung (Push Notification)</li>
-</ul>
-<p><strong>Live-Demo oder GIF optional</strong></p>
-</section>
-<section id="fazit-ausblick" class="slide level2">
-<h2>Fazit &amp; Ausblick</h2>
-<ul>
-<li class="fragment">Kombination von:
-<ul>
-<li class="fragment"><strong>Urban Health</strong>, <strong>kritischer Stadtgeographie</strong> &amp; <strong>Softwareentwicklung</strong></li>
-</ul></li>
-<li class="fragment">Explorativ, interdisziplinär, offen</li>
-<li class="fragment">Beitrag zur Entwicklung partizipativer Erhebungsmethoden in der Geographie</li>
-</ul>
-<div class="fragment">
-<p>→ Nächste Schritte: Feinschliff Fragebogen, App-Funktionen fertigstellen, Pilot starten</p>
-</div>
-</section>
-<section id="diskussion-feedback" class="slide level2">
-<h2>Diskussion / Feedback</h2>
-<ul>
-<li class="fragment">Was könnte man in der App noch mitdenken?</li>
-<li class="fragment">Welche Visualisierungen wären spannend?</li>
-<li class="fragment">Anregungen zur Formulierung intersektionaler Fragen?</li>
-</ul>
+<section id="erste-ergebnisse" class="slide level2">
+<h2>5. Erste Ergebnisse</h2>
 </section>
 <section id="literatur" class="slide level2 scrollable references smaller">
 <h2>Literatur</h2>
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-bakolis_urban_2018" class="csl-entry" role="listitem">
+Bakolis, Ioannis, Ryan Hammoud, Michael Smythe, Johanna Gibbons, Neil Davidson, Stefania Tognin und Andrea Mechelli 2018: Urban <span>Mind</span>: <span>Using</span> <span>Smartphone</span> <span>Technologies</span> to <span>Investigate</span> the <span>Impact</span> of <span>Nature</span> on <span>Mental</span> <span>Well</span>-<span>Being</span> in <span>Real</span> <span>Time</span>. <em>BioScience</em> 68 (2): 134–145. DOI: https://doi.org/<a href="https://doi.org/10.1093/biosci/bix149">10.1093/biosci/bix149</a>
+</div>
 <div id="ref-beebeejaun_race_2022" class="csl-entry" role="listitem">
 Beebeejaun, Yasminah 2022: Race, <span>Gender</span>, and <span>Positionality</span> in <span>Urban</span> <span>Planning</span> <span>Research</span>. <em>International Journal of Qualitative Methods</em> 21 : 16094069211066167. DOI: https://doi.org/<a href="https://doi.org/10.1177/16094069211066167">10.1177/16094069211066167</a>
 </div>
 <div id="ref-bergou_mental_2022" class="csl-entry" role="listitem">
 Bergou, Nicol, Ryan Hammoud, Michael Smythe, Jo Gibbons, Neil Davidson, Stefania Tognin, Graeme Reeves, Jenny Shepherd und Andrea Mechelli 2022: The mental health benefits of visiting canals and rivers: <span>An</span> ecological momentary assessment study. <em>PLOS ONE</em> 17 (8): e0271306. DOI: https://doi.org/<a href="https://doi.org/10.1371/journal.pone.0271306">10.1371/journal.pone.0271306</a>
+</div>
+<div id="ref-crenshaw_mapping_1991" class="csl-entry" role="listitem">
+Crenshaw, Kimberle 1991: Mapping the <span>Margins</span>: <span>Intersectionality</span>, <span>Identity</span> <span>Politics</span>, and <span>Violence</span> against <span>Women</span> of <span>Color</span>. <em>Stanford Law Review</em> 43 (6): 1241–1299. DOI: https://doi.org/<a href="https://doi.org/10.2307/1229039">10.2307/1229039</a>
 </div>
 <div id="ref-font-casaseca_margins_2024" class="csl-entry" role="listitem">
 Font-Casaseca, Nuria und Maria Rodó-Zárate 2024: From the margins of <span>Geographical</span> <span>Information</span> <span>Systems</span>: <span>Limitations</span>, challenges, and proposals. <em>Progress in Human Geography</em> 48 (4): 421–436. DOI: https://doi.org/<a href="https://doi.org/10.1177/03091325241240231">10.1177/03091325241240231</a>
@@ -473,8 +517,8 @@ Rodó-de-Zárate, Maria 2014: Developing geographies of intersectionality with <
 <div id="ref-rodo-de-zarate_intersectionality_2018" class="csl-entry" role="listitem">
 Rodó-de-Zárate, Maria und Mireia Baylina 2018: Intersectionality in feminist geographies. <em>Gender, Place &amp; Culture</em> 25 (4): 547–553. DOI: https://doi.org/<a href="https://doi.org/10.1080/0966369X.2018.1453489">10.1080/0966369X.2018.1453489</a>
 </div>
-<div id="ref-webster_centering_2021" class="csl-entry" role="listitem">
-Webster, Natasha A. und Qian Zhang 2021: Centering social-technical relations in studying platform urbanism: intersectionality for just futures in <span>European</span> cities. <em>Urban Transformations</em> 3 (1): 10. DOI: https://doi.org/<a href="https://doi.org/10.1186/s42854-021-00027-z">10.1186/s42854-021-00027-z</a>
+<div id="ref-shiffman_ecological_2008" class="csl-entry" role="listitem">
+Shiffman, Saul, Arthur A. Stone und Michael R. Hufford 2008: Ecological momentary assessment. <em>Annual Review of Clinical Psychology</em> 4 : 1–32. DOI: https://doi.org/<a href="https://doi.org/10.1146/annurev.clinpsy.3.022806.091415">10.1146/annurev.clinpsy.3.022806.091415</a>
 </div>
 </div>
 </section>

@@ -1,9 +1,9 @@
 ---
-title: "Intersektionales Wohlbefinden im Stadtraum"
+title: "Intersektionales Wohlbefinden im Raum"
 subtitle: "Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden"
 author:
   - name: Lukas Batschelet
-date: "2025-03-25"
+date: "2025-04-15"
 date-format: "long"
 lang: "de-CH"
 license: "CC BY-NC-SA"
@@ -23,11 +23,11 @@ csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropo
 ## Gliederung
 
 ::: {.nonincremental}
-1. Forschungsstand (Literatur)
+1. Forschungsstand
 2. Fragestellung
-3. Geplantes Forschungsdesign (inkl. Plan B)
-4. Verfügbare Daten und Ressourcen
-5. Erster Einblick in die App
+3. Forschungsdesign
+4. Nächste Schritte
+5. Erste Ergebnisse
 :::
 
 ---
@@ -39,69 +39,74 @@ csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropo
 ## 1. Forschungsstand – Intersektionalität & Raum
 
 ::: {.notes}
-  - Rodó-de-Zárate: intersektionale Raumwahrnehmung → Relief Maps & InterMaps  
-  - Fokus: subjektives Erleben, soziale Kategorien wirken gleichzeitig  
-  - Beebeejaun: macht intersektionale Ausschlüsse in Planungsprozessen sichtbar  
-  - Webster & Zhang: Plattformen als Orte algorithmischer Ungleichheit  
-  - → Frage: Wie lässt sich Intersektionalität dynamisch & systematisch erfassen?
+**Kimberlé Crenshaw (1991):**  
+- Führte den Begriff Intersectionality ein, um Überschneidungen von Geschlecht und Race zu verdeutlichen.  
+- Betonung, dass soziale Kategorien (Gender, Race, Klasse etc.) nicht unabhängig wirken, sondern sich überschneiden und neuartige Formen von Diskriminierung erzeugen.
+
+**Maria Rodó-de-Zárate (2014, 2018):**  
+- Beschreibt „Relief Maps“ und „InterMaps“ als Werkzeuge, um zu zeigen, wie verschiedene Identitäten (z. B. Geschlecht, Ethnizität, Klasse, Sexualität) in konkreten Räumen gleichzeitig wirksam werden.  
+- Konzentriert sich auf subjektive Raumwahrnehmung und die wechselseitige Beeinflussung räumlicher und sozialer Dimensionen.
+
+**Yasminah Beebeejaun (2022):**  
+- Analysiert, wie bestimmte Gruppen in Planungsprozessen unterrepräsentiert werden.  
+- Zeigt, dass ein intersektionaler Ansatz helfen kann, strukturelle Ungleichheiten in der Stadtplanung sichtbar zu machen und Gegenvorschläge zu entwickeln.
+
+<!-- **Webster & Zhang (2021):**  
+- Untersuchen Plattformurbanismus (z. B. Wohnraumbörsen oder Sharing-Apps) und zeigen, dass algorithmische Verfahren marginalisierte Gruppen systematisch benachteiligen können.  
+- Diskutieren, wie (Un-)Sichtbarkeit im digitalen Raum soziale Positionen verstärken oder abschwächen kann. -->
 :::
 
-- **@rodo-de-zarate_developing_2014, @rodo-de-zarate_intersectionality_2018:** Relief Maps & InterMaps – subjektive Raumwahrnehmung nach sozialen Kategorien
-- **@beebeejaun_race_2022:** Intersektionalität in Planungsprozessen sichtbar machen
-- **@webster_centering_2021:** Plattformurbanismus & soziale Ungleichheiten
-
-. . .
-
-→ Soziale Kategorien (Gender, Herkunft, Klasse) formen Raumerfahrung
+::: {.nonincremental}
+- @crenshaw_mapping_1991: Mapping the Margins: Intersectionality, Identity Politics, and Violence against Women of Color  
+- @rodo-de-zarate_developing_2014: Developing geographies of intersectionality with Relief Maps: reflections from youth research in Manresa, Catalonia  
+- @rodo-de-zarate_intersectionality_2018: Intersectionality in feminist geographies  
+- @beebeejaun_race_2022: Race, Gender, and Positionality in Urban Planning Research  
+<!-- @webster_centering_2021: Centering social-technical relations in studying platform urbanism: intersectionality for just futures in European cities -->
+:::
 
 ---
 
-## 1. Forschungsstand – Urbanes Wohlbefinden
+## 1. Forschungsstand – Wohlbefinden im Raum
 
 ::: {.notes}
-  - Wichtig: Dies ist eine Auswahl aus sehr vielen Studien  
-  - Viel Forschung auch ausserhalb der Geographie (z. B. Psychologie, Public Health)  
-  - Kan: Wohnumfeld & mentale Gesundheit  
-  - Hammoud: EMA, Naturvielfalt → positive, teils verzögerte Effekte  
-  - Bergou: Wasserflächen beruhigend  
-  - → Frage: Wie hängen physische und soziale Raumdimensionen mit Wohlbefinden zusammen?
+**Kan et al. (2022):**  
+- Untersucht mithilfe umfangreicher Surveys den Zusammenhang zwischen Wohnumfeld (Lärm, Grünflächen, Infrastruktur) und psychischer Gesundheit in städtischen Gebieten.  
+- Zeigt, dass subjektives Wohlbefinden stark von physischen und sozialen Faktoren in der Nachbarschaft beeinflusst wird.
+
+**Hammoud et al. (2024):**  
+- Entwickeln eine Smartphone-basierte Studie (EMA), um zu messen, wie Biodiversität und Naturerleben (z. B. Vogelgesang, Bäume) das tägliche Wohlbefinden beeinflussen.  
+- Ergebnis: Naturnahe Mikro-Pausen wirken sich positiv auf die Stimmung aus.
+
+**Bergou (2022):**  
+- Fokus auf Wasserelemente (Flüsse, Seen, Küsten): Entspannung und Stressreduktion durch visuelle und auditive Reize.  
+- Empfehlung, Gewässer in urbane Planungen einzubeziehen, um Erholungsfaktoren zu stärken.
 :::
 
-- Zusammenhang von Stadtstruktur und psychischer Gesundheit:
-  - **@kan_impacts_2022:** Wohnumfeld beeinflusst mentales Wohlbefinden
-  - **@hammoud_smartphone-based_2024:** Vielfalt natürlicher Elemente wirkt positiv (EMA via App)
-  - **@bergou_mental_2022:** Nähe zu Wasserflächen wirkt entspannend
+::: {.nonincremental}
+- @kan_impacts_2022: The Impacts of Housing Characteristics and Built-Environment Features on Mental Health  
+- @hammoud_smartphone-based_2024: Smartphone-based ecological momentary assessment reveals an incremental association between natural diversity and mental wellbeing  
+- @bergou_mental_2022: The mental health benefits of visiting canals and rivers: An ecological momentary assessment study
+:::
 
-- Relevanz: Städte als Orte psychischer Belastung *und* potenzieller Resilienz
 
 ---
-
 
 ## 1. Forschungsstand – Forschungslücke
 
 ::: {.notes}
-  - Urban Mind: spannend für Echtzeit-EMA, aber ohne soziale Differenzierung  
-  - InterMaps: intersektional & subjektiv, aber nicht automatisiert / dynamisch  
-  - Beide Tools nicht offen nutzbar  
-  - → Lücke: Echtzeit × Intersektionalität × Open Source  
-  - → Frage: Wie kann man komplexe soziale Kategorien technisch und ethisch sinnvoll abbilden?
+- Urban Mind (Bakolis et al. 2018) → Echtzeit, fokus jedoch stark auf Mental Health und Grünraum
+- InterMaps → intersektional, aber nicht in Echtzeit, immer erst retrospektiv
+- Fehlende Open-Source-Lösungen
 :::
 
-::: {.nonincremental}
-- Bestehende Tools:
-  - **Urban Mind:** Echtzeit, geolokalisiert – aber keine Intersektionalität
-  - **InterMaps:** Intersektional, aber retrospektiv, nicht dynamisch
-  - Beide nicht Open Source
-:::
+- **Urban Mind** [@bakolis_urban_2018]  
+  Echtzeit- & Ortsdaten, jedoch mit starkem Fokus auf Mental Health und Grünraum
+- **InterMaps** [@rodo-de-zarate_developing_2014]  
+  Intersektionale Perspektive, jedoch retrospektiv
 
 . . .
 
-::: {.nonincremental}
-- **Fehlend:**
-  - Kombination von Intersektionalität & Echtzeit
-  - Wiederholte Messungen
-  - Offene technische Weiterverwendbarkeit
-:::
+**→** Noch keine Kombination aus Intersektionalität und Echtzeit-Ansatz
 
 ---
 
@@ -113,7 +118,7 @@ csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropo
 
 <br style="line-height:2em">
 
-**Wie kann intersektionales Wohlbefinden mit einer App erfasst werden?**
+**Wie kann Wohlbefinden intersektionalmit einer App erfasst werden?**
 
 . . .
 
@@ -122,10 +127,9 @@ csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropo
 ::: {.nonincremental}
 Unterfragen
 
-- Wie müssen Fragebögen & Abläufe gestaltet sein?
-- Wie werden soziale Kategorien integriert?
-- Wie lassen sich die Daten räumlich sinnvoll visualisieren?
-- Welche technischen & ethischen Herausforderungen gibt es?
+- Welche methodischen und technischen Anforderungen muss eine solche App erfüllen?
+- Wie müssen Fragen zur Erfassung von intersektionalem Wohlbefinden formuliert sein?
+- Wie kann intersektionales Wohlbefinden räumlich dargestellt werden?
 
 :::
 
@@ -138,11 +142,14 @@ Unterfragen
 
 ## 3. Geplantes Forschungsdesign
 
-1. **Fragebogenentwicklung** (Skalen + neue Items)
-2. **Pretest & Überarbeitung**
-3. **App-Integration (React Native + Supabase)**
-4. **Pilotphase (5–10 TN, 3× täglich)**
-5. **Auswertung & Visualisierung**
+::: {.nonincremental}
+- **Vorgehen**:
+  1. **Fragebogenkonzeption** (Theoriegestützt)
+  2. **Technische Umsetzung** (App als Erhebungs-Tool)
+  3. **Pretest** und Feinjustierung
+  4. **Pilotphase** mit wiederholten Kurzabfragen
+  5. **Auswertung** (Statistik, Visualisierungen)
+:::
 
 . . .
 
@@ -150,30 +157,75 @@ Unterfragen
 
 ---
 
-## 3. Forschungsdesign – Fragebogen & Pretest
+## 3. Forschungsdesign – Fragebogenentwicklung
 
-- Kombination bewährter Skalen:
-  - **WHO-5**, **SWEMWBS**, **PANAS**
-- Ergänzung durch eigene Items zu:
-  - Sicherheit, Zugehörigkeit, Diskriminierung
-- Einmalige Abfrage von:
-  - Alter, Geschlecht, Bildung, etc. (kategorisiert)
+
+::: {.nonincremental}
+- **Grundlagen:**
+  - *Intersektionalität* [@crenshaw_mapping_1991; @rodo-de-zarate_developing_2014]
+  - *Ecological Momentary Assessment* (EMA) zur Echtzeit-Erhebung [@shiffman_ecological_2008]
+  - Echtzeit-Erhebung von Wohlbefinden [@bakolis_urban_2018]
+:::
+
+---
+
+## 3. Forschungsdesign – Fragebogenentwicklung
+
+::: {.nonincremental}
+- **Zielsetzung:**
+  - Mehrdimensionale, ortsnahe Erfassung
+  - *Minimale Belastung* (max. 5 Min. pro Befragung)
+  - Hohe Güte (validierte Kurzskalen, Pretest)
+:::
 
 . . .
 
-**Pretestmethoden:** Think-aloud, Peer-Review, kognitive Interviews
+::: {.nonincremental}
+- **Aufbau:**
+  1. **Einmalige Basisdaten** (z.B. Alter, Geschlecht)
+  2. **Wiederholte Kurzabfragen** (Wohlbefinden + soziale Kategorien)
+:::
+
 
 ---
 
 ## 3. Forschungsdesign – Technische Umsetzung
 
+::: {.nonincremental}
 - **Frontend:** React Native mit Expo
 - **Backend:** Supabase (PostgreSQL + Auth + Storage)
 - **Features:**
-  - Geolokalisierte Erhebung (GPS ~200m Genauigkeit)
+  - Geolokalisierte Erhebung (mit reduzierter Genauigkeit)
   - Pseudonyme User-IDs
   - Push-Erinnerungen 3×/Tag
   - Open Source (Transparenz & Nachnutzung)
+:::
+
+---
+
+## 3. Forschungsdesign – Funktionale Anforderungen der App {.scrollable}
+
+| **Anforderung**           | **Kurzbeschreibung**                              |
+|---------------------------|---------------------------------------------------|
+| Standortbasierte Erhebung | Erfasst automatisch den aktuellen Standort        |
+| Intersektionale Erfassung | Erfasst Wohlbefinden + relevante demografische Daten |
+| Erinnerungsfunktion       | Zufällig 3x täglich, um unterschiedliche Kontexte zu erfassen |
+| Datenlöschung             | Nutzer können ihre Daten eigenständig löschen     |
+
+---
+
+## 3. Forschungsdesign – Nicht-funktionale Anforderungen der App
+
+::: {.r-fit-text}
+| **Anforderung**                | **Kurzbeschreibung**                                    |
+|--------------------------------|---------------------------------------------------------|
+| Minimale Datenerfassung        | Nur essenzielle, nicht personenbezogene Daten (z. B. keine Anmeldung)  |
+| Sicherheit & Datenschutz       | Verschlüsselung u. Sicherheitsupdates; optionale Anmeldung bei technischen Problemen |
+| Mehrsprachigkeit               | UI in mehreren Sprachen verfügbar                       |
+| Barrierefreiheit               | Intuitive Bedienung, anpassbare Schriftgrößen u. kontrastreiche Darstellung (umsetzbar je nach Ressourcen) |
+| Plattformübergreifend          | Entwicklung mit React Native (Expo) für Android und iOS   |
+| Erweiterbarkeit & Wartbarkeit  | Modulare Architektur und umfassende Dokumentation        |
+:::
 
 ---
 
@@ -188,67 +240,23 @@ Unterfragen
 :::
 :::
 
+---
 
+## 4. Nächste Schritte
+
+::: {.nonincremental}
+1. Klare Kriterien, wann die App "vollständig" ist
+2. Fertigstellen der Fragen
+3. Beta Testing
+4. Rechtliche Aspekte (Datenschutz, Nutzungsbedingungen)
+5. App-Store-Einreichung
+6. Datenanalyse
+7. Schreiben...
+:::
 
 ---
 
-## 3. Forschungsdesign – Plan B
-
-Falls technische Umsetzung scheitert:
-
-- **Online-Fragebogen** (z. B. Google Forms + manuelle Kartierung)
-- Fokus auf inhaltliche Fragen & Visualisierungen
-- Visualisierung über **QGIS** oder **Relief Map-ähnliche Darstellungen**
-
-. . .
-
-→ Ziel: Forschungsinteresse bleibt auch ohne App realisierbar
-
----
-
-## 4. Verfügbare Daten & Ressourcen
-
-- **Pilotdaten:**
-  - ca. 5–10 TN, über 5–7 Tage
-  - 3 Einträge täglich × TN × Tage → ~100–200 Datenpunkte
-  - Standort, Zeit, Wohlbefinden, soziale Kategorien
-
-- **Technische Tools:**
-  - Expo, Supabase, QGIS
-
----
-
-## 5. Erster Einblick in die App
-
-**Screenshots & Funktionen:**
-
-- Begrüssungsbildschirm & Einwilligung
-- Beispiel-Frage mit Skala
-- Standortansicht
-- Tageserinnerung (Push Notification)
-
-**Live-Demo oder GIF optional**
-
----
-
-## Fazit & Ausblick
-
-- Kombination von:
-  - **Urban Health**, **kritischer Stadtgeographie** & **Softwareentwicklung**
-- Explorativ, interdisziplinär, offen
-- Beitrag zur Entwicklung partizipativer Erhebungsmethoden in der Geographie
-
-. . .
-
-→ Nächste Schritte: Feinschliff Fragebogen, App-Funktionen fertigstellen, Pilot starten
-
----
-
-## Diskussion / Feedback
-
-- Was könnte man in der App noch mitdenken?
-- Welche Visualisierungen wären spannend?
-- Anregungen zur Formulierung intersektionaler Fragen?
+## 5. Erste Ergebnisse
 
 ---
 
