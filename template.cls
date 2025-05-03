@@ -54,6 +54,11 @@
 \newcommand{\AddBibFile}[1]{\addbibresource{#1}}
 \newcommand{\PrintBib}{\printbibliography}
 
+
+% ---------------------- Glossar --------------------------------------
+
+\RequirePackage{glossaries}
+
 % ---------------------- Titel- und Metainformationen ----------------------
 \newcommand{\ReportTitle}{}
 \newcommand{\ReportAuthor}{}
