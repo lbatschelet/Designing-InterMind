@@ -48,11 +48,41 @@
 \fancyfoot[R]{\thepage}
 
 % ---------------------- Literatur mit biblatex ----------------------
-\RequirePackage[backend=biber,style=authoryear]{biblatex}
+\RequirePackage[
+  style=apa,
+  backend=biber,
+  giveninits=false,
+  uniquename=false,
+  language=swissgerman
+]{biblatex}
 
 % Befehle zum einfachen Einbinden der Bib-Datei und Ausgeben der Bibliographie:
 \newcommand{\AddBibFile}[1]{\addbibresource{#1}}
 \newcommand{\PrintBib}{\printbibliography}
+
+\DeclareNameAlias{author}{given-family}
+\DeclareNameAlias{editor}{given-family}
+\DeclareNameAlias{translator}{given-family}
+
+
+\DeclareNameFormat{given-family}{%
+  \usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiven}
+    {\namepartprefix}
+    {\namepartsuffix}%
+  \usebibmacro{name:andothers}}
+
+\DeclareNameFormat{given-family-used}{%
+  \usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiven}
+    {\namepartprefix}
+    {\namepartsuffix}}
+
+\DeclareNameAlias{author}{given-family}
+\DeclareNameAlias{editor}{given-family}
+\DeclareNameAlias{translator}{given-family}
 
 
 % ---------------------- Glossaries ---------------------------------
