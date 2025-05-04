@@ -55,9 +55,9 @@
 \newcommand{\PrintBib}{\printbibliography}
 
 
-% ---------------------- Glossar --------------------------------------
+% ---------------------- Glossaries ---------------------------------
 
-\RequirePackage{glossaries}
+\RequirePackage[acronym]{glossaries}
 
 % ---------------------- Titel- und Metainformationen ----------------------
 \newcommand{\ReportTitle}{}

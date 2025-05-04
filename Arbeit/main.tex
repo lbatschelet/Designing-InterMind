@@ -16,8 +16,9 @@ Betreuung: Prof. Dr. Carolin Schurr und Dr. Moritz Gubler\\
 Geographisches Institut Universität Bern}
 \SetDate{\today}
 
-\makeglossaries
 \loadglsentries{Arbeit/glossary}
+\makeglossaries
+
 
 \AddBibFile{BA_Urban Mental Health.bib}
 
@@ -39,6 +40,8 @@ Geographisches Institut Universität Bern}
 
 \newpage
 
+\input{Arbeit/chapters/introduction}
+
 \input{Arbeit/chapters/definitionen}
 
 \input{Arbeit/chapters/literature-review}
@@ -46,6 +49,15 @@ Geographisches Institut Universität Bern}
 \input{Arbeit/chapters/fragebogenentwicklung}
 
 \input{Arbeit/chapters/app}
+
+
+% ------------------ Glossar
+
+\clearpage
+\glsaddall
+\printglossary
+
+
 
 
 % ----------------- Bibliographie ------------------
