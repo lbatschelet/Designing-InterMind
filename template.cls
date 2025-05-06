@@ -84,11 +84,6 @@
 \DeclareNameAlias{editor}{given-family}
 \DeclareNameAlias{translator}{given-family}
 
-
-% ---------------------- Glossaries ---------------------------------
-
-\RequirePackage[acronym]{glossaries}
-
 % ---------------------- Titel- und Metainformationen ----------------------
 \newcommand{\ReportTitle}{}
 \newcommand{\ReportAuthor}{}

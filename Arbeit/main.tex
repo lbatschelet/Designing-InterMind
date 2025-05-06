@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{csquotes}
+\usepackage[acronym]{glossaries}
 
 
 
@@ -16,8 +17,9 @@ Betreuung: Prof. Dr. Carolin Schurr und Dr. Moritz Gubler\\
 Geographisches Institut Universität Bern}
 \SetDate{\today}
 
-\loadglsentries{Arbeit/glossary}
 \makeglossaries
+\input{Arbeit/glossary}
+
 
 
 \AddBibFile{BA_Urban Mental Health.bib}
@@ -33,16 +35,21 @@ Geographisches Institut Universität Bern}
 % 
 
 \begin{document}
+\pagenumbering{gobble}
+
 \maketitle
 
 \newpage
+\pagenumbering{roman}
 
 \tableofcontents
 
 
 \newpage
-
+\pagenumbering{arabic}
 \input{Arbeit/chapters/introduction}
+
+\newpage
 
 \input{Arbeit/chapters/definitionen}
 
@@ -55,11 +62,9 @@ Geographisches Institut Universität Bern}
 
 % ------------------ Glossar
 
-\clearpage
+\newpage
 \glsaddall
-\printglossary
-
-
+\printglossaries
 
 
 % ----------------- Bibliographie ------------------
