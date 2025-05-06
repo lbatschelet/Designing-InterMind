@@ -55,3 +55,11 @@ gantt
     Prüfungswoche Geographie    :               2025-02-10, 2025-02-14
     Prüfungswoche Data Science  :               2025-06-01, 2025-06-10
 ```
+
+
+## Latex compile
+
+```bash
+latexmk -verbose -pdf -outdir=Arbeit/out -jobname=main Arbeit/main.tex
+```
+
