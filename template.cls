@@ -49,40 +49,38 @@
 
 % ---------------------- Literatur mit biblatex ----------------------
 \RequirePackage[
-  style=apa,
+  style=authoryear,     
   backend=biber,
-  giveninits=false,
+  giveninits=false,     % Volle Vornamen
+  maxbibnames=999,      % Alle Namen im Verzeichnis
+  date=year,            % Nur das Jahr anzeigen
   uniquename=false,
-  language=swissgerman
+  language=swissgerman,
+  doi=true,             % DOI anzeigen (wichtig!)
+  % url=false,          % << DIESE ZEILE ENTFERNEN oder auskommentieren!
+  isbn=false,
+  eprint=false
 ]{biblatex}
 
 % Befehle zum einfachen Einbinden der Bib-Datei und Ausgeben der Bibliographie:
 \newcommand{\AddBibFile}[1]{\addbibresource{#1}}
 \newcommand{\PrintBib}{\printbibliography}
 
-\DeclareNameAlias{author}{given-family}
-\DeclareNameAlias{editor}{given-family}
-\DeclareNameAlias{translator}{given-family}
+\DefineBibliographyStrings{nswissgerman}{%
+  andothers = {et\addabbrvspace al\adddot} % Definiert "und andere" als "et al."
+}
 
-
-\DeclareNameFormat{given-family}{%
-  \usebibmacro{name:given-family}
-    {\namepartfamily}
-    {\namepartgiven}
-    {\namepartprefix}
-    {\namepartsuffix}%
-  \usebibmacro{name:andothers}}
-
-\DeclareNameFormat{given-family-used}{%
-  \usebibmacro{name:given-family}
-    {\namepartfamily}
-    {\namepartgiven}
-    {\namepartprefix}
-    {\namepartsuffix}}
-
-\DeclareNameAlias{author}{given-family}
-\DeclareNameAlias{editor}{given-family}
-\DeclareNameAlias{translator}{given-family}
+% Makro für URL-Ausgabe anpassen: Nur ausgeben, wenn kein DOI vorhanden ist
+\renewbibmacro*{url+urldate}{% Sternchen-Version für saubere Neudefinition
+  \iffieldundef{doi} % Prüfe, ob das Feld 'doi' undefiniert/leer ist
+    {% Wenn KEIN DOI da ist: Gib URL und Abrufdatum aus
+      \usebibmacro{url}% Holt sich die Standard-URL-Formatierung
+      \setunit*{\addspace}% Fügt Leerschlag ein, wenn nötig
+      \usebibmacro{urldate}% Holt sich die Standard-Abrufdatum-Formatierung
+    }
+    {% Wenn EIN DOI da ist: Tue nichts (gib keine URL/Abrufdatum aus)
+    }%
+}
 
 
 % ---------------------- Titel- und Metainformationen ----------------------

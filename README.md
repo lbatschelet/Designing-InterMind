@@ -59,7 +59,16 @@ gantt
 
 ## Latex compile
 
+
+To use the custom build script, that compiles the document, names it with a timestamp, moves it to the top level directory and moves older versions to the archive, run:
+
 ```bash
-latexmk -verbose -pdf -outdir=Arbeit/out -jobname=main Arbeit/main.tex
+./build_ba.sh
+```
+
+To compile the document with latexmk, run:
+
+```bash
+latexmk -pdf -outdir=Arbeit/out -jobname=main Arbeit/main.tex
 ```
 

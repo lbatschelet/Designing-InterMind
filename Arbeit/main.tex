@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{csquotes}
-\usepackage[acronym]{glossaries}
+\usepackage[acronym, toc]{glossaries}
 
 
 
@@ -49,6 +49,8 @@ Geographisches Institut Universität Bern}
 \pagenumbering{arabic}
 \input{Arbeit/chapters/introduction}
 
+
+
 \newpage
 
 \input{Arbeit/chapters/definitionen}
@@ -63,13 +65,13 @@ Geographisches Institut Universität Bern}
 % ------------------ Glossar
 
 \newpage
-\glsaddall
-\printglossaries
+\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis]
+\printglossary
 
 
 % ----------------- Bibliographie ------------------
 \newpage
-\PrintBib
+\printbibliography[heading=bibintoc]
 
 \newpage
 
