@@ -1,8 +1,0 @@
-[submodule "InterMind"]
-	path = InterMind
-	url = https://github.com/lbatschelet/InterMind
-	branch = main
-[submodule "intermind.ch"]
-	path = intermind.ch
-	url = https://github.com/lbatschelet/intermind.ch
-	branch = main
