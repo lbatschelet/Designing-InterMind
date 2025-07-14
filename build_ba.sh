@@ -72,5 +72,10 @@ fi
 # latexmk -C -outdir="$OUTPUT_DIR" -jobname="${BASE_PDF_NAME%.pdf}" "$MAIN_TEX_FILE"
 # Alternativ: rm -rf "$OUTPUT_DIR"
 
+echo "[5] Zähle Wörter mit texcount..."
+TEXCOUNT_OUTPUT=$(texcount -inc -sum -1 "$MAIN_TEX_FILE")
+echo "    Wortanzahl (gesamt): $TEXCOUNT_OUTPUT"
+
+
 echo "--- Build-Prozess beendet ---"
 exit 0

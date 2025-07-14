@@ -11,7 +11,15 @@
 \RequirePackage{ragged2e}
 \RequirePackage{lipsum}
 \RequirePackage{mathptmx}  % Times-ähnliche Schrift für den Fliesstext
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{amsfonts}
+\RequirePackage{amscd}
+\RequirePackage{amsthm}
 \renewcommand{\sfdefault}{phv}
+
+\RequirePackage[nswissgerman]{babel}
 
 \RequirePackage{geometry}
 \geometry{a4paper, left=3cm, right=3cm, top=2.5cm, bottom=2.5cm}
@@ -30,6 +38,16 @@
     citecolor=TealBlue,
     urlcolor=TealBlue
 }
+
+\RequirePackage{cleveref}
+\crefname{section}{Abschnitt}{Abschnitte}
+\crefname{subsection}{Abschnitt}{Abschnitte}
+\crefname{figure}{Abbildung}{Abbildungen}
+\crefname{table}{Tabelle}{Tabellen}
+\crefname{equation}{Gleichung}{Gleichungen}
+\crefname{chapter}{Kapitel}{Kapitel}
+
+
 
 \RequirePackage{titlesec}
 \titleformat{\section}{\sffamily\Large\bfseries\raggedright}{\thesection}{1em}{} 
