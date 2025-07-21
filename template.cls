@@ -47,6 +47,8 @@
 \crefname{equation}{Gleichung}{Gleichungen}
 \crefname{chapter}{Kapitel}{Kapitel}
 
+\newcommand{\genderstern}{\raisebox{0.4ex}{\textasteriskcentered}}
+
 
 
 \RequirePackage{titlesec}
