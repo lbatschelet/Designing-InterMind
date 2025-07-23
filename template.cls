@@ -17,6 +17,10 @@
 \RequirePackage{amsfonts}
 \RequirePackage{amscd}
 \RequirePackage{amsthm}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{tabularray}
+\RequirePackage{float}
 \renewcommand{\sfdefault}{phv}
 
 \RequirePackage[nswissgerman]{babel}
