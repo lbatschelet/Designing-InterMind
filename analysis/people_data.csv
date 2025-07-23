@@ -1,0 +1,27 @@
+age_group_lbl,axis_codes_lbl,different_country_than_born_in_lbl,disabilities_lbl,education_lbl,employment_status_lbl,gender_lbl,household_members_financing_lbl,household_members_lbl,info_questions_about_you,monthly_household_income_lbl,n_surveys,sex_lbl,sexual_orientation_lbl
+,no,no,no,university degree,employed,man,2 earners,3,,> CHF 10 000,4,female,straight / hetero
+16–25,social / financial,no,no,Matura / equivalent,student / pupil,man,2 earners,5,,> CHF 10 000,3,female,straight / hetero
+,clothing / style,,no,Matura / equivalent,employed,trans man,6 earners,6,,CHF 6 000 – 7 500,1,female,asexual
+,no,no,no,Matura / equivalent,student / pupil,man,3 earners,3,,CHF 3 000 – 4 500,1,female,straight / hetero
+16–25,,no,no,Matura / equivalent,student / pupil,man,2 earners,1 (living alone),,< CHF 1 500,4,female,straight / hetero
+16–25,no,no,no,Matura / equivalent,student / pupil,man,2 earners,3,,< CHF 1 500,2,female,straight / hetero
+16–25,sexual orientation,no,no,Matura / equivalent,student / pupil,man,3 earners,3,,CHF 1 500 – 3 000,7,female,gay / lesbian
+,gender,yes,no,university degree,student / pupil,woman,1 earner (myself),9,,CHF 3 000 – 4 500,5,male,straight / hetero
+16–25,language / accent;sexual orientation,no,no,Matura / equivalent,student / pupil,man,2 earners,4,,< CHF 1 500,2,female,bisexual
+16–25,skin / appearance;background,no,no,Matura / equivalent,student / pupil,man,2 earners,3,,> CHF 10 000,9,female,straight / hetero
+16–25,no,no,no,Matura / equivalent,student / pupil,woman,1 earner (myself),3,,< CHF 1 500,2,male,queer
+16–25,no,yes,no,Matura / equivalent,student / pupil,woman,3 earners,3,,unknown / prefer not to say,12,,bisexual
+16–25,no,no,no,Matura / equivalent,student / pupil,man,1 earner (myself),2,,< CHF 1 500,3,female,straight / hetero
+16–25,gender,no,no,Matura / equivalent,student / pupil,woman,2 earners,4,,unknown / prefer not to say,2,male,straight / hetero
+16–25,no,no,no,Matura / equivalent,student / pupil,man,5 earners,6,,> CHF 10 000,3,female,gay / lesbian
+16–25,background;gender,no,no,Matura / equivalent,employed,woman,3 earners,3,,CHF 6 000 – 7 500,2,male,straight / hetero
+,no,yes,no,Matura / equivalent,student / pupil,man,1 earner (myself),1 (living alone),,< CHF 1 500,1,female,bisexual
+16–25,language / accent,yes,no,Matura / equivalent,student / pupil,woman,2 earners,4,,unknown / prefer not to say,6,male,straight / hetero
+16–25,no,no,no,Matura / equivalent,student / pupil,man,2 earners,2,,CHF 1 500 – 3 000,8,female,straight / hetero
+16–25,language / accent,yes,no,Matura / equivalent,student / pupil,woman,2 earners,4,,> CHF 10 000,5,male,straight / hetero
+16–25,no,no,no,Matura / equivalent,student / pupil,man,1 earner (myself),2,,unknown / prefer not to say,8,female,straight / hetero
+16–25,no,yes,no,Matura / equivalent,student / pupil,woman,1 earner (myself),3,,< CHF 1 500,6,male,straight / hetero
+16–25,background;gender;language / accent,yes,no,Matura / equivalent,student / pupil,woman,2 earners,3,,CHF 7 500 – 10 000,6,male,straight / hetero
+16–25,background,no,no,Matura / equivalent,student / pupil,man,2 earners,4,,unknown / prefer not to say,1,female,straight / hetero
+16–25,sexual orientation;clothing / style,no,no,Matura / equivalent,student / pupil,man,2 earners,4,,unknown / prefer not to say,3,female,gay / lesbian
+,no,,,,,,,,,,1,,
