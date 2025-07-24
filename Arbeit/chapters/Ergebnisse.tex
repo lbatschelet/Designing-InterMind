@@ -4,42 +4,56 @@
 
 \subsection{Beschreibung des Datensatzes}
 
+\subsubsection{Soziodemografische Merkmale der Stichprobe}
+
+Die Stichprobe des Probelaufs umfasst insgesamt 24 Personen. Die Mehrheit gehört der Altersgruppe \emph{16–25 Jahre} an (n = 20; 80\,\%). Nur wenige Personen entfallen auf die Gruppen \emph{26–35 Jahre} (n = 3; 12\,\%) und \emph{56–65 Jahre} (n = 1; 4\,\%); eine Person machte keine Altersangabe.
+
+Bezüglich des \emph{sozialen Geschlechts} gaben 15 Personen (60\,\%) an, \emph{Mann} zu sein, 9 Personen (36\,\%) identifizierten sich als \emph{Frau}, und eine Person (4\,\%) als \emph{trans Mann}. Als biologisches Geschlecht gaben 16 Personen (64\,\%) an, \emph{männlich} zu sein, 8 (32\,\%) an, \emph{weiblich} zu sein, eine Person machte keine Angabe.
+
+Die \cref{tab:kreuztabelle_abs} zeigt die Verteilung von sozialem Geschlecht und Altersgruppe (absolute Häufigkeiten).
+
+\begin{table}[H]
+    \centering
+    \caption{Kreuztabelle: Soziales Geschlecht und Altersgruppe (absolute Häufigkeiten)}
+    \label{tab:kreuztabelle_abs}
+    \begin{tabular}{lccccc}
+    \toprule
+    \textbf{Geschlecht} & 16--25 & 26--35 & 56--65 & Keine Angabe & Gesamt \\
+    \midrule
+    Mann       & 12 & 2 & 0 & 1 & 15 \\
+    Trans Mann &  0 & 0 & 1 & 0 & 1  \\
+    Frau       &  8 & 1 & 0 & 0 & 9  \\
+    \midrule
+    \textbf{Gesamt} & 20 & 3 & 1 & 1 & 25 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+Weitere soziodemografische Merkmale der Teilnehmenden umfassen u.\,a. sexuelle Orientierung, Bildungsstand, Erwerbsstatus, Haushaltseinkommen, Haushaltsstruktur und -finanzierung, sowie Erfahrungen mit Diskriminierung. Eine vollständige Übersicht über die Verteilung dieser Merkmale findet sich in \cref{sec:appendix_demographics}.
+
+
+\subsubsection{Beschreibung der erfassten Momentaufnahmen}
+
+Im Rahmen der Pilotstudie wurden insgesamt 106 Momentaufnahmen erhoben, verteilt auf die 25 Teilnehmenden. Die Anzahl abgeschlossener Befragungen pro Person variierte dabei erheblich (\textit{M} = 4{,}2; \textit{SD} = 2{,}9; \textit{Min} = 1; \textit{Max} = 12), was auf eine ungleichmässige Nutzung der App innerhalb der Teilnehmendengruppe hinweist (siehe \cref{fig:survey_counts}).
+
+Die Tätigkeiten, die während der Beantwortung der Umfrage durchgeführt wurden, decken ein breites Spektrum ab. Am häufigsten gaben Teilnehmende an, zu arbeiten oder zu studieren (n = 48, 43\,\%), gefolgt von Freizeit- und Entspannungsaktivitäten (n = 19, 22\,\%) und Reisen bzw. Pendeln (n = 9, 10\,\%). Weitere Angaben umfassten etwa Kochen, Medienkonsum, soziale Aktivitäten oder Kombinationen mehrerer Aktivitäten.
+
+Bezüglich des Aufenthaltsortes befanden sich die meisten Personen zum Zeitpunkt der Umfrage entweder an einer Bildungsinstitution (n = 38, 35\,\%) oder zu Hause (n = 28, 27\,\%). Weitere häufig genannte Orte waren unterwegs zu Fuss, per Fahrrad oder im Auto (n = 11, 11\,\%), öffentliche Verkehrsmittel (n = 8, 7\,\%) sowie die Wohnung anderer Personen oder Parks und Grünflächen (vgl. \cref{app:location_table}). Die Aufenthaltsorte verteilten sich dabei nahezu gleichmässig auf Innenräume (n = 54, 51\,\%) und Aussenräume (n = 52, 49\,\%).
+
+Auch die soziale Situation während der Umfrage war sehr unterschiedlich: Ein Drittel der Momentaufnahmen wurde allein durchgeführt (n = 37, 35\,\%), ein weiteres Drittel in Gegenwart von Freund*innen (n = 28, 26\,\%). Weitere häufige Angaben betrafen die Anwesenheit von Fremden (n = 10, 9\,\%), Kolleg*innen (n = 8, 8\,\%) oder verschiedenen Kombinationen dieser Gruppen (vgl. \cref{app:people_table}).
+
+Diese Vielfalt an Tätigkeiten, Kontexten und sozialen Situationen zeigt das Potenzial des Erhebungsinstruments, subjektives Wohlbefinden in unterschiedlichen Alltagssituationen ökologisch valide zu erfassen.
+
 
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=10cm]{analysis/plots/survey_counts.pdf}
+    \includegraphics[width=8cm]{analysis/plots/survey_counts.pdf}
     \caption{Aufteilung nach Anzahl abgeschlossener Umfragen pro Person}
     \label{fig:survey_counts}
 \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=5cm]{analysis/plots/cat_dist_indoors_outdoors.pdf}
-    \caption{Aufteilung nach Drinnen / Draussen}
-    \label{fig:cat_dist_indoors_outdoors}
-\end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=10cm]{analysis/plots/cat_dist_people_with_you.pdf}
-    \caption{Aufteilung nach Personen um mich}
-    \label{fig:cat_dist_people_with_you}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=10cm]{analysis/plots/cat_dist_activity.pdf}
-    \caption{Aufteilung nach Aktivität}
-    \label{fig:cat_dist_activity}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=10cm]{analysis/plots/cat_dist_location_category.pdf}
-    \caption{Aufteilung nach Ort}
-    \label{fig:cat_dist_location_category}
-\end{figure}
 
 
 \subsubsection{Umfang und demografische Merkmale}
@@ -149,3 +163,5 @@ Für die Beantwortung der Forschungsfrage (Einfluss situativer Umweltfaktoren au
 \subsubsection{Illustration möglicher Zusammenhänge zwischen Umwelt und Wohlbefinden}
 
 \subsection{Interpretation der explorativen Befunde}
+
+

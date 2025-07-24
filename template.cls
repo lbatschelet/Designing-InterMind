@@ -21,9 +21,40 @@
 \RequirePackage{array}
 \RequirePackage{tabularray}
 \RequirePackage{float}
+\RequirePackage{longtable}
+\RequirePackage{multirow}
+
 \renewcommand{\sfdefault}{phv}
 
 \RequirePackage[nswissgerman]{babel}
+
+% =====================================================
+% Appendix-Setup (für Klassen ohne \chapter, z.B. article, eigene .cls)
+% =====================================================
+\RequirePackage[toc, page]{appendix}      % KEINE Optionen 'toc,page' hier!
+\RequirePackage{etoc}          % Für lokales TOC im Anhang (optional)
+
+% Deutsche Begriffe
+\renewcommand{\appendixpagename}{Anhang}   % Überschrift auf der Anhang-Seite
+\renewcommand{\appendixtocname}{Anhang}    % Eintrag im Haupt-ToC
+
+\makeatletter
+\renewcommand\appendixpage{
+  \section*{\appendixpagename}
+}
+\makeatother
+ 
+% ---------------------------------------
+
+\RequirePackage{siunitx}
+\sisetup{
+  round-mode=places,
+  round-precision=2,
+  table-number-alignment = center,
+  table-format = 1.2
+}
+\newcommand{\var}[1]{\texttt{\footnotesize #1}}
+
 
 \RequirePackage{geometry}
 \geometry{a4paper, left=3cm, right=3cm, top=2.5cm, bottom=2.5cm}
@@ -50,12 +81,14 @@
 \crefname{table}{Tabelle}{Tabellen}
 \crefname{equation}{Gleichung}{Gleichungen}
 \crefname{chapter}{Kapitel}{Kapitel}
+\crefname{appendix}{Anhang}{Anhänge}
 
 \newcommand{\genderstern}{\raisebox{0.4ex}{\textasteriskcentered}}
 
 
 
 \RequirePackage{titlesec}
+\titleformat{\part}{\sffamily\Large\bfseries\raggedright}{\thepart}{1em}{}
 \titleformat{\section}{\sffamily\Large\bfseries\raggedright}{\thesection}{1em}{} 
 \titleformat{\subsection}{\sffamily\large\bfseries\raggedright}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright}{\thesubsubsection}{1em}{}
