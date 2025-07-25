@@ -1,12 +1,13 @@
-\newacronym{esm}{ESM}{Experience Smpling Method}
+\newacronym{esm}{ESM}{Experience Sampling Method}
 \newacronym{ema}{EMA}{Ecological Momentary Assessment}
 \newacronym{gema}{GEMA}{Geographically Explicit Ecological Momentary Assessment}
 \newacronym{drm}{DRM}{Day Reconstruction Method}
 \newacronym{panas}{PANAS}{The Positive \& Negative Affect Schedule}
 \newacronym{maihda}{MAIHDA}{Multilevel Analysis of Individual Heterogeneity and Discriminatory Accuracy}
 \newacronym{cart}{CART}{Classification and Regression Trees}
-\newacronym{uuid}{UUID}{Universally Unique Identifier}
 \newacronym{json}{JSON}{JavaScript Object Notation}
+\newacronym{dsg}{DSG}{Schweizer Datenschutzgesetz}
+\newacronym{dsgvo}{DSGVO}{EuropäischeDatenschutz-Grundverordnung}
 
 
 \newglossaryentry{race}{
@@ -33,7 +34,6 @@
     description={Sozial konstruierte Kategorie, die ökonomische und symbolische Ungleichheiten beschreibt. In dieser Arbeit kursiv gesetzt.}
 }
 
-% Datei: glossar.tex
 \newglossaryentry{reactnative}{
   name={React Native},
   description={Ein Framework zur plattformübergreifenden Entwicklung mobiler Apps. Es erlaubt die Programmierung mit \gls{javascript} oder \gls{typescript}, wobei der Code nativ auf Android- und iOS-Geräten ausgeführt wird.}
@@ -46,7 +46,7 @@
 
 \newglossaryentry{supabase}{
   name={Supabase},
-  description={Ein Open-Source-Backend, das als Alternative zu Firebase dient. Es basiert auf einer \gls{datenbank} (PostgreSQL) und bietet Funktionen wie Authentifizierung, Datei-Hosting und \gls{rowlevelsecurity}.}
+  description={Ein Open-Source-Backend, das als Alternative zu Firebase dient. Es basiert auf einer \gls{datenbank} (PostgreSQL) und bietet Funktionen wie Authentifizierung, Datei-Hosting und \gls{rls}.}
 }
 
 \newglossaryentry{javascript}{
@@ -66,7 +66,8 @@
 
 \newglossaryentry{uuid}{
   name={UUID},
-  description={Abkürzung für Universally Unique Identifier. Eine \textit{UUID} ist eine zufällig generierte Zeichenkette, die zur eindeutigen Identifikation eines Geräts oder Datensatzes dient, ohne personenbezogene Daten zu erfassen.}
+  description={Abkürzung für Universally Unique Identifier. Eine \textit{UUID} ist eine zufällig generierte Zeichenkette, die zur eindeutigen Identifikation eines Geräts oder Datensatzes dient, ohne personenbezogene Daten zu erfassen.},
+  first={Universally Unique Identifier (\glsentrytext{uuid})}
 }
 
 \newglossaryentry{opensource}{
@@ -79,7 +80,52 @@
   description={Ein digitales System zur strukturierten Speicherung, Abfrage und Verwaltung von Daten. In der App kommt eine relationale Datenbank zum Einsatz, die durch \gls{supabase} bereitgestellt wird.}
 }
 
-\newglossaryentry{rowlevelsecurity}{
-  name={Row-Level Security (RLS)},
-  description={Ein feingranulares Zugriffsmodell in einer \gls{datenbank}, das sicherstellt, dass Nutzer:innen nur jene Datenzeilen sehen oder ändern können, für die sie berechtigt sind. \gls{supabase} unterstützt RLS standardmässig.}
+\newglossaryentry{rls}{
+  name={RLS},
+  description={Ein feingranulares Zugriffsmodell in einer \gls{datenbank}, das sicherstellt, dass Nutzer:innen nur jene Datenzeilen sehen oder ändern können, für die sie berechtigt sind. \gls{supabase} unterstützt RLS standardmässig.},
+  first={Row-Level Security (\glsentrytext{rls})}
 }
+
+\newglossaryentry{github}{
+  name={GitHub},
+  description={Eine webbasierte Plattform zur Versionsverwaltung und Zusammenarbeit an Softwareprojekten. Sie basiert auf \gls{git} und wird häufig zur Entwicklung und Veröffentlichung von \gls{opensource}-Software verwendet}
+}
+
+\newglossaryentry{git}{
+  name={Git},
+  description={Ein verteiltes Versionskontrollsystem zur Nachverfolgung von Änderungen im Quellcode. Git ermöglicht es, Entwicklungsschritte lokal oder kollaborativ zu verwalten und ist Grundlage vieler Plattformen wie \gls{github}}
+}
+
+\newglossaryentry{frontend}{
+  name={Frontend},
+  description={Der Teil einer Software, der für Nutzer:innen sichtbar und direkt bedienbar ist – etwa die Benutzeroberfläche einer App. Wird meist in Kombination mit dem \gls{backend} verwendet.}
+}
+
+\newglossaryentry{backend}{
+  name={Backend},
+  description={Der Teil einer Software, der im Hintergrund läuft und Daten verarbeitet, speichert oder bereitstellt. In dieser Arbeit wird dafür \gls{supabase} verwendet.}
+}
+
+\newglossaryentry{framework}{
+  name={Framework},
+  description={Ein vorgefertigtes Gerüst für die Softwareentwicklung, das häufig genutzte Funktionen bereitstellt. \gls{reactnative} ist ein Beispiel für ein solches Framework.},
+  plural={Frameworks}
+}
+
+\newglossaryentry{pushnotification}{
+  name={Push-Benachrichtigung},
+  description={Eine Mitteilung, die von einer App aktiv an das Gerät gesendet wird – auch wenn die App im Hintergrund läuft. In dieser Studie werden so die Teilnehmenden zur Beantwortung der Fragen aufgefordert.},
+  plural={Push-Benachrichtigungen}
+}
+
+\newglossaryentry{ui}{
+  name={UI},
+  description={Die Benutzeroberfläche einer App, die für Nutzer:innen sichtbar und direkt bedienbar ist. In dieser Arbeit wird die Benutzeroberfläche der App als \gls{ui} bezeichnet.},
+  first={User Interface (\glsentrytext{ui})}
+}
+
+\newglossaryentry{postgresql}{
+  name={PostgreSQL},
+  description={Eine relationale \gls{datenbank}, die als \gls{backend} für \gls{supabase} verwendet wird.}
+}
+
