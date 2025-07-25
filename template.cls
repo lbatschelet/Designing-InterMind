@@ -23,6 +23,8 @@
 \RequirePackage{float}
 \RequirePackage{longtable}
 \RequirePackage{multirow}
+\RequirePackage{makecell}
+\RequirePackage[nottoc]{tocbibind}
 
 \renewcommand{\sfdefault}{phv}
 

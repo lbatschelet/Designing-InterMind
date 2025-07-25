@@ -5,6 +5,8 @@
 \newacronym{panas}{PANAS}{The Positive \& Negative Affect Schedule}
 \newacronym{maihda}{MAIHDA}{Multilevel Analysis of Individual Heterogeneity and Discriminatory Accuracy}
 \newacronym{cart}{CART}{Classification and Regression Trees}
+\newacronym{uuid}{UUID}{Universally Unique Identifier}
+\newacronym{json}{JSON}{JavaScript Object Notation}
 
 
 \newglossaryentry{race}{
@@ -31,3 +33,53 @@
     description={Sozial konstruierte Kategorie, die ökonomische und symbolische Ungleichheiten beschreibt. In dieser Arbeit kursiv gesetzt.}
 }
 
+% Datei: glossar.tex
+\newglossaryentry{reactnative}{
+  name={React Native},
+  description={Ein Framework zur plattformübergreifenden Entwicklung mobiler Apps. Es erlaubt die Programmierung mit \gls{javascript} oder \gls{typescript}, wobei der Code nativ auf Android- und iOS-Geräten ausgeführt wird.}
+}
+
+\newglossaryentry{expo}{
+  name={Expo},
+  description={Ein Toolchain und Dienst, der die Entwicklung mit \gls{reactnative} vereinfacht. Expo stellt Werkzeuge zum Testen, Debuggen und Veröffentlichen von Apps bereit – ohne dass native Programmierkenntnisse erforderlich sind.}
+}
+
+\newglossaryentry{supabase}{
+  name={Supabase},
+  description={Ein Open-Source-Backend, das als Alternative zu Firebase dient. Es basiert auf einer \gls{datenbank} (PostgreSQL) und bietet Funktionen wie Authentifizierung, Datei-Hosting und \gls{rowlevelsecurity}.}
+}
+
+\newglossaryentry{javascript}{
+  name={JavaScript},
+  description={Eine weit verbreitete Programmiersprache für Webentwicklung, die auch in mobilen Frameworks wie \gls{reactnative} verwendet wird. Sie ist dynamisch und flexibel, aber nicht typensicher.}
+}
+
+\newglossaryentry{typescript}{
+  name={TypeScript},
+  description={Eine von Microsoft entwickelte Programmiersprache, die auf \gls{javascript} basiert, aber zusätzliche statische Typisierung bietet. Sie erhöht die Wartbarkeit und Fehlervermeidung in grösseren Softwareprojekten.}
+}
+
+\newglossaryentry{python}{
+  name={Python},
+  description={Eine interpretierte, einfach lesbare Programmiersprache, die häufig in Wissenschaft, Datenanalyse und Automatisierung eingesetzt wird. Sie wurde auch zur Auswertung der App-Daten verwendet.}
+}
+
+\newglossaryentry{uuid}{
+  name={UUID},
+  description={Abkürzung für Universally Unique Identifier. Eine \textit{UUID} ist eine zufällig generierte Zeichenkette, die zur eindeutigen Identifikation eines Geräts oder Datensatzes dient, ohne personenbezogene Daten zu erfassen.}
+}
+
+\newglossaryentry{opensource}{
+  name={Open-Source},
+  description={Bezeichnet Software, deren Quellcode öffentlich einsehbar, veränderbar und frei verwendbar ist. \gls{supabase} und viele Komponenten von \gls{reactnative} und \gls{expo} sind Open-Source.}
+}
+
+\newglossaryentry{datenbank}{
+  name={Datenbank},
+  description={Ein digitales System zur strukturierten Speicherung, Abfrage und Verwaltung von Daten. In der App kommt eine relationale Datenbank zum Einsatz, die durch \gls{supabase} bereitgestellt wird.}
+}
+
+\newglossaryentry{rowlevelsecurity}{
+  name={Row-Level Security (RLS)},
+  description={Ein feingranulares Zugriffsmodell in einer \gls{datenbank}, das sicherstellt, dass Nutzer:innen nur jene Datenzeilen sehen oder ändern können, für die sie berechtigt sind. \gls{supabase} unterstützt RLS standardmässig.}
+}

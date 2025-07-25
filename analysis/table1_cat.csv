@@ -54,3 +54,8 @@ axis_codes,background;gender,1,4.0
 axis_codes,background;gender;language / accent,1,4.0
 axis_codes,background,1,4.0
 axis_codes,sexual orientation;clothing / style,1,4.0
+eq_income_group,Very Low,8,32.0
+eq_income_group,Unknown,6,24.0
+eq_income_group,High,5,20.0
+eq_income_group,Low,4,16.0
+eq_income_group,Very High,2,8.0

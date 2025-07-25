@@ -73,7 +73,7 @@ fi
 # Alternativ: rm -rf "$OUTPUT_DIR"
 
 echo "[5] Zähle Wörter mit texcount..."
-TEXCOUNT_OUTPUT=$(texcount -inc -sum -1 "$MAIN_TEX_FILE")
+TEXCOUNT_OUTPUT=$(texcount -inc -sum -1 -sub "$MAIN_TEX_FILE")
 echo "    Wortanzahl (gesamt): $TEXCOUNT_OUTPUT"
 
 

@@ -10,10 +10,7 @@
 
 \SetTitle{Intersektionales Wohlbefinden im Stadtraum: \\
 Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden}
-\SetAuthor{\textbf{Bachelorarbeit}\\
-Lukas Batschelet, \href{mailto:lukas.batschelet@students.unibe.ch}{lukas.batschelet@students.unibe.ch} \\ 
-Betreuung: Prof. Dr. Carolin Schurr und Dr. Moritz Gubler\\
-Geographisches Institut Universität Bern}
+\SetAuthor{Lukas Batschelet}
 \SetDate{\today}
 
 \makeglossaries
@@ -27,15 +24,63 @@ Geographisches Institut Universität Bern}
 \begin{document}
 \pagenumbering{gobble}
 
-\maketitle
+\begin{titlepage}
+\sffamily
+\raggedright
+
+\vspace*{1cm}
+\huge
+\textbf{Intersektionales Wohlbefinden im Stadtraum}
+
+\vspace{0.5cm}
+\large
+Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden
+
+\vspace{1.5cm}
+\textbf{Lukas Batschelet}
+
+\vspace{0.5cm}
+Matrikel-Nr. 16-499-733
+
+\vfill
+\normalsize
+Bachelorarbeit der Philosophisch-naturwissenschaftlichen Fakultät der Universität Bern
+
+\vspace{0.8cm}
+Betreut durch Prof. Dr. Carolin Schurr und Dr. Moritz Gubler
+
+
+Geographisches Institut \\
+Unit für Sozial- und Kulturgeographie\\
+Bern, \today
+
+\end{titlepage}
+
+
 
 \newpage
+
+\begin{abstract}
+\input{Arbeit/chapters/abstract}
+\end{abstract}
+
+
+
+\newpage
+
 \pagenumbering{roman}
 
 \tableofcontents
 
 
 \newpage
+
+\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis]
+\listoffigures
+\listoftables
+
+
+\clearpage
 \pagenumbering{arabic}
 \input{Arbeit/chapters/introduction}
 
@@ -57,12 +102,12 @@ Geographisches Institut Universität Bern}
 % ------------------ Glossar
 
 \newpage
-\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis]
 \printglossary
 
 
 % ----------------- Bibliographie ------------------
 \newpage
+\phantomsection
 \printbibliography[heading=bibintoc]
 
 \newpage
@@ -74,6 +119,7 @@ Dieses Dokument wurde mithilfe von KI-basierten Tools überarbeitet. LanguageToo
 
 \clearpage
 \pagenumbering{alph}
-\input{Arbeit/chapters/Anhang}
+   
+   \input{Arbeit/chapters/Anhang}
 
 \end{document}

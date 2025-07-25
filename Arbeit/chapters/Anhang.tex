@@ -1,9 +1,13 @@
+\phantomsection
 \appendix
+\addcontentsline{toc}{section}{Anhang}
 
 \begin{appendices}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 
 
-\section{Soziodemografische Merkmale der Stichprobe}
+\section{Stichprobe}
+\subsection{Soziodemografische Merkmale der Stichprobe}
 \label{sec:appendix_demographics}
 
 \begin{longtable}{p{5.5cm}p{5.5cm}rr}
@@ -118,26 +122,32 @@
      & 3 & 1 & 4.0 \\
      \bottomrule
 \end{longtable}
-    
-\section{Beschreibung der erfassten Momentaufnahmen}
+
+\clearpage
+\subsection{Beschreibung der erfassten Momentaufnahmen}
 \label{sec:appendix_moments}
 
-
-\begin{longtable}{p{4cm}p{5cm}rr}
+\begin{longtable}{p{5.5cm}p{5.5cm}rr}
+    \caption{Antworten auf die Fragen zu den Momentaufnahmen}
+    \label{tab:moments}\\
     \toprule
     Frage & Kategorie & Anzahl & Prozent \\
     \midrule
     \endfirsthead
+
+    \multicolumn{4}{c}{{\bfseries Tabelle \thetable{} -- Fortsetzung}} \\
     \toprule
     Frage & Kategorie & Anzahl & Prozent \\
     \midrule
     \endhead
+    
     \midrule
-    \multicolumn{4}{r}{Fortsetzung auf der nächsten Seite} \\
-    \midrule
+    \multicolumn{4}{r}{Fortsetzung auf der nächsten Seite}\\
     \endfoot
+    
     \bottomrule
     \endlastfoot
+
     Was machst Du gerade hauptsächlich? & Arbeiten oder studieren & 53 & 50.0 \\*
      & Freizeit oder Entspannung & 27 & 25.5 \\*
      & Unterwegs sein oder pendeln & 12 & 11.3 \\*
@@ -180,37 +190,87 @@
      & Tiere und Haustiere & 0 & 0.0 \\*
      & Kinder & 0 & 0.0 \\*
      & Andere & 2 & 1.9 \\
+     \midrule
+     \addlinespace
+     Glaubst Du, dass dein Gefühl von Zugehörigkeit oder Fremdheit an diesem Ort damit zu tun hat, wie du als Person wahrgenommen wirst? & Nein & 58 & 54.7 \\*
+     & Ja, wegen meines Alters & 17 & 16.0 \\*
+     & Ja, wegen meiner Sprache oder meines Akzents & 17 & 16.0 \\*
+     & Ja, wegen meiner sozialen oder finanziellen Situation & 15 & 14.2 \\*
+     & Ja, wegen meiner Kleidung oder meines Stils & 13 & 12.3 \\*
+     & Ja, wegen meiner Herkunft & 12 & 11.3 \\*
+     & Ja, aus einem anderen Grund & 10 & 9.4 \\*
+     & Ja, wegen meiner Hautfarbe oder meines Aussehens & 10 & 9.4 \\*
+     & Ja, wegen meines Geschlechts & 9 & 8.5 \\*
+     & Ja, wegen meines Gesundheitszustands oder einer Behinderung & 7 & 6.6 \\*
+     & Ja, wegen meiner sexuellen Orientierung & 2 & 1.9 \\
+     \midrule
+     \addlinespace
+     Verglichen mit den anderen Personen hier: Bei welchen Merkmalen fühlst Du dich der Mehrheit zugehörig? & In meinem Alter & 50 & 47.2 \\*
+     & In meiner Sprache oder meines Akzents & 49 & 46.2 \\*
+     & In meiner Hautfarbe oder meines Aussehens & 48 & 45.3 \\*
+     & In meinem Gesundheitszustand oder einer Behinderung & 41 & 38.7 \\*
+     & In meiner Herkunft & 37 & 34.9 \\*
+     & In meiner sozialen oder finanziellen Situation & 37 & 34.9 \\*
+     & In meiner Kleidung oder meines Stils & 34 & 32.1 \\*
+     & In meinem Geschlecht & 27 & 25.5 \\*
+     & In meiner sexuellen Orientierung & 22 & 20.8 \\*
+     & Ich bin alleine hier & 22 & 20.8 \\
+     \bottomrule
 \end{longtable}
 
 
-\begin{longtable}{p{7cm}*{7}{S[table-format=1.2]}}
-    \caption{Deskriptive Kennwerte der Skalenitems (0–1)}
-    \label{tab:scales_desc}\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{analysis/plots/slider_hists.pdf}
+    \caption{Histogramme der Slider-Items}
+    \label{fig:slider_hists}
+\end{figure}
+
+\begin{longtable}{p{5.5cm}p{9.5cm}}
+    \caption{Antworten auf Freitextfragen}
+    \label{tab:freitext}\\
     \toprule
-    Item & {Mean} & {SD} & {Min} & {25\%} & {50\%} & {75\%} & {Max} \\
+    Frage & Antwort \\
     \midrule
     \endfirsthead
-                
-    \multicolumn{8}{c}{Tabelle \thetable{} -- Fortsetzung} \\
+
+    \multicolumn{2}{c}{{\bfseries Tabelle \thetable{} -- Fortsetzung}} \\
     \toprule
-    Item & {Mean} & {SD} & {Min} & {25\%} & {50\%} & {75\%} & {Max} \\
+    Frage & Antwort \\
     \midrule
     \endhead
-
-    \bottomrule
+    
+    \midrule
+    \multicolumn{2}{r}{Fortsetzung auf der nächsten Seite}\\
     \endfoot
     
-    Wie fühlst Du dich gerade insgesamt? & 0.67 & 0.19 & 0.00 & 0.57 & 0.69 & 0.79 & 1.00 \\
-    Ganz allgemein – wie zufrieden fühlst Du dich im Moment? & 0.65 & 0.22 & 0.00 & 0.56 & 0.67 & 0.80 & 1.00 \\
-    Wie angespannt oder entspannt fühlst Du dich? & 0.58 & 0.24 & 0.00 & 0.38 & 0.62 & 0.76 & 1.00 \\
-    Wie wach fühlst Du dich im Moment? & 0.46 & 0.25 & 0.00 & 0.29 & 0.39 & 0.68 & 1.00 \\
-    Wie nimmst Du die Geräuschkulisse an diesem Ort wahr? & 0.61 & 0.29 & 0.00 & 0.35 & 0.68 & 0.87 & 1.00 \\
-    Wie viel Natur ist an diesem Ort sichtbar? & 0.40 & 0.31 & 0.00 & 0.14 & 0.37 & 0.63 & 1.00 \\
-    Wie lebhaft oder ruhig wirkt der Ort? & 0.54 & 0.32 & 0.00 & 0.26 & 0.60 & 0.82 & 1.00 \\
-    Wie angenehm empfindest Du den Ort insgesamt? & 0.71 & 0.24 & 0.01 & 0.59 & 0.77 & 0.90 & 1.00 \\
-    Wie zugehörig oder fremd fühlst Du dich an diesem Ort? & 0.75 & 0.26 & 0.01 & 0.63 & 0.81 & 0.98 & 1.00 \\
+    \bottomrule
+    \endlastfoot
 
+    Gibt es andere Dinge die dazu führen, dass Du dich hier weniger wohl oder unwohl fühlst? & heat \\*
+     & Everyone is doing the same, so it kind of feels like being at the right place \\*
+     & The contact with strangers \\*
+     & Bed \\*
+     & health issues \\*
+     & no natural sunlight room without windows no fresh air \\*
+     & a lot of people - personal space \\*
+     & No \\*
+     & / \\*
+     & no \\*
+     & Not really \\
+    \midrule
+    \addlinespace
+    Gibt es andere Dinge die dazu führen, dass Du dich hier wohler fühlst? & place i know and is mine i have control over it \\*
+     & know this place and can do what i want \\*
+     & my room and cozy for the night \\*
+     & pets \\*
+     & spending time with family pets \\*
+     & I am not by myself \\*
+     & Less noise from construction works \\
+    \bottomrule
 \end{longtable}
 
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
 
 \end{appendices}

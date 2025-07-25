@@ -86,38 +86,66 @@ Die vorliegend entwickelte App greift das Grundprinzip von \emph{Urban Mind} –
 
 Die Kombination beider Ebenen erlaubt eine mehrdimensionale Modellierung: Baseline-Merkmale definieren strukturelle Ausgangspositionen, situative Angaben erfassen konkrete Erfahrungen. Durch lineare Mixed-Models oder MAIHDA-Ansätze lassen sich Wechselwirkungen zwischen sozialen Positionen, räumlichen Kontexten und momentanen Befindlichkeiten quantitativ abbilden; Freitextangaben liefern zugleich reichhaltiges Material für eine kontextualisierende, qualitative Vertiefung.
 
-\subsection{Beschreibung der entwickelten App}
+\subsection{Entwicklung der App \textit{InterMind}}
 
-\subsubsection{Konzept und Funktionalität}
+\subsubsection{Ziele und Rahmenbedingungen}
+\textit{InterMind} wurde im Rahmen dieser Bachelorarbeit als Forschungsapplikation zur geolokalisierten Erhebung intersektionalen Wohlbefindens konzipiert. Ziel war es, ein Werkzeug zu entwickeln, das sowohl methodischen Anforderungen an ökologische Validität als auch ethischen Anforderungen an Datenschutz und Teilhabe gerecht wird. Im Zentrum stand die Umsetzung eines Experience-Sampling-Ansatzes (EMA), bei dem Teilnehmer:innen mehrmals pro Tag in situ zu ihrem momentanen Erleben befragt werden. Die App sollte niedrigschwellig nutzbar, plattformübergreifend verfügbar, datensparsam und flexibel erweiterbar sein.
 
-\textit{InterMind} wurde als leichtgewichtige, datensparsame Research-App konzipiert, deren Architektur funktionale und nicht-funktionale Anforderungen klar trennt.
+% TODO: Warum keine bestehende App verwendet wurde (z. B. Urban Mind, Ethica etc.) – methodische oder technische Limitationen?
+
+\subsubsection{Konzeptionsphase}
+Ausgehend von den Forschungszielen wurde in einem iterativen Prozess ein Anforderungskatalog entwickelt, der zwischen funktionalen und nicht-funktionalen Anforderungen unterscheidet.
 
 \paragraph{Funktionale Anforderungen}
-
 \begin{itemize}
-  \item \textbf{Pseudonyme Geräte-ID} anstelle persönlicher Konten (privacy by design).
-  \item \textbf{Experience-Sampling (EMA):} drei randomisierte Push-Prompts pro Tag.
-  \item \textbf{Automatische Georeferenzierung} bei jeder Befragung.
-  \item \textbf{Flexibles Fragebogensystem} mit Single-/Multiple-Choice, Slidern und Freitext.
-  \item \textbf{Nutzerseitige Datenkontrolle} – lokales Löschen sämtlicher App-Daten jederzeit möglich.
+  \item Anonyme Teilnahme durch gerätegebundene, pseudonyme ID (keine Registrierung, keine Logins).
+  \item Drei zufällig verteilte Push-Benachrichtigungen pro Tag zur EMA-Erhebung.
+  \item Automatische Erfassung des Standortes bei jeder Befragung (sofern erlaubt).
+  \item Flexible Fragetypen: Single Choice, Multiple Choice, Slider, Freitext.
+  \item Lokale Datenlöschung auf Nutzerseite jederzeit möglich.
 \end{itemize}
 
 \paragraph{Nicht-funktionale Anforderungen}
-
 \begin{itemize}
-  \item \textbf{Datenschutz \& Sicherheit:} Ende-zu-Ende-Verschlüsselung, DSG- DSGVO-konforme Pseudonymisierung.
-  \item \textbf{Mehrsprachigkeit} (derzeit Deutsch / Englisch, erweiterbar).
-  \item \textbf{Plattformkompatibilität} – Entwicklung mit \texttt{React Native + Expo}; Backend auf \texttt{Supabase} für skalierbare Postgres-Datenhaltung.
+  \item Datenschutzkonforme Speicherung und Pseudonymisierung nach DSG und DSGVO.
+  \item Mehrsprachigkeit (Deutsch und Englisch) mit einfacher Erweiterbarkeit.
+  \item Offline-Fähigkeit der App, Synchronisation bei bestehender Verbindung.
+  \item Plattformunabhängigkeit (iOS / Android) durch Einsatz von React Native + Expo.
+  \item Open-Source-fähige Codebasis mit klarer Trennung von Logik und Inhalt.
 \end{itemize}
 
-\subsubsection{Technische Umsetzung}
+% TODO: Beschreibung, wie Anforderungen konkret priorisiert oder verifiziert wurden (z. B. ethische Richtlinien, Testnutzung, Literatur etc.)
 
-Beim ersten Start generiert die App eine randomisierte UUID, die lokal persistent gespeichert wird. Push-Benachrichtigungen werden clientseitig geplant und serverseitig via Supabase Functions verwaltet. Der Fragebogen wird aus einer JSON-Konfigurationsdatei geladen; neue Items können Forschende somit ohne Codeänderung ergänzen. Alle Nutzerdaten werden unmittelbar nach Upload aus dem Mobilgerät entfernt, sodass bei Verlust des Endgeräts keine sensitiven Informationen vorliegen.
+\subsubsection{Implementierung}
+Die App wurde in React Native mit dem Expo-Framework entwickelt, um eine schnelle plattformübergreifende Entwicklung für iOS und Android zu ermöglichen. Die Datenhaltung und Authentifizierung erfolgt über Supabase, ein Open-Source-Backend-as-a-Service auf Basis von PostgreSQL.
 
-Die schlanke UI (Abb.~\ref{fig:homescreen}) beschränkt sich auf drei Hauptansichten: \textit{Home} (Teilnahmestatus), \textit{Fragebogen} und \textit{Datenschutz}. Die Slider-Skalen sind bewusst farbneutral gehalten, um semantische Wertungen zu vermeiden; beim Freitextfeld ermöglicht ein Soft-Limit von 200 Zeichen knappe, kontextspezifische Kommentare.
+Beim ersten App-Start wird eine \gls{uuid} generiert, die persistent auf dem Gerät gespeichert wird. Diese dient als pseudonyme Identifikation in der Datenbank. Der Fragebogen wird dynamisch aus einer \gls{json}-Datei geladen, die serverseitig abgelegt ist. So kann der Inhalt des Fragebogens flexibel angepasst werden, ohne die App selbst zu aktualisieren.
 
-Die so realisierte Architektur gewährleistet eine robuste, zugleich erweiterbare Grundlage für die geplante Mixed-Methods-Auswertung intersektionalen Wohlbefindens im Stadtraum.
+Die verfügbaren Zeitslots für die Befragungen und die Push-Benachrichtigungen werden nach dem ausfüllen des ersten Fragebogens berechnet. Sämtliche Push-Benachrichtigungen werden lokal auf dem Gerät gehandhabt, damit wird der Traffic auf die Supabase-Instanz reduziert und die Bneachrichtigungen können langfristig geplant werden. Damit muss kein fetch-Dienst ständig im Hintergrund neue Benachrichtigungen überprüfen. Dies wirkt sich positiv auf die Akkulaufzeit aus.
 
+Die Benutzeroberfläche gliedert sich in drei Hauptbereiche: den Home-Screen mit Statusübersicht, den Fragebogen-Screen zur Eingabe sowie einen Informationsscreen mit Datenschutzhinweisen und Kontaktmöglichkeiten. Bei der Gestaltung der UI wurde bewusst auf Reduktion und Neutralität geachtet: Slider verwenden keine farbigen Skalen, Freitextfelder sind auf 200 Zeichen begrenzt, um die situative Reflexion zu fördern.
+
+% TODO: Beschreibung technischer Herausforderungen (z. B. Lokalisierung, Berechtigungen, Fehlerbehandlung, Synchronisation etc.)
+
+\subsubsection{Datenschutz und Sicherheit}
+Ein zentraler Aspekt der App-Konzeption war die Umsetzung eines \textit{Privacy by Design}-Prinzips. Die Identifikation erfolgt ausschliesslich über eine nicht rückverfolgbare UUID. Es werden keine personenbezogenen Daten wie Namen, Telefonnummern oder E-Mail-Adressen erhoben. Standortdaten werden nur temporär verarbeitet und nicht dauerhaft gespeichert. Die erhobenen Daten werden unmittelbar nach erfolgreicher Übertragung vom Gerät gelöscht.
+
+Die Speicherung erfolgt auf einem Server mit Standort in der Schweiz. Die verwendete Supabase-Instanz nutzt eine PostgreSQL-Datenbank mit Row-Level Security (RLS) zur Zugangskontrolle. Die Datenbank ist nur für authentifizierte App-Geräte mit gültiger UUID zugänglich. Zugriffe Dritter sind ausgeschlossen.
+
+% TODO: Ggf. Verweis auf Datenschutzprüfung / Ethikvotum ergänzen
+
+\subsubsection{Test und Iteration}
+Zur Sicherstellung der Funktionalität wurde die App in mehreren Phasen getestet:
+\begin{itemize}
+  \item \textbf{Technischer Funktionstest:} Testen der JSON-Logik, der Datenübertragung, der Offline-Funktionalität und der Benachrichtigungssteuerung auf unterschiedlichen Geräten (iOS / Android).
+  \item \textbf{Interner Pretest:} Kleine Testgruppe (n = …) nutzte die App über mehrere Tage. Rückmeldungen betrafen u.\,a. die Lesbarkeit der Texte, Verständlichkeit der Fragen und technische Probleme (z. B. bei Standortfreigaben).
+  \item \textbf{Iterationen:} Anpassungen an UI-Elementen, Reduktion der Prompt-Häufigkeit, Klarstellung der Datenschutztexte.
+\end{itemize}
+
+% TODO: Ergebnisse aus Pretests konkreter benennen. Wie viele Personen? Welche Anpassungen? Gab es methodische Implikationen aus dem Test?
+
+\medskip
+Insgesamt bildet die entwickelte App eine robuste technische Grundlage für die im Rahmen dieser Arbeit geplante Mixed-Methods-Erhebung zum Zusammenhang von Raumwahrnehmung und intersektionalem Wohlbefinden.
 
 \subsubsection{Fragebogenstruktur und Operationalisierung}
 
