@@ -12,17 +12,20 @@
 
 \newglossaryentry{race}{
     name={\textit{race}},
-    description={Eine im englischsprachigen Raum etablierte, gesellschaftlich konstruierte Kategorie, die rassifizierende Zugehörigkeiten beschreibt. In dieser Arbeit kursiv gesetzt, um ihre soziokulturelle Bedeutung zu betonen und sie vom biologistischen Begriff „Rasse“ abzugrenzen.}
+    description={Eine im englischsprachigen Raum etablierte, gesellschaftlich konstruierte Kategorie, die rassifizierende Zugehörigkeiten beschreibt. In dieser Arbeit kursiv gesetzt, um ihre soziokulturelle Bedeutung zu betonen und sie vom biologistischen Begriff „Rasse“ abzugrenzen.},
+    sort=race
 }
 
 \newglossaryentry{gender}{
     name={\textit{gender}},
-    description={Bezeichnet die soziale Konstruktion von Geschlecht. Der Begriff verweist auf gesellschaftlich geprägte Vorstellungen und Erwartungen von Geschlechtsidentität. In dieser Arbeit kursiv gesetzt.}
+    description={Bezeichnet die soziale Konstruktion von Geschlecht. Der Begriff verweist auf gesellschaftlich geprägte Vorstellungen und Erwartungen von Geschlechtsidentität. In dieser Arbeit kursiv gesetzt.},
+    sort=gender
 }
 
 \newglossaryentry{schwarz}{
     name={Schwarz},
-    description={Politische Selbstbezeichnung von Menschen, die im Kontext rassistischer Machtverhältnisse positioniert werden. Grossgeschrieben zur Abgrenzung von farblichen Zuschreibungen.}
+    description={Politische Selbstbezeichnung von Menschen, die im Kontext rassistischer Machtverhältnisse positioniert werden. Grossgeschrieben zur Abgrenzung von farblichen Zuschreibungen.},
+    sort=schwarz
 }
 
 \newglossaryentry{intersektionalitaet}{
@@ -31,7 +34,8 @@
 }
 \newglossaryentry{class}{
     name={\textit{class}},
-    description={Sozial konstruierte Kategorie, die ökonomische und symbolische Ungleichheiten beschreibt. In dieser Arbeit kursiv gesetzt.}
+    description={Sozial konstruierte Kategorie, die ökonomische und symbolische Ungleichheiten beschreibt. In dieser Arbeit kursiv gesetzt.},
+    sort=class
 }
 
 \newglossaryentry{reactnative}{
@@ -129,3 +133,51 @@
   description={Eine relationale \gls{datenbank}, die als \gls{backend} für \gls{supabase} verwendet wird.}
 }
 
+\newglossaryentry{urbanmind}{
+  name={Urban Mind},
+  description={Eine mobile App zur Echtzeit-Erhebung subjektiven Wohlbefindens mittels \gls{gema}. Die App erfasst affektive Zustände mehrfach täglich und verknüpft sie mit räumlichen Kontexten wie Naturerleben. \glslink{intersektionalitaet}{Intersektionale} Perspektiven werden nicht systematisch berücksichtigt. Siehe \href{https://www.urbanmind.info/}{urbanmind.info}},
+  first={Urban Mind}
+}
+
+\newglossaryentry{reliefmaps}{
+  name={Relief Maps+},
+  description={Ein webbasiertes Tool zur retrospektiven und \glslink{intersektionalitaet}{intersektionalen} Reflexion subjektiver Raumerfahrungen. Nutzer\genderstern innen verorten emotionale Bewertungen entlang von \glspl{identitaetsachse} auf einer Karte. Siehe \href{https://reliefmaps.upf.edu/}{reliefmaps.upf.edu}},
+  first={Relief Maps+}
+}
+
+\newglossaryentry{intermind}{
+  name={InterMind},
+  description={Eine in dieser Arbeit entwickelte \gls{opensource}-App zur \gls{gema}-basierten Erhebung situativer Erfahrungen. Die App ist technisch unabhängig vom Fragebogen, der in dieser Studie eine \glslink{intersektionalitaet}{intersektionale} Analyse ermöglichen soll. Siehe \href{https://intermind.ch/}{intermind.ch}},
+  first={InterMind}
+}
+
+\newglossaryentry{identitaetsachse}{
+  name={Identitätsachse},
+  plural={Identitätsachsen},
+  description={Begriff aus der \glslink{intersektionalitaet}{intersektionalen} Theorie, der eine einzelne soziale Kategorie wie \gls{gender}, \gls{race}, \gls{class}, sexuelle Orientierung, (Dis-)Ability oder Alter bezeichnet. Solche Achsen strukturieren gesellschaftliche Positionierungen und prägen Erfahrungen von Privilegierung oder Diskriminierung.}
+}
+
+\newglossaryentry{ios}{
+  name={iOS},
+  description={Eine mobile Betriebssystem-Plattform, die von Apple entwickelt wird. Sie wird hauptsächlich auf Geräten des iPhone- und iPad-Produktlinien verwendet.}
+}
+
+\newglossaryentry{android}{
+  name={Android},
+  description={Eine mobile Betriebssystem-Plattform, die von Google entwickelt wird. Sie wird hauptsächlich auf Geräten des Android-Produktlinien verwendet.}
+}
+
+\newglossaryentry{authentifizierung}{
+  name={Authentifizierung},
+  description={Vorgang zur Überprüfung der Identität eines Nutzers oder Geräts, typischerweise durch die Eingabe eines Passworts, Tokens oder durch kryptografische Verfahren. In der App erfolgt die Authentifizierung gerätebasiert mittels UUID, ohne Eingabe persönlicher Informationen}
+}
+
+\newglossaryentry{autorisierung}{
+  name={Autorisierung},
+  description={Festlegung von Zugriffsrechten auf bestimmte Ressourcen oder Daten nach erfolgreicher Authentifizierung. In diesem Projekt bedeutet dies, dass nur das eigene Gerät auf die jeweils verknüpften Datensätze zugreifen kann (Row-Level Security)}
+}
+
+\newglossaryentry{solid}{
+  name={SOLID},
+  description={Akronym für fünf grundlegende Prinzipien guter objektorientierter Softwarearchitektur: \textit{Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion}. Die Prinzipien sollen verständliche, wartbare und erweiterbare Softwaresysteme ermöglichen \parencite{martinCleanArchitecture2018}}
+}
