@@ -84,7 +84,7 @@
 
 \RequirePackage{cleveref}
 \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
-\crefname{section}{Abschnitt}{Abschnitte}
+\crefname{section}{Kapitel}{Kapitel}
 \crefname{subsection}{Abschnitt}{Abschnitte}
 \crefname{figure}{Abbildung}{Abbildungen}
 \crefname{table}{Tabelle}{Tabellen}

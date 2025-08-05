@@ -1,6 +1,7 @@
 \section{«Build your own tools»: Entwicklung der App \textit{InterMind}}
+\label{sec:entwicklung_app}
 
-Im Zuge dieser Arbeit wurde die App \textit{InterMind} entwickelt, die als technische Grundlage für wiederholte, geolokalisierte und pseudonymisierte Befragungen dient. Sie bildet die Infrastruktur für anschliessend durchgeführte Pilot-Studie. Die App und der in dieser Arbeit eingesetzte Fragenkatalog wurden parallel und iterativ konzipiert. Während dieser Abschnitt die technische Entwicklung der App dokumentiert, wird die inhaltliche Gestaltung des Fragebogens im \cref{sec:fragebogen} erläutert. Der vollständige Quellcode der App ist auf \gls{github}\footnote{\href{https://github.com/lbatschelet/intermind}{https://github.com/lbatschelet/intermind}} veröffentlicht.
+Im Zuge dieser Arbeit wurde die App \textit{InterMind} entwickelt, die als technische Grundlage für wiederholte, geolokalisierte und pseudonymisierte Befragungen dient. Sie bildet die Infrastruktur für anschliessend durchgeführte Pilot-Studie. Die App und der in dieser Arbeit eingesetzte Fragenkatalog wurden parallel und iterativ konzipiert. Während dieser Abschnitt die technische Entwicklung der App dokumentiert, wird die inhaltliche Gestaltung des Fragebogens im \cref{sec:fragebogenentwicklung} erläutert. Der vollständige Quellcode der App ist auf \gls{github}\footnote{\href{https://github.com/lbatschelet/intermind}{https://github.com/lbatschelet/intermind}} veröffentlicht.
 
 
 \subsection{From scratch – Warum eine eigene App?}
@@ -20,7 +21,25 @@ Nicht-funktionale Anforderungen legen hingegen fest, \textit{wie} diese Funktion
 
 Die Priorisierung und Auswahl dieser Anforderungen erfolgte unter Berücksichtigung der konkreten Forschungsziele, der vorhandenen Literatur zu mobilen Anwendungen im Bereich \gls{esm}/\gls{gema} \parencite[u.a.][]{chenPerceivedUrbanEnvironment2025, bakolisUrbanMindUsing2018, randallDevelopmentTrialMobile2013}, datenschutzrechtlicher Vorgaben sowie praktischer Erfahrungen aus dem eigenen Studium. Aufgrund des iterativen Vorgehens während der Entwicklung kam es dabei auch später immer wieder zu Anpassungen und Nachjustierungen einzelner Anforderungen.
 
-\subsection{Privacy by Design – Datenschutz als technisches Prinzip}
+\subsection{Technische Umsetzung – Prinzipien, Praktiken und Kompromisse}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[t]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Arbeit/images/printscreens/startscreen.jpeg}
+        \caption{Startbildschirm der App \textit{InterMind}}
+        \label{fig:startscreen}
+    \end{minipage}
+    \hspace{0.1\textwidth}
+    \begin{minipage}[t]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Arbeit/images/printscreens/welcome.jpeg}
+        \caption{Begrüssungstext der App \textit{InterMind}}
+        \label{fig:welcome}
+    \end{minipage}
+\end{figure}
+
 
 Datenschutz spielte von Beginn an eine zentrale Rolle im Entwicklungsprozess und beeinflusste sowohl die technische Architektur als auch methodische Entscheidungen. Es wird konsequent dem Prinzip \textit{Privacy by Design} gefolgt, das vorsieht, Datenschutzanforderungen bereits bei der Konzeption einer Anwendung mitzudenken und nicht nachträglich zu ergänzen \parencite{cavoukianPrivacyDesign72009}. Ziel ist es, ein hohes Mass an Privatsphäre zu gewährleisten und gleichzeitig volle Transparenz über die Erhebung und Verarbeitung der Daten sicherzustellen.
 
@@ -33,10 +52,27 @@ Teilnehmende können ihre Datensätze jederzeit direkt über die App löschen. D
 
 Alle datenschutzrelevanten Aspekte sind in einer eigenen Datenschutzrichtlinie dokumentiert, die über die App sowie auf der Projektwebseite\footnote{\href{https://intermind.ch/privacy-policy.html}{https://intermind.ch/privacy-policy.html}} öffentlich zugänglich ist. Die Richtlinie erläutert zudem die Rechte der Teilnehmenden nach Schweizer Datenschutzgesetz (\gls{dsg}) und der Europäischen Datenschutzgrundverordnung (\gls{dsgvo}).
 
+\vspace{1em}
 
-\subsection{Technische Umsetzung – Prinzipien, Praktiken und Kompromisse}
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[t]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Arbeit/images/printscreens/beschaeftigung.jpeg}
+        \caption{Multiple-Choice-Frage zur aktuellen Beschäftigung}
+        \label{fig:beschaeftigung}
+    \end{minipage}
+    \hspace{0.1\textwidth}
+    \begin{minipage}[t]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Arbeit/images/printscreens/zugehoerigkeit.jpeg}
+        \caption{Slider-Frage zur sozialen Zugehörigkeit}
+        \label{fig:zugehoerigkeit}
+    \end{minipage}
+\end{figure}
 
-Die technische Umsetzung orientierte sich an etablierten Prinzipien des Software Engineerings \parencite{sommervilleSoftwareEngineering2016} sowie an den zentralen Gestaltungsprinzipien von \gls{solid} \parencite{martinAgileSoftwareDevelopment2002}. Im Zentrum standen dabei eine saubere Trennung zwischen Anwendungslogik, Datenhaltung und Benutzeroberfläche, eine modulare Struktur der Komponenten sowie eine klare Zuordnung von Verantwortlichkeiten.
+
+Die technische Umsetzung orientierte sich an etablierten Prinzipien des Software Engineerings \parencite{sommervilleSoftwareEngineering2016} sowie an den zentralen Gestaltungsprinzipien von \gls{solid} \parencite{martinCleanArchitectureCraftsmans2018}. Im Zentrum standen dabei eine saubere Trennung zwischen Anwendungslogik, Datenhaltung und Benutzeroberfläche, eine modulare Struktur der Komponenten sowie eine klare Zuordnung von Verantwortlichkeiten.
 
 Für die Umsetzung wurde das \gls{framework} \gls{reactnative} in Kombination mit der Entwicklungsplattform \gls{expo} gewählt. Diese Entscheidung ermöglichte es, mit einer einheitlichen Codebasis sowohl \gls{ios}- als auch \gls{android}-Geräte zu unterstützen. Dadurch reduzierte sich der Entwicklungsaufwand, während gleichzeitig eine konsistente Benutzererfahrung auf beiden Plattformen sichergestellt werden konnte. Als serverseitige Infrastruktur kam \gls{supabase} zum Einsatz – ein \gls{opensource} \gls{backend}-as-a-Service auf Basis einer relationalen \gls{postgresql}-\gls{datenbank}, das \gls{authentifizierung}, \gls{autorisierung}, Datenspeicherung und sichere Datenübertragung integriert bereitstellt.
 
@@ -69,6 +105,23 @@ Die Veröffentlichung im Apple App Store setzte zunächst den Erwerb einer koste
 Im Gegensatz dazu verlangte Google für eine Veröffentlichung im Android Play Store keine laufenden Lizenzkosten. Allerdings stellte Google die Bedingung, dass vor einer offenen Betaversion zunächst ein geschlossener Test mit mindestens 20 Personen über einen Zeitraum von zwei Wochen durchgeführt werden musste. Da es innerhalb des zeitlichen Rahmens dieser Bachelorarbeit nicht möglich war, eine ausreichende Anzahl Testpersonen mit Android-Geräten zu rekrutieren, wurde hierfür ein externer Dienstleister in Anspruch genommen, welcher diesen erforderlichen Test für eine Gebühr von CHF 30 durchführte. Nach erfolgreichem Abschluss dieses Tests wurde die App im Play Store als offene Beta veröffentlicht und war somit öffentlich verfügbar.
 
 Darüber hinaus verlangten beide Plattformen, dass eine öffentlich zugängliche Datenschutzrichtlinie zur Verfügung steht. Zu diesem Zweck wurde eine Website\footnote{\href{https://intermind.ch/privacy-policy.html?lang=de}{intermind.ch/privacy-policy}} eingerichtet, auf der die vollständige Datenschutzerklärung einsehbar ist. Die Kosten hierfür beliefen sich auf einmalig CHF 10 für die Domainregistrierung; Hosting-Kosten entstanden keine zusätzlichen, da auf bereits bestehende Infrastruktur zurückgegriffen wurde.
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[t]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Arbeit/images/printscreens/fragen_zu_dir.jpeg}
+        \caption{Überleitungsbildschirm zu den einmaligen Fragen}
+        \label{fig:ueberleitungsbildschirm}
+    \end{minipage}
+    \hspace{0.1\textwidth}
+    \begin{minipage}[t]{0.38\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Arbeit/images/printscreens/offen_unwohl.jpeg}
+        \caption{Offene Textfrage zu weiteren Gründen für Unwohlsein an diesem Ort}
+        \label{fig:offene_textfrage}
+    \end{minipage}
+\end{figure}
 
 \subsection{Eigenständig, aber nicht unabhängig – Entwicklung im Plattformzeitalter}
 
