@@ -21,10 +21,14 @@
 \RequirePackage{array}
 \RequirePackage{tabularray}
 \RequirePackage{float}
-\RequirePackage{longtable}
 \RequirePackage{multirow}
 \RequirePackage{makecell}
 \RequirePackage[nottoc]{tocbibind}
+\RequirePackage{pdflscape}
+\RequirePackage{longtable}
+\RequirePackage{ltablex}
+\keepXColumns
+
 
 \renewcommand{\sfdefault}{phv}
 
@@ -67,7 +71,7 @@
 \RequirePackage{microtype}
 \DisableLigatures{encoding = *, family = * }
 
-\RequirePackage[dvipsnames]{xcolor}
+\RequirePackage[dvipsnames, table]{xcolor}
 \RequirePackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -76,7 +80,10 @@
     urlcolor=TealBlue
 }
 
+\definecolor{rowgray}{gray}{0.95}
+
 \RequirePackage{cleveref}
+\AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
 \crefname{section}{Abschnitt}{Abschnitte}
 \crefname{subsection}{Abschnitt}{Abschnitte}
 \crefname{figure}{Abbildung}{Abbildungen}

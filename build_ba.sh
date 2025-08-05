@@ -72,9 +72,14 @@ fi
 # latexmk -C -outdir="$OUTPUT_DIR" -jobname="${BASE_PDF_NAME%.pdf}" "$MAIN_TEX_FILE"
 # Alternativ: rm -rf "$OUTPUT_DIR"
 
-echo "[5] Zähle Wörter mit texcount..."
-TEXCOUNT_OUTPUT=$(texcount -inc -sum -1 -sub "$MAIN_TEX_FILE")
-echo "    Wortanzahl (gesamt): $TEXCOUNT_OUTPUT"
+# --- 5. Wörter zählen -------------------------------------
+echo "[5] Zähle Wörter (Total + pro Section)..."
+
+WORDREPORT=$(texcount -inc -q -sub=section \
+  -template='Gesamt: {sum}\n{SUB?{title}: {sum}\n?SUB}' \
+  "$MAIN_TEX_FILE")
+
+echo "$WORDREPORT"
 
 
 echo "--- Build-Prozess beendet ---"
