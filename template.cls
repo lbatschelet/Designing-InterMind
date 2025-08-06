@@ -5,8 +5,8 @@
 \LoadClass[10pt,a4paper]{article}
 
 % ---------------------- Pakete für Layout ----------------------
-\RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
 \RequirePackage{helvet}    % Serifenlose Schrift für Titel und Überschriften
 \RequirePackage{ragged2e}
 \RequirePackage{lipsum}
@@ -27,6 +27,7 @@
 \RequirePackage{pdflscape}
 \RequirePackage{longtable}
 \RequirePackage{ltablex}
+\RequirePackage{etoolbox}
 \keepXColumns
 
 
@@ -69,7 +70,7 @@
 \onehalfspacing
 
 \RequirePackage{microtype}
-\DisableLigatures{encoding = *, family = * }
+% \DisableLigatures{encoding = *, family = * }
 
 \RequirePackage[dvipsnames, table]{xcolor}
 \RequirePackage{hyperref}
@@ -115,18 +116,68 @@
 
 % ---------------------- Literatur mit biblatex ----------------------
 \RequirePackage[
-  style=authoryear,     
+  style=authoryear,
   backend=biber,
-  giveninits=false,     % Volle Vornamen
-  maxbibnames=999,      % Alle Namen im Verzeichnis
-  date=year,            % Nur das Jahr anzeigen
+  citetracker=true,
+  giveninits=false,
+  maxbibnames=999,
+  date=year,
   uniquename=false,
   language=swissgerman,
-  doi=true,             % DOI anzeigen (wichtig!)
-  % url=false,          % << DIESE ZEILE ENTFERNEN oder auskommentieren!
+  doi=true,
   isbn=false,
   eprint=false
 ]{biblatex}
+
+% -------------------------------------------------------------
+% 2. GLOBALER Namens-Tracker  (nach moewe, ohne Abschnitts-Reset)
+% -------------------------------------------------------------
+\makeatletter
+% zentrale Liste aller schon ausgegebenen Namen
+\newcommand*\cbx@seen@names{}
+
+% prüfen, ob Hash schon in Liste
+\newrobustcmd*{\cbx@ifnameseen}[1]{\xifinlist{#1}{\cbx@seen@names}}
+
+% Hash in Liste eintragen
+\newrobustcmd*{\cbx@nametracker}[1]{%
+  \xifinlist{#1}{\cbx@seen@names}%
+    {}%
+    {\listxadd{\cbx@seen@names}{#1}}}
+
+% Namensformat: voller Name nur, wenn noch nie gesehen
+\DeclareNameFormat{firstfullonce}{%
+  \nameparts{#1}%        zerlege Name in Teile
+  \cbx@ifnameseen{\thefield{hash}}
+    {\usebibmacro{name:family}      % schon gesehen → nur Nachname
+       {\namepartfamily}{\namepartgiven}
+       {\namepartprefix}{\namepartsuffix}}
+    {\usebibmacro{name:given-family}% erstes Mal → Vor- & Nachname
+       {\namepartfamily}{\namepartgiven}
+       {\namepartprefix}{\namepartsuffix}%
+     \cbx@nametracker{\thefield{hash}}}% Namen merken
+  \usebibmacro{name:andothers}}
+\makeatother
+
+% -------------------------------------------------------------
+% 3. Nur \textcite überschreiben  (Klammer + Semikolon)
+% -------------------------------------------------------------
+
+\makeatletter
+\DeclareCiteCommand{\textcite}
+  {\usebibmacro{prenote}}
+  {%
+    % Name(n) – mit Vorname nur beim allerersten Auftreten
+    \printnames[firstfullonce]{labelname}%
+    \addspace
+    % Jahr in runden Klammern, bleibt vollständig verlinkt
+    \mkbibparens{\bibhyperref{\printfield{year}}}%
+  }
+  {\multicitedelim}      % Trennzeichen, falls Sie doch einmal mehrere Schlüssel angeben
+  {\usebibmacro{postnote}}
+\makeatother
+% -------------------------------------------------------------
+
 
 % Befehle zum einfachen Einbinden der Bib-Datei und Ausgeben der Bibliographie:
 \newcommand{\AddBibFile}[1]{\addbibresource{#1}}
