@@ -86,8 +86,8 @@
 
 \RequirePackage{cleveref}
 \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
-\crefname{section}{Abschnitt}{Abschnitte}
-\crefname{subsection}{Abschnitt}{Abschnitte}
+\crefname{section}{Abschnitt}{Abschnitt}
+\crefname{subsection}{Abschnitt}{Abschnitt}
 \crefname{figure}{Abbildung}{Abbildungen}
 \crefname{table}{Tabelle}{Tabellen}
 \crefname{equation}{Gleichung}{Gleichungen}
