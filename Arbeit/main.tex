@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{csquotes}
-\usepackage[acronym, toc]{glossaries}
+\usepackage[acronym, toc]{glossaries-extra}
 
 
 
@@ -75,6 +75,12 @@ Bern, \today
 
 
 \newpage
+
+% common abkürzungen beim ersten mal nicht ausführen
+\glsunset{vgl}
+\glsunset{bspw}
+\glsunset{gps}
+\glsunset{zb}
 
 \printglossary[type=\acronymtype, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis]
 

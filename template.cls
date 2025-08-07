@@ -129,6 +129,10 @@
   eprint=false
 ]{biblatex}
 
+\AtEveryBibitem{%
+  \clearfield{note}%
+}
+
 % -------------------------------------------------------------
 % 2. GLOBALER Namens-Tracker  (nach moewe, ohne Abschnitts-Reset)
 % -------------------------------------------------------------
