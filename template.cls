@@ -2,7 +2,7 @@
 \ProvidesClass{template}[2024/12/19 My custom template class]
 
 % Basierend auf article
-\LoadClass[10pt,a4paper]{article}
+\LoadClass[10pt,a4paper]{report}
 
 % ---------------------- Pakete für Layout ----------------------
 \RequirePackage[T1]{fontenc}
@@ -80,12 +80,13 @@
     citecolor=TealBlue,
     urlcolor=TealBlue
 }
+\RequirePackage{bookmark}
 
 \definecolor{rowgray}{gray}{0.95}
 
 \RequirePackage{cleveref}
 \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
-\crefname{section}{Kapitel}{Kapitel}
+\crefname{section}{Abschnitt}{Abschnitte}
 \crefname{subsection}{Abschnitt}{Abschnitte}
 \crefname{figure}{Abbildung}{Abbildungen}
 \crefname{table}{Tabelle}{Tabellen}
@@ -93,15 +94,29 @@
 \crefname{chapter}{Kapitel}{Kapitel}
 \crefname{appendix}{Anhang}{Anhänge}
 
-\newcommand{\genderstern}{\raisebox{0.4ex}{\textasteriskcentered}}
+\newcommand{\genderstern}{\raisebox{0.55ex}{\small\textasteriskcentered}}
 
 
 
 \RequirePackage{titlesec}
-\titleformat{\part}{\sffamily\Large\bfseries\raggedright}{\thepart}{1em}{}
-\titleformat{\section}{\sffamily\Large\bfseries\raggedright}{\thesection}{1em}{} 
-\titleformat{\subsection}{\sffamily\large\bfseries\raggedright}{\thesubsection}{1em}{}
+\titleformat{\part}{\sffamily\LARGE\bfseries\raggedright}{\thepart}{1em}{}
+\titleformat{\chapter}{\sffamily\Large\bfseries\raggedright}{\thechapter}{1em}{}
+\titleformat{\section}{\sffamily\large\bfseries\raggedright}{\thesection}{1em}{} 
+\titleformat{\subsection}{\sffamily\normalsize\bfseries\raggedright}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright}{\thesubsubsection}{1em}{}
+\titlespacing*{\chapter}{0pt}{*2}{1em}
+
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+
+% Kein Umbruch vor \listoffigures
+\makeatletter
+\patchcmd{\listoffigures}{\clearpage}{}{}{}
+
+% Kein Umbruch vor \listoftables
+\patchcmd{\listoftables}{\clearpage}{}{}{}
+\makeatother
 
 \RequirePackage{enumitem}
 

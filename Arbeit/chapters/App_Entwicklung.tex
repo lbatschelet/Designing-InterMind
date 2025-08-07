@@ -1,18 +1,20 @@
-\section{«Build your own tools»: Entwicklung der App \gls[noindex]{intermind}}
+\chapter{«Build your own tools»: Entwicklung der App \gls[noindex]{intermind}}
 \label{sec:entwicklung_app}
 
-Im Zuge dieser Arbeit wurde die App \gls{intermind} entwickelt, die als technische Grundlage für wiederholte, geolokalisierte und pseudonymisierte Befragungen dient. Sie bildet die Infrastruktur für anschliessend durchgeführte Pilot-Studie. Die App und der in dieser Arbeit eingesetzte Fragenkatalog wurden parallel und iterativ konzipiert. Während dieser Abschnitt die technische Entwicklung der App dokumentiert, wird die inhaltliche Gestaltung des Fragebogens im \cref{sec:fragebogenentwicklung} erläutert. Der vollständige Quellcode der App ist auf \gls[noindex]{github}\footnote{\href{https://github.com/lbatschelet/intermind}{https://github.com/lbatschelet/intermind}} veröffentlicht.
+Im Zuge dieser Arbeit wurde die App \gls{intermind} entwickelt, die als technische Grundlage für pseudonymisierte \gls[noindex]{gema}-Befragungen dient. Die App und der in dieser Arbeit eingesetzte Fragenkatalog wurden parallel und iterativ konzipiert. Während dieser Abschnitt die technische Entwicklung der App dokumentiert, wird die inhaltliche Gestaltung des Fragebogens im \cref{sec:fragebogenentwicklung} erläutert. 
+
+Der vollständig dokumentierte Quellcode der App sowie weitere kleinere Tools und Skripte die im Prozess entstanden sind, ist auf \gls[noindex]{github}\footnote{\href{https://github.com/lbatschelet/intermind}{https://github.com/lbatschelet/intermind}} unter einer AGPL-3.0-Lizenz veröffentlicht.
 
 
-\subsection{From scratch -- Warum eine eigene App?}
+\section{From scratch -- Warum eine eigene App?}
 
-Die zentrale Erhebungslogik der vorliegenden Arbeit basiert auf wiederholten, geolokalisierten Erhebungen zum situativ-affektiven Wohlbefinden der Teilnehmenden. Daraus resultieren spezifische Anforderungen an das Instrument, mit dem diese Daten erfasst werden sollen. Ein geeignetes Erhebungstool muss insbesondere folgende Kriterien erfüllen: Es soll mobil und einfach nutzbar sein, situative Antworten unmittelbar im Alltag der Teilnehmenden ermöglichen, dabei Standortdaten automatisch erfassen und gleichzeitig datenschutzrechtliche sowie technische Hürden für die Nutzer\genderstern innen minimieren. Darüber hinaus war es von Beginn an wichtig, dass das System flexibel und nachhaltig konzipiert ist, um auch für zukünftige Arbeiten eingesetzt werden zu können. Konkret bedeutet dies, dass die Fragenkataloge sowie die Inhalte der App einfach austauschbar und an neue Forschungsfragen oder Zielgruppen anpassbar sein sollten.
+Die zentrale Erhebungslogik der vorliegenden Arbeit basiert auf wiederholten, geolokalisierten Erhebungen zum situativ-affektiven Wohlbefinden der Teilnehmenden. Daraus resultieren spezifische Anforderungen an das Instrument, mit dem diese Daten erfasst werden sollen. Ein geeignetes Erhebungstool muss insbesondere folgende Kriterien erfüllen: Es soll mobil und einfach nutzbar sein, situative Antworten unmittelbar im Alltag der Teilnehmenden ermöglichen, dabei Standortdaten automatisch erfassen und gleichzeitig datenschutzrechtliche sowie technische Hürden für die Nutzer\genderstern innen minimieren. Darüber hinaus ist es wichtig, dass das System flexibel und nachhaltig konzipiert ist, um auch für zukünftige Arbeiten eingesetzt werden zu können. Konkret bedeutet dies, dass die Fragenkataloge sowie die Inhalte der App einfach austauschbar und an neue Forschungsfragen oder Zielgruppen anpassbar sein sollten.
 
-Bereits verfügbare Lösungen erfüllten diese Anforderungen nur teilweise oder gar nicht. Kommerzielle Angebote, wie beispielsweise die Marktforschungsplattform Avicenna\footnote{\href{https://avicennaresearch.com/}{https://avicennaresearch.com/}}, sind aufgrund hoher Lizenzkosten für eine studentische Abschlussarbeit nicht praktikabel. Zudem erlauben viele solcher Dienste in keine vollständige Kontrolle über die verarbeiteten Daten und bieten nur begrenzte Anpassungsmöglichkeiten hinsichtlich Fragenstruktur und Datenerfassung. Auf der anderen Seite stehen Apps wie Urban Mind\footnote{\href{https://urbanmind.info/}{https://urbanmind.info/}}, die zwar grundsätzlich für \gls[noindex]{gema}-Erhebungen im Forschungskontext entwickelt wurden, jedoch nicht quelloffen und entsprechend auch nicht eigenständig erweiterbar sind. Zudem ist mir persönlich in dieser Arbeit bei der sensible Daten zu Wohlbefinden und sozialen Zugehörigkeiten erhoben werden, eine transparente und sichere Datenverarbeitung von besonderer Bedeutung.
+Aktuell verfügbare Lösungen erfüllen diese Anforderungen nur teilweise oder gar nicht. Kommerzielle Angebote, wie \gls[noindex]{bspw} die Marktforschungsplattform Avicenna\footnote{\href{https://avicennaresearch.com/}{https://avicennaresearch.com/}}, sind aufgrund hoher Lizenzkosten für eine studentische Abschlussarbeit nicht praktikabel. Zudem erlauben viele solcher Dienste in keine vollständige Kontrolle über die verarbeiteten Daten und bieten nur begrenzte Anpassungsmöglichkeiten hinsichtlich Fragenstruktur und Datenerfassung. Auf der anderen Seite stehen Apps wie Urban Mind\footnote{\href{https://urbanmind.info/}{https://urbanmind.info/}}, die zwar grundsätzlich für \gls[noindex]{gema}-Erhebungen im Forschungskontext entwickelt wurden, jedoch nicht quelloffen und entsprechend auch nicht eigenständig erweiterbar sind. Zudem ist mir persönlich in dieser Arbeit bei der sensible Daten zu Wohlbefinden und sozialen Zugehörigkeiten erhoben werden, eine transparente und sichere Datenverarbeitung von besonderer Bedeutung.
 
 Vor diesem Hintergrund wurde das Ziel formuliert, eine eigene digitale Anwendung zu entwickeln, die bewusst quelloffen und modular gestaltet ist. Diese \gls[noindex]{opensource}-Architektur sollte es ermöglichen, die gesamte Datenverarbeitung transparent und nachvollziehbar zu gestalten sowie künftige Anpassungen unkompliziert vorzunehmen. Aufgrund der limitierten zeitlichen Ressourcen innerhalb der Bachelorarbeit wurde darüber hinaus darauf geachtet, weit verbreitete Technologien und Frameworks zu wählen, um die Entwicklung möglichst effizient, wartungsarm und für Dritte nachvollziehbar zu halten.
 
-\subsection{Konzeption und Anforderungen -- Der Weg zur eigenen Infrastruktur}
+\section{Konzeption und Anforderungen -- Der Weg zur eigenen Infrastruktur}
 Auf Basis der beschriebenen Anforderungen wurde zunächst ein detaillierter Anforderungskatalog entwickelt, der als zentraler Leitfaden für die weiteren Schritte der Entwicklung diente. Dieser Katalog wurde iterativ ergänzt, konkretisiert und während des gesamten Entwicklungsprozesses kontinuierlich an methodische und technische Erkenntnisse angepasst. In Anlehnung an etablierte Konzepte aus der Softwareentwicklung wurde dabei zwischen funktionalen und nicht-funktionalen Anforderungen unterschieden.
 
 Funktionale Anforderungen definieren dabei konkret, \textit{was} die App im praktischen Einsatz leisten muss, und legen somit die notwendigen Funktionen und Abläufe der Anwendung fest. Für diese Studie bedeutete dies insbesondere, dass die App den Teilnehmenden täglich drei zufällig über den Tag verteilte Beantwortungszeiträume von einer Stunde ermittelt und jeweils zum Start dieser Zeiträume \glspl{pushnotification} sendet. Diese Anforderung schloss bereits früh eine Browser-basierte Erhebung aus, und führte zum Entscheid eine App-basierte Erhebung zu wählen. Weiter wurde festgelegt, dass bei jeder erfolgten Befragung der aktuelle Standort automatisiert mit erfasst werden soll, sofern die Teilnehmenden dies technisch erlauben. Um die Erhebung flexibel und bedarfsgerecht zu gestalten, wurden zudem verschiedene Fragetypen vorgesehen, darunter Single-Choice, Multiple-Choice, Skalen-basierte Fragen (Slider) sowie Freitextfelder. Schliesslich wurde es als zwingende funktionale Anforderung definiert, dass Teilnehmende jederzeit eigenständig sämtliche gespeicherten Daten löschen können. Die Teilnahme erfolgt dabei vollständig anonym, über eine gerätegebundene, automatisch generierte pseudonyme \gls{uuid}, ohne jegliche Form der Registrierung oder der Eingabe personenbezogener Daten.
@@ -21,7 +23,7 @@ Nicht-funktionale Anforderungen legen hingegen fest, \textit{wie} diese Funktion
 
 Die Priorisierung und Auswahl dieser Anforderungen erfolgte unter Berücksichtigung der konkreten Forschungsziele, der vorhandenen Literatur zu mobilen Anwendungen im Bereich \gls[noindex]{esm}/\gls[noindex]{gema} \parencite[u.a.][]{chenPerceivedUrbanEnvironment2025, bakolisUrbanMindUsing2018, randallDevelopmentTrialMobile2013}, datenschutzrechtlicher Vorgaben sowie praktischer Erfahrungen aus dem eigenen Studium. Aufgrund des iterativen Vorgehens während der Entwicklung kam es dabei auch später immer wieder zu Anpassungen und Nachjustierungen einzelner Anforderungen.
 
-\subsection{Technische Umsetzung -- Prinzipien, Praktiken und Kompromisse}
+\section{Technische Umsetzung -- Prinzipien, Praktiken und Kompromisse}
 
 \begin{figure}[h]
     \centering
@@ -83,7 +85,7 @@ Nach dem erstmaligen Ausfüllen eines Fragebogens berechnet die App automatisch 
 Das \gls{frontend} wurde minimalistisch und funktional gestaltet, um eine intuitive Nutzung zu ermöglichen und eine möglichst neutrale Darstellung der Fragen sicherzustellen \parencite{rogersInteractionDesignHumancomputer2023}. Die App gliedert sich in drei Hauptbereiche: einen Startbildschirm mit dem nächsten Befragungszeitfenster, den Fragebogenbereich und einen Informations- und Einstellungsbildschirm mit Hinweisen zum Datenschutz. Zur visuellen Unterstützung wurden generische \gls{opensource}-Vektorgrafiken von Katerina Limpitsouni\footnote{\href{https://undraw.co/}{undraw.co/}} verwendet.
 
 
-\subsection{Von der Simulation zum Alltagstest -- Feldtest und Feinschliff}
+\section{Von der Simulation zum Alltagstest -- Feldtest und Feinschliff}
 \label{sec:app_entwicklung_feldtest}
 
 Zur Überprüfung der technischen Funktionsfähigkeit wurde ein zweistufiges Testverfahren durchgeführt, bestehend aus fortlaufenden Tests während der Entwicklung sowie einem abschliessenden internen Pretest. Auf automatisierte Tests wurde verzichtet, da deren Relevanz zu Beginn des Projekts unterschätzt wurde und eine nachträgliche Integration mit erheblichem Aufwand verbunden gewesen wäre. Stattdessen wurde ein manueller, iterativer Testansatz verfolgt. Die App wurde regelmässig mit \glspl{emulator} unterschiedlicher Bildschirmgrössen sowie auf physischen Geräten getestet. Die modulare Struktur der Codebasis sowie die Orientierung an den \gls{solid}-Prinzipien erleichterten dabei die gezielte Überprüfung einzelner Komponenten.
@@ -96,7 +98,7 @@ Die Ergebnisse des Tests führten zu mehreren Anpassungen der App. So wurde \gls
 
 Zusätzlich wurden verschiedene kleinere Anpassungen an der Benutzeroberfläche vorgenommen, insbesondere im Hinblick auf die Darstellung von \gls{ui}-Elementen auf kleineren Bildschirmen sowie die Positionierung und Lesbarkeit von Slider-Beschriftungen. Diese Optimierungen trugen dazu bei, die visuelle Konsistenz der App auf verschiedenen Geräten zu verbessern.
 
-\subsection{App-Veröffentlichung -- Prozesse, Plattformen, Abhängigkeiten}
+\section{App-Veröffentlichung -- Prozesse, Plattformen, Abhängigkeiten}
 
 Um die entwickelte App für die eigentliche Datenerhebung nutzen zu können, wurde eine Veröffentlichung über die offiziellen App-Stores von Apple (iOS) und Google (Android) angestrebt. Beide Plattformen stellen dabei unterschiedliche technische, administrative und finanzielle Anforderungen, die den Veröffentlichungsprozess massgeblich beeinflussten.
 
@@ -123,7 +125,7 @@ Darüber hinaus verlangten beide Plattformen, dass eine öffentlich zugängliche
     \end{minipage}
 \end{figure}
 
-\subsection{Eigenständig, aber nicht unabhängig -- Entwicklung im Plattformzeitalter}
+\section{Eigenständig, aber nicht unabhängig -- Entwicklung im Plattformzeitalter}
 
 Die Entwicklung von \gls{intermind} war mein erstes grösseres Projekt in \gls{typescript} und mit \gls{reactnative}. Die Umstellung vom strikt objektorientierten Denken in \gls{java} auf den dynamischeren, komponentenbasierten Ansatz war anspruchsvoll, aber enorm lehrreich. Insbesondere das konsequente Anwenden der \gls{solid}-Prinzipien half dabei, die Struktur der Anwendung nachvollziehbar zu halten -- gerade in einem neuen Ökosystem. Die App funktioniert stabil, sieht gut aus, und hat ihren Zweck erfüllt.
 

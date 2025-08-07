@@ -1,18 +1,24 @@
 \phantomsection
 \appendix
-\addcontentsline{toc}{section}{Anhang}
+\addcontentsline{toc}{chapter}{Anhang}
+
+
 
 \begin{appendices}
-\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+
+\bookmarksetup{startatroot=false}   % Alle folgenden Überschriften ↓ im pdf eine Ebene tiefer
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 
 
-\section{Fragebogen}
+
+\chapter{Fragebogen}
 \label{app:appendix_fragebogen}
 
 Deutsche Version des Fragebogens. Die übersetzten Versionen auf Englisch und Französisch können im \gls[noindex]{github}-Repository\footnote{\href{https://raw.githubusercontent.com/lbatschelet/InterMind/main/questionnaire/Questionnaire.xlsx}{https://raw.githubusercontent.com/lbatschelet/InterMind/main/questionnaire/Questionnaire.xlsx}} der App heruntergeladen werden.
 
 
-\subsection*{Hallo!}
+\section*{Hallo!}
 Schön bist Du hier!
 
 In dieser App wirst Du eine Woche lang drei Mal am Tag kurze Fragen zu Deinem aktuellen Wohlbefinden und zu Deiner Umgebung beantworten.
@@ -21,24 +27,24 @@ Deine Antworten helfen uns dabei, besser zu verstehen, wie Menschen verschiedene
 
 \hrulefill
 
-\subsection*{Worum geht es in dieser Studie?}
+\section*{Worum geht es in dieser Studie?}
 Wie wir uns an einem Ort fühlen, hängt stark von unserer Umgebung ab. Manche Orte wirken beruhigend, vertraut oder einladend. Andere lassen uns unruhig werden, ausgegrenzt erscheinen oder fehl am Platz fühlen.
 
 Solche Erfahrungen sind jedoch nicht für alle Menschen gleich. Sie können davon abhängen, wie wir an einem Ort wahrgenommen und behandelt werden – z.\,B. aufgrund von Geschlecht, Herkunft, Sprache, Aussehen oder anderen Merkmalen, die unsere gesellschaftliche Position prägen.
 
-\subsubsection*{Was meinen wir mit Wohlbefinden?}
+\subsection*{Was meinen wir mit Wohlbefinden?}
 Wohlbefinden kann vieles bedeuten. Manchmal geht es dabei um etwas Langfristiges – etwa, wie zufrieden wir mit unserem Leben insgesamt sind, wie gesund wir uns fühlen oder ob wir uns sicher und unterstützt fühlen.
 
 In dieser Studie interessiert uns jedoch vor allem das \textbf{momentane Wohlbefinden}: Wie geht es Dir \emph{jetzt gerade}, an diesem Ort, in dieser Situation?  
 Wohlbefinden umfasst sowohl \textbf{körperliche} Aspekte (z.\,B. Müdigkeit, Wärme, Ruhe) als auch \textbf{psychische} Empfindungen (z.\,B. Zufriedenheit, Sicherheit, Zugehörigkeit).
 
-\subsubsection*{Wer führt die Studie durch?}
+\subsection*{Wer führt die Studie durch?}
 Diese Bachelorarbeit wird am Geographischen Institut der Universität Bern von Lukas Batschelet durchgeführt und von Prof.\ Dr.\ Carolin Schurr sowie Dr.\ Moritz Gubler betreut.
 
-\subsubsection*{Was ist das Ziel dieser Studie?}
+\subsection*{Was ist das Ziel dieser Studie?}
 Wir untersuchen, wie sich verschiedene Merkmale – einzeln oder kombiniert – auf das momentane Wohlbefinden auswirken.
 
-\subsubsection*{Wie läuft die Teilnahme ab?}
+\subsection*{Wie läuft die Teilnahme ab?}
 Die Studie dauert eine Woche; in dieser Zeit erhältst Du dreimal täglich eine Kurzbefragung auf Deinem Smartphone:
 
 \begin{itemize}\setlength{\itemsep}{0pt}
@@ -52,18 +58,18 @@ Jede Befragung ist eine Stunde lang verfügbar; verpasste Befragungen kannst Du 
 
 \hrulefill
 
-\subsection*{Einwilligung zur Teilnahme}
+\section*{Einwilligung zur Teilnahme}
 Bevor Du mit der Befragung startest, bitten wir Dich um Deine Zustimmung zur Teilnahme.  
 Die Teilnahme ist freiwillig; einzelne Fragen können übersprungen und die Teilnahme jederzeit beendet werden. In den App-Einstellungen kannst Du Deine Daten nachträglich vollständig löschen.
 
-\subsubsection*{Welche Daten werden erhoben?}
+\subsection*{Welche Daten werden erhoben?}
 \begin{itemize}\setlength{\itemsep}{0pt}
   \item Angaben zu Deiner Person (z.\,B. Alter, Geschlecht, Bildung)
   \item Antworten zu Deinem aktuellen Befinden und Aufenthaltsort
   \item Standortdaten (sofern freigegeben)
 \end{itemize}
 
-\subsubsection*{Wie gehen wir mit Deinen Daten um?}
+\subsection*{Wie gehen wir mit Deinen Daten um?}
 \begin{itemize}\setlength{\itemsep}{0pt}
   \item Keine Speicherung von Namen, E-Mail-Adressen o.\,ä.
   \item Anonymisierte Speicherung auf einem gesicherten Server in der Schweiz
@@ -75,14 +81,14 @@ Mit \enquote{Ich stimme zu} bestätigst Du, dass Du die Informationen verstanden
 
 \hrulefill
 
-\subsection*{Benachrichtigungen}
+\section*{Benachrichtigungen}
 Damit Du keine Befragung verpasst, senden wir Dir Benachrichtigungen, sobald ein neues Umfrageslot startet (jeweils eine Stunde Antwortzeit).  
 Du kannst die Benachrichtigungen in den Geräteeinstellungen abschalten – dann besteht jedoch die Gefahr, Befragungen zu verpassen.  
 Wir empfehlen, sie eingeschaltet zu lassen, um möglichst viele unterschiedliche Situationen zu erfassen.
 
 \hrulefill
 
-\subsection*{Standort}
+\section*{Standort}
 Um räumliche Muster zu erkennen, bitten wir Dich, die Standortfreigabe zu erlauben. So können wir z.\,B. unterscheiden, ob Erleben an belebten Plätzen anders ist als in ruhigen Gegenden – ohne Deinen Namen oder exakte Adressen zu kennen.
 
 Standortdaten werden ausschliesslich anonymisiert gespeichert und nicht dauerhaft verfolgt.  
@@ -206,8 +212,8 @@ Offene Frage & Gibt es andere Dinge die dazu führen, dass Du dich hier wohler f
 
 
 
-\section{Stichprobe}
-\subsection{Soziodemografische Merkmale der Stichprobe}
+\chapter{Stichprobe}
+\section{Soziodemografische Merkmale der Stichprobe}
 \label{app:appendix_demographics}
 
 \begin{longtable}{p{5.5cm}p{5.5cm}rr}
@@ -324,7 +330,7 @@ Offene Frage & Gibt es andere Dinge die dazu führen, dass Du dich hier wohler f
 \end{longtable}
 
 \clearpage
-\subsection{Beschreibung der erfassten Momentaufnahmen}
+\section{Beschreibung der erfassten Momentaufnahmen}
 \label{app:appendix_moments}
 
 \begin{longtable}{p{5.5cm}p{5.5cm}rr}
