@@ -84,15 +84,9 @@
 
 \definecolor{rowgray}{gray}{0.95}
 
-\RequirePackage{cleveref}
+\RequirePackage[german]{cleveref}
 \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
-\crefname{section}{Abschnitt}{Abschnitt}
-\crefname{subsection}{Abschnitt}{Abschnitt}
-\crefname{figure}{Abbildung}{Abbildungen}
-\crefname{table}{Tabelle}{Tabellen}
-\crefname{equation}{Gleichung}{Gleichungen}
-\crefname{chapter}{Kapitel}{Kapitel}
-\crefname{appendix}{Anhang}{Anhänge}
+
 
 \newcommand{\genderstern}{\raisebox{0.55ex}{\small\textasteriskcentered}}
 
