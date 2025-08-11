@@ -1,0 +1,507 @@
+---
+title: "MAIHDA-Analyse: Umwelteinflüsse auf zusammengesetztes Wohlbefinden"
+author: " "
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: show
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: visual
+lang: de
+---
+
+# Ziel und Forschungsdesign
+
+**Fragestellung.**\
+Wie beeinflussen situative **Umwelt- und Kontextmerkmale** (`environmen_pleasure`, `environment_lively`, `environment_nature`, `environment_noise`, sowie die kategorialen Variablen `activity`, `location_category`, `indoors_outdoors`, `people_with_you`, `majority_comparison`) ein **zusammengesetztes Wohlbefinden**, das aus `general_wellbeing`, `tense_relaxed`, `sense_of_belonging`, `content` und `awake` gebildet wird?
+
+**Datenstruktur.**\
+- **Level 1 (Zeitpunkte):** einzelne Befragungsmomente mit Umwelt- und Kontextvariablen.\
+- **Level 2 (Person):** `device_id` als Personenebene.\
+- **Level 3 (soziale Strata):** Kreuzung aus `gender × age_group × sexual_orientation × eq_income_group` (MAIHDA-Konzept: Strata als Kontexte).
+
+**MAIHDA-Logik (Kernidee).**\
+1. Strata (Level 3) erhalten **Zufallsinterzepte**.\
+2. Die **additiven Haupteffekte** der Achsen (`gender`, `age_group`, `sexual_orientation`, `eq_income_group`) werden **als Fixeffekte** in dasselbe Modell aufgenommen.\
+3. Der **verbleibende Strata-Varianzanteil** nach Hinzufügen dieser Fixeffekte wird als **Interaktion** der Strata verstanden.\
+4. Level‑1‑Prädiktoren werden **person-mean‑zentriert** (Within-Effekte); zusätzlich modellieren wir deren **Personenmittel** (Between-Effekte). So trennen wir situative von zwischenpersonellen Unterschieden.
+
+# Arbeitsablauf (erzählerisch)
+
+1.  **Import & Schlüsselprüfung:** Daten laden, `device_id` prüfen, Merge von Survey und Personen.\
+2.  **Outcome bilden:** geometrisches Mittel der fünf Skalen (robust gegen Ausreißer nach unten), plus arithmetische Alternative.\
+3.  **Strata definieren:** Interaktion der vier Achsen, Stratum-ID erzeugen.\
+4.  **Level‑1-Prädiktoren aufbereiten:** kontinuierliche Umweltvariablen in *within* (Abweichung vom Personenmittel) und *between* (Personenmittel) zerlegen; kategoriale Kontextvariablen als Faktoren.\
+5.  **Modellfamilie schätzen:**
+    -   M0: Nullmodell (3 Ebenen) → Varianzzerlegung & VPC.\
+    -   M1: + additive Achsen (Fixeffekte) → PCV(Strata) von M0→M1 (Anteil erklärter Strata‑Varianz).\
+    -   M2: + Umwelt & Kontext (within/between + Faktoren) → Haupteffekte der Umgebung.\
+    -   M3 (optional): Random Slopes für zentrale within‑Variablen auf Personenebene.\
+6.  **Ergebnisse darstellen:** Kennzahlen (VPC/PCV), Koeffizienten, Zerlegung der Vorhersagen in “additiv” vs. “inkl. Interaktion”, Ranglisten der Strata.\
+7.  **Sensitivitäten:** andere Outcome-Definition (arithmetischer Index), alternative Achsenspezifikation (z. B. `gender` vs. `sex`), Re-Kategorisierung.
+
+------------------------------------------------------------------------
+
+# Setup
+
+```{r}
+# Pakete laden
+library(tidyverse)
+library(janitor)
+library(readr)
+library(lme4)
+library(performance)
+library(broom.mixed)
+library(gt)
+library(forcats)
+
+set.seed(42)
+options(dplyr.summarise.inform = FALSE)
+
+setwd("/Users/luba/Documents/GitHub/ba-emotional-city/analysis")
+
+```
+
+# Datenimport und Zusammenführung
+
+**Ziel:** Beide Quellen in einen sauberen, gemeinsamen Datensatz bringen; Schlüsselkonsistenz prüfen.
+
+```{r}
+survey <- read_csv("survey_answers.csv", show_col_types = FALSE) |> clean_names()
+people <- read_csv("people_data.csv",   show_col_types = FALSE) |> clean_names()
+
+# Einordnung der verfügbaren Spalten
+list(
+  survey_spalten = names(survey),
+  people_spalten = names(people)
+)
+```
+
+**Merge über `device_id`.**
+
+```{r}
+stopifnot("device_id" %in% names(survey), "device_id" %in% names(people))
+
+# Eindeutigkeit der Personen-ID im people-Datensatz
+if (nrow(people) != n_distinct(people$device_id)) {
+  warning("Hinweis: people_data enthält doppelte device_id-Einträge. Bitte bereinigen.")
+}
+
+dat <- survey |> left_join(people, by = "device_id")
+
+# Stratum-ID auch im Analyse-Datensatz anlegen
+dat <- dat |>
+  mutate(
+    gender             = as.factor(gender),
+    age_group          = as.factor(age_group),
+    sexual_orientation = as.factor(sexual_orientation),
+    eq_income_group    = as.factor(eq_income_group),
+    stratum_id = interaction(gender, age_group, sexual_orientation, eq_income_group,
+                             sep = "_", drop = TRUE) |> as.factor()
+  )
+
+
+# Minimal-Check auf NAs in zentralen Spalten
+dat |>
+  summarise(
+    n = n(),
+    na_device_id = sum(is.na(device_id))
+  ) |>
+  gt()
+```
+
+# Outcome-Konstruktion
+
+**Ziel:** ein zusammengesetztes Wohlbefinden bilden, das niedrige Teilwerte nicht “wegmittelt”.
+
+-   **Geometrisches Mittel `wb_geom`:** fünfte Wurzel des Produkts aus `general_wellbeing`, `tense_relaxed`, `sense_of_belonging`, `content`, `awake`.\
+-   **Arithmetischer Index `wb_mean`:** einfacher Mittelwert derselben fünf Skalen (Vergleich/Robustheit).
+
+```{r}
+outcome_vars <- c("general_wellbeing", "tense_relaxed", "sense_of_belonging", "content", "awake")
+
+dat <- dat |>
+  mutate(across(all_of(outcome_vars), ~ pmin(pmax(as.numeric(.), 0), 1))) |>
+  mutate(
+    wb_prod = reduce(across(all_of(outcome_vars)), `*`),
+    wb_geom = wb_prod^(1/5),
+    wb_mean = rowMeans(across(all_of(outcome_vars)), na.rm = TRUE)
+  )
+
+dat |>
+  summarise(across(c(wb_geom, wb_mean), list(mittel = mean, sd = sd), na.rm = TRUE)) |>
+  gt()
+```
+
+# Strata-Definition (Level 3)
+
+**Ziel:** Soziale Strata als Kontexte modellieren (MAIHDA).
+
+```{r}
+# --- Befragungen je Stratum (Level-1-Zeilen in dat) ---
+strata_counts_responses <- dat |>
+  count(stratum_id, name = "n_befragungen")
+
+# --- Personen je Stratum (Level-2) – robuste Variante direkt aus people_data ---
+people_strata <- people |>
+  mutate(
+    gender             = as.factor(gender),
+    age_group          = as.factor(age_group),
+    sexual_orientation = as.factor(sexual_orientation),
+    eq_income_group    = as.factor(eq_income_group),
+    stratum_id = interaction(gender, age_group, sexual_orientation, eq_income_group,
+                             sep = "_", drop = TRUE) |> as.factor()
+  )
+
+strata_counts_persons <- people_strata |>
+  count(stratum_id, name = "n_personen")
+
+# --- Zur Sicherheit: nur Strata betrachten, die im Analyse-Datensatz vorkommen ---
+# (falls es Personen ohne Survey gibt)
+strata_counts_persons <- strata_counts_persons |>
+  semi_join(strata_counts_responses, by = "stratum_id")
+
+# --- Zusammenführen & Kennzahlen ---
+strata_overview <- strata_counts_persons |>
+  full_join(strata_counts_responses, by = "stratum_id") |>
+  replace_na(list(n_personen = 0L, n_befragungen = 0L)) |>
+  mutate(
+    befragungen_pro_person = ifelse(n_personen > 0, n_befragungen / n_personen, NA_real_)
+  ) |>
+  arrange(desc(n_personen), desc(n_befragungen))
+
+# Präzise Übersicht ausgeben
+strata_overview
+```
+
+
+# Level‑1‑Prädiktoren aufbereiten
+
+**Ziel:** situative (within) vs. zwischenpersonelle (between) Effekte der kontinuierlichen Umweltvariablen trennen; Kontextfaktoren als Kategorien setzen.
+
+```{r}
+# Kontinuierliche Umweltvariablen (Schreibweisen aus Headern)
+env_cont <- c("environmen_pleasure", "environment_lively", "environment_nature", "environment_noise")
+
+# Kategoriale Kontextvariablen
+env_cat <- c("activity", "location_category", "indoors_outdoors", "people_with_you", "majority_comparison")
+
+# Numerisch erzwingen
+dat <- dat |>
+  mutate(across(all_of(env_cont), as.numeric))
+
+# Within/Between-Zerlegung (person-mean centering)
+dat <- dat |>
+  group_by(device_id) |>
+  mutate(across(all_of(env_cont),
+                list(personmean = ~ mean(.x, na.rm = TRUE)),
+                .names = "{.col}_pm")) |>
+  ungroup() |>
+  mutate(across(all_of(env_cont),
+                ~ .x - get(paste0(cur_column(), "_pm")),
+                .names = "{.col}_within"))
+
+# Faktoren
+dat <- dat |>
+  mutate(across(all_of(env_cat), as.factor))
+```
+
+# Modellstrategie und Schätzung
+
+Wir schätzen sukzessive Modelle mit **`wb_geom`** als Outcome.
+
+## M0: Nullmodell (3 Ebenen)
+
+**Zweck:** Varianzzerlegung in Stratum-, Personen- und Residualanteile; VPC/ICC.
+
+```{r}
+m0 <- lmer(
+  wb_geom ~ 1 + (1 | stratum_id) + (1 | device_id),
+  data = dat |> filter(!is.na(wb_geom)),
+  REML = TRUE
+)
+
+summary(m0)
+performance::icc(m0)
+```
+
+Der Funktionsaufruf `performance::icc()` gibt hier `NA` zurück und warnt vor einem singulären Fit. Das bedeutet, dass mindestens eine zufällige Varianzkomponente exakt $0$ geschätzt wird – in diesem Fall die Personenebene (Level 2). Statistisch heißt das: Innerhalb desselben Stratum gibt es keine messbaren Unterschiede zwischen Personen, alle Variation innerhalb eines Stratum entsteht zwischen Messzeitpunkten.
+
+Zur Illustration berechnen wir die ICCs manuell aus den geschätzten Varianzkomponenten:
+
+```{r}
+vc <- as.data.frame(VarCorr(m0))$vcov
+var_stratum <- vc[2]
+var_person  <- vc[1]
+var_resid   <- vc[3]
+
+icc_stratum <- var_stratum / (var_stratum + var_person + var_resid)
+icc_person  <- var_person  / (var_stratum + var_person + var_resid)
+
+icc_stratum
+icc_person
+```
+
+## M1: + additive Haupteffekte der Strata-Achsen
+
+**Zweck:** Trennung der additiven Achseneffekte von Strata-Interaktionen (MAIHDA).
+
+```{r}
+m1 <- lmer(
+  wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
+    (1 | stratum_id) + (1 | device_id),
+  data = dat |> filter(!is.na(wb_geom)),
+  REML = TRUE
+)
+
+summary(m1)
+```
+
+**PCV(Strata) von M0 → M1.**
+
+```{r}
+vc0 <- as.data.frame(VarCorr(m0))
+vc1 <- as.data.frame(VarCorr(m1))
+
+s2_stratum_0 <- vc0 |> filter(grp == "stratum_id") |> pull(vcov)
+s2_stratum_1 <- vc1 |> filter(grp == "stratum_id") |> pull(vcov)
+pcv_m0_m1 <- (s2_stratum_0 - s2_stratum_1) / s2_stratum_0
+
+tibble(vergl = "M0 → M1", PCV_stratum = pcv_m0_m1) |>
+  gt() |>
+  tab_header(title = "Proportional Change in Variance (Strata)")
+```
+
+## M2: Design-Matrix verstehen (warum „rank deficient“?)
+
+**Idee:** Bevor wir M2 schätzen, schauen wir uns die **Fixed-Effects-Designmatrix** an.  
+Der Fehler kam, weil `model.matrix()` keine Random-Effects kennt. Wir entfernen diese zuerst.
+
+```{r}
+# 1) Formel wie geplant (mit Random-Effects):
+within_terms  <- paste0(env_cont, "_within")
+between_terms <- paste0(env_cont, "_pm")
+
+form_m2 <- as.formula(paste(
+  "wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +",
+  paste(c(within_terms, between_terms, env_cat), collapse = " + "),
+  "+ (1 | stratum_id) + (1 | device_id)"
+))
+
+# 2) Random-Effects aus der Formel entfernen -> reine Fixed-Effects-Formel
+fixef_form_m2 <- lme4::nobars(form_m2)
+
+# 3) Design-Matrix für Fixed Effects bauen
+X <- model.matrix(fixef_form_m2, data = dat)
+
+# Überblick
+dim(X)        # [n_beobachtungen, n_fixed_spalten]
+head(colnames(X), 20)  # erste 20 Spaltennamen
+````
+
+### Diagnose: konstante Spalten & lineare Abhängigkeiten
+
+Konstante Spalten (z. B. nie beobachtete Faktorstufen) und perfekte Linearitäten erzeugen Rangdefizit.
+
+```{r}
+## Designmatrix für Fixed Effects extrahieren (ohne Random Effects)
+## model.frame sorgt dafür, dass nur vollständige Fälle verwendet werden
+
+# Formel der Fixed Effects aus deinem M2-Modell
+fixef_form_m2 <- wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
+  environmen_pleasure_within + environment_lively_within + environment_nature_within +
+  environment_noise_within + environmen_pleasure_pm + environment_lively_pm +
+  environment_nature_pm + environment_noise_pm + activity + location_category +
+  indoors_outdoors + people_with_you + majority_comparison
+
+# Model Frame (nur vollständige Beobachtungen)
+mf <- model.frame(fixef_form_m2, data = dat)
+
+# Designmatrix erstellen
+X <- model.matrix(fixef_form_m2, data = mf)
+
+# Outcome passend subsetten
+y <- mf$wb_geom
+
+## 4) Spalten ohne Varianz (immer 0 oder immer 1)
+zero_var_idx <- which(apply(X, 2, function(z) var(z, na.rm = TRUE) == 0))
+zero_var_names <- colnames(X)[zero_var_idx]
+zero_var_names
+
+## 5) Spalten, die komplett 0 sind (nie vorkommende Kategorie)
+all_zero_idx <- which(colSums(abs(X)) == 0)
+all_zero_names <- colnames(X)[all_zero_idx]
+all_zero_names
+
+## 6) Perfekte Linearitäten (Alias-Analyse)
+dfX <- data.frame(y = y, X)  # Outcome + Designmatrix
+lm_X <- lm(y ~ . - 1, data = dfX)  # -1 verhindert doppelten Intercept
+alias_complete <- alias(lm_X)$Complete
+alias_complete
+
+```
+
+**Kommentar.**
+
+* Alles, was in `zero_var_names` oder `all_zero_names` auftaucht, liefert **keine Information** (z. B. Dummy für eine Stufe, die im Datensatz nicht vorkommt).
+* Einträge unter `alias_complete` sind **perfekte Linearitäten** zwischen Spalten (z. B. Dummykombinationen, die exakt deterministisch sind).
+* Diese Spalten werden beim Schätzen **automatisch entfernt** → daher die Meldung *“fixed-effect model matrix is rank deficient so dropping … columns”*.
+
+### Optional: kleine Heatmap der Design-Matrix (zeigt „leere“ Dummys)
+
+```{r}
+# Achtung: Nur als Eindruck; bei vielen Spalten wird das breit.
+X_df <- as.data.frame(X)
+X_df$.row <- seq_len(nrow(X_df))
+X_long <- tidyr::pivot_longer(X_df, -$.row, names_to = "term", values_to = "value")
+
+ggplot(X_long, aes(x = term, y = .row, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "black") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  labs(title = "Design-Matrix (Fixed Effects) für M2",
+       x = "Prädiktor-Spalten", y = "Beobachtungen")
+```
+
+### Versuch der M2-Schätzung (mit Warnhinweis)
+
+Wir lassen den Schätzversuch drin, um den Prozess zu zeigen – auch wenn Spalten gedroppt werden.
+
+```{r}
+m2 <- lmer(form_m2, data = dat |> filter(!is.na(wb_geom)), REML = TRUE)
+summary(m2)
+```
+
+> **Einordnung:** Die oben identifizierten Spalten werden beim Fit entfernt → dadurch kommt es zur *Rank Deficiency*.
+> In unserem kleinen, unbalancierten Datensatz verlieren die Fixed Effects damit inhaltlich an Interpretierbarkeit.
+> Für ein stabil schätzbares M2 bräuchten wir (a) mehr Beobachtungen pro Faktorstufe und (b) mehr Variation in den within-/between-Variablen.
+
+
+
+**PCV(Strata) von M1 → M2.**
+
+```{r}
+vc2 <- as.data.frame(VarCorr(m2))
+s2_stratum_2 <- vc2 |> filter(grp == "stratum_id") |> pull(vcov)
+pcv_m1_m2 <- (s2_stratum_1 - s2_stratum_2) / s2_stratum_1
+
+tibble(vergl = "M1 → M2", PCV_stratum = pcv_m1_m2) |>
+  gt() |>
+  tab_header(title = "Proportional Change in Variance (Strata)")
+```
+
+## M3 (optional): Random Slopes für zentrale within‑Variablen
+
+**Zweck:** Heterogenität der situativen Effekte auf Personenebene. *Hinweis:* sparsam einsetzen; Konvergenz/Überanpassung prüfen.
+
+```{r}
+m3 <- lmer(
+  wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
+    environmen_pleasure_within + environment_noise_within +
+    environmen_pleasure_pm + environment_noise_pm +
+    activity + location_category + indoors_outdoors + people_with_you + majority_comparison +
+    (1 + environmen_pleasure_within + environment_noise_within | device_id) +
+    (1 | stratum_id),
+  data = dat |> filter(!is.na(wb_geom)),
+  REML = TRUE
+)
+
+summary(m3)
+```
+
+# Vorhersagen und Zerlegung (additiv vs. inkl. Interaktion)
+
+**Ziel:** Differenz zwischen totaler Vorhersage (Fix + Random) und rein additiver Vorhersage (nur Fix) untersuchen; Strata aggregieren.
+
+```{r}
+dat_pred <- dat |>
+  filter(!is.na(wb_geom)) |>
+  mutate(
+    yhat_total = predict(m2, re.form = NULL),
+    yhat_fix   = predict(m2, re.form = NA),
+    interaktion = yhat_total - yhat_fix
+  )
+
+strata_summary <- dat_pred |>
+  group_by(stratum_id) |>
+  summarise(
+    n = n(),
+    beob_wb  = mean(wb_geom, na.rm = TRUE),
+    vorh_tot = mean(yhat_total, na.rm = TRUE),
+    vorh_fix = mean(yhat_fix,   na.rm = TRUE),
+    interaktion_mittel = mean(interaktion, na.rm = TRUE)
+  ) |>
+  arrange(desc(vorh_tot))
+
+strata_summary |> head(12) |> gt()
+```
+
+# Visualisierungen
+
+**Within/Between-Effekte (Kontinuierliche Umweltvariablen).**
+
+```{r}
+coefs <- broom.mixed::tidy(m2, effects = "fixed") |>
+  filter(str_detect(term, "within|_pm$"))
+
+coefs |>
+  mutate(term = fct_reorder(term, estimate)) |>
+  ggplot(aes(x = term, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = estimate - 1.96*std.error,
+                    ymax = estimate + 1.96*std.error),
+                width = 0.2) +
+  coord_flip() +
+  labs(
+    title = "Within- und Between-Effekte der Umweltvariablen",
+    x = "Prädiktor",
+    y = "Effekt (Schätzer ± 95%-Intervall)"
+  ) +
+  theme_minimal()
+```
+
+**Strata nach vorhergesagtem Wert (Rangliste).**
+
+```{r}
+strata_summary |>
+  arrange(vorh_tot) |>
+  mutate(stratum_id = fct_inorder(stratum_id)) |>
+  ggplot(aes(x = stratum_id, y = vorh_tot)) +
+  geom_point() +
+  geom_segment(aes(xend = stratum_id, y = vorh_fix, yend = vorh_tot), alpha = 0.5) +
+  coord_flip() +
+  labs(
+    title = "Vorhergesagtes Wohlbefinden je Stratum (Punkt) und additive Basis (Segmentstart)",
+    x = "Stratum (geordnet)",
+    y = "Vorhersage (wb_geom)"
+  ) +
+  theme_minimal()
+```
+
+# Interpretation – Leitfaden
+
+-   **VPC (M0):** Anteil der Gesamtvarianz auf Strata‑ bzw. Personenebene. Bereits einstellige Prozentwerte können substanziell sein – abhängig von der Outcome-Streuung.\
+-   **PCV(Strata, M0→M1):** Anteil der Strata-Varianz, der durch die *additiven Haupteffekte* der Achsen erklärt wird. Der Rest ist **Interaktion** im MAIHDA‑Sinn.\
+-   **PCV(Strata, M1→M2):** zusätzlicher Anteil, den die Umwelt- und Kontextvariablen erklären.\
+-   **Within vs. Between:** `*_within` misst **situative Abweichungen** innerhalb derselben Person; `*_pm` (Personenmittel) misst **systematische Unterschiede zwischen Personen**.\
+-   **Strata-Rangliste:** Große Abstände zwischen `vorh_fix` und `vorh_tot` deuten auf bedeutsame Interaktionsanteile hin.
+
+# Sensitivitäten und Erweiterungen
+
+-   **Outcome-Definition:** `wb_mean` statt `wb_geom` testen.\
+-   **Achsenspezifikation:** Kategorien zusammenfassen oder feiner differenzieren; alternative Achsen (z. B. `sex` statt `gender`).\
+-   **Zeitliche Kontrollen:** Wochentag/Tageszeit hinzufügen, falls verfügbar.\
+-   **Logistische Variante:** Für binäre Outcomes `glmer(family = binomial)` verwenden (VPC via latente Antwortvarianz).\
+-   **MCMC/Bayes:** Für Intervallschätzungen zusammengesetzter Größen (z. B. totale Stratumvorhersagen).
+
+# Session-Info
+
+```{r}
+sessionInfo()
+```

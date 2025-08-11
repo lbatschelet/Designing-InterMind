@@ -59,7 +59,7 @@ Bern, \today
 
 
 
-\newpage
+\clearpage
 
 \begin{abstract}
 \input{Arbeit/chapters/abstract}
@@ -67,14 +67,11 @@ Bern, \today
 
 
 
-\newpage
+\clearpage
 
 \pagenumbering{roman}
 
 \tableofcontents
-
-
-\newpage
 
 % common abkürzungen beim ersten mal nicht ausführen
 \glsunset{vgl}
@@ -84,7 +81,15 @@ Bern, \today
 \glsunset{ua}
 \glsunset{etc}
 
-\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis]
+\glsadd{vgl}
+\glsadd{bspw}
+\glsadd{gps}
+\glsadd{zb}
+\glsadd{ua}
+\glsadd{etc}
+
+
+\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis, nonumberlist]
 
 \listoffigures
 \listoftables
@@ -96,7 +101,7 @@ Bern, \today
 
 
 
-\newpage
+\clearpage
 
 \input{Arbeit/chapters/Theoretischer_Rahmen}
 
@@ -125,17 +130,17 @@ Bern, \today
 
 % ------------------ Glossar
 
-\newpage
+\clearpage
 \printglossary
 
 
 %TC:ignore
 % ----------------- Bibliographie ------------------
-\newpage
+\clearpage
 \phantomsection
 \printbibliography[heading=bibintoc]
 
-\newpage
+\clearpage
 
 \phantomsection
 \section*{Hinweis für den Einsatz von künstlicher Intelligenz (KI)}
@@ -143,7 +148,7 @@ Bern, \today
 Dieses Dokument wurde mithilfe von KI-basierten Tools überarbeitet. LanguageTool, ein KI-gestütztes Grammatik- und Stilprüfungswerkzeug, wurde verwendet, um Formulierungen zu verbessern und die Grammatik zu korrigieren. Chat-GPT von Open-AI wurde verwendet, um Feedback zur Klarheit und Strukturierung des Textes zu erhalten. Es wurde keine KI zur Erstellung von Originalinhalten verwendet.
 
 
-\newpage
+\clearpage
 
 \phantomsection
 \section*{Selbstständigkeitserklärung}

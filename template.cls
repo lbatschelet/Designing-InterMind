@@ -56,8 +56,11 @@
 \RequirePackage{siunitx}
 \sisetup{
   round-mode=places,
-  round-precision=2,
+  round-precision=1,
   table-number-alignment = center,
+  minimum-decimal-digits = 0,
+  drop-zero-decimal = true,
+  output-decimal-marker = {.},
   table-format = 1.2
 }
 \newcommand{\var}[1]{\texttt{\footnotesize #1}}
@@ -122,6 +125,13 @@
 \renewcommand{\footrulewidth}{0pt}
 % Seitenzahl unten rechts:
 \fancyfoot[R]{\thepage}
+
+\fancypagestyle{plain}{
+  \fancyhf{} % alles leeren
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \fancyfoot[R]{\thepage} % Seitenzahl unten rechts
+}
 
 % ---------------------- Literatur mit biblatex ----------------------
 \RequirePackage[
