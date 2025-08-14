@@ -27,6 +27,7 @@
 \RequirePackage{pdflscape}
 \RequirePackage{longtable}
 \RequirePackage{ltablex}
+\RequirePackage{threeparttablex}
 \RequirePackage{etoolbox}
 \keepXColumns
 
@@ -61,7 +62,9 @@
   minimum-decimal-digits = 0,
   drop-zero-decimal = true,
   output-decimal-marker = {.},
-  table-format = 1.2
+  table-format = 1.2,
+  detect-family,
+  detect-weight
 }
 \newcommand{\var}[1]{\texttt{\footnotesize #1}}
 
@@ -83,6 +86,10 @@
     citecolor=TealBlue,
     urlcolor=TealBlue
 }
+
+
+
+
 \RequirePackage{bookmark}
 
 \definecolor{rowgray}{gray}{0.95}
@@ -253,3 +260,13 @@
     \justifying
 }
 \makeatother
+
+% Tabelle Serifenlos
+\AtBeginEnvironment{table}{\sffamily\footnotesize\color{gray!30!black}}
+\AtBeginEnvironment{table*}{\sffamily\footnotesize\color{gray!30!black}}
+
+\AtBeginEnvironment{longtable}{\sffamily\footnotesize\color{gray!30!black}}
+\AtBeginEnvironment{ltablex}{\sffamily\footnotesize\color{gray!30!black}}
+
+\AtBeginEnvironment{tblr}{\sffamily\footnotesize\color{gray!30!black}}
+\AtBeginEnvironment{threeparttable}{\sffamily\footnotesize\color{gray!30!black}}

@@ -1,7 +1,6 @@
 device_id,age_group,n_surveys,sex,gender,sexual_orientation,education,household_members,household_members_financing,monthly_household_income,employment_status,disabilities,axis_codes,different_country_than_born_in,hh_members,income_mid,eq_scale,eq_income,eq_income_group
 1IIJ-CDFW-46VP,26 – 35,4,female,man,straight / hetero,university degree,3,2 earners,> CHF 10 000,employed,no,no,no,3.0,11000.0,2.0,5500.0,Very High
 1SMH-8HOX-E1HX,16 – 25,3,female,man,straight / hetero,Matura / equivalent,5,2 earners,> CHF 10 000,student / pupil,no,social / financial,no,5.0,11000.0,3.0,3666.6666666666665,High
-20LN-4X5H-UXWX,56 – 65,1,female,trans man,asexual,Matura / equivalent,6,6 earners,CHF 6 000 – 7 500,employed,no,clothing / style,,6.0,6750.0,3.5,1928.5714285714287,Low
 4RKD-HU7N-HXI2,,1,female,man,straight / hetero,Matura / equivalent,3,3 earners,CHF 3 000 – 4 500,student / pupil,no,no,no,3.0,3750.0,2.0,1875.0,Low
 678K-202G-SYCD,16 – 25,4,female,man,straight / hetero,Matura / equivalent,1 (living alone),2 earners,< CHF 1 500,student / pupil,no,,no,1.0,750.0,1.0,750.0,Very Low
 9ETT-XPT5-3C80,16 – 25,2,female,man,straight / hetero,Matura / equivalent,3,2 earners,< CHF 1 500,student / pupil,no,no,no,3.0,750.0,2.0,375.0,Very Low

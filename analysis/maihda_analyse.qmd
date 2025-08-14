@@ -1,56 +1,27 @@
 ---
-title: "MAIHDA-Analyse: Umwelteinflüsse auf zusammengesetztes Wohlbefinden"
-author: " "
+title: "MAIHDA-Analyse: Prozessdarstellung bis zum Nullmodell"
 format:
   html:
     toc: true
     toc-depth: 3
     number-sections: true
     code-fold: show
+    code-tools: true
+    theme: cosmo
 execute:
   echo: true
   warning: false
   message: false
 editor: visual
 lang: de
+site-url: https://intermind.ch/analyse/
 ---
-
-# Ziel und Forschungsdesign
-
-**Fragestellung.**\
-Wie beeinflussen situative **Umwelt- und Kontextmerkmale** (`environmen_pleasure`, `environment_lively`, `environment_nature`, `environment_noise`, sowie die kategorialen Variablen `activity`, `location_category`, `indoors_outdoors`, `people_with_you`, `majority_comparison`) ein **zusammengesetztes Wohlbefinden**, das aus `general_wellbeing`, `tense_relaxed`, `sense_of_belonging`, `content` und `awake` gebildet wird?
-
-**Datenstruktur.**\
-- **Level 1 (Zeitpunkte):** einzelne Befragungsmomente mit Umwelt- und Kontextvariablen.\
-- **Level 2 (Person):** `device_id` als Personenebene.\
-- **Level 3 (soziale Strata):** Kreuzung aus `gender × age_group × sexual_orientation × eq_income_group` (MAIHDA-Konzept: Strata als Kontexte).
-
-**MAIHDA-Logik (Kernidee).**\
-1. Strata (Level 3) erhalten **Zufallsinterzepte**.\
-2. Die **additiven Haupteffekte** der Achsen (`gender`, `age_group`, `sexual_orientation`, `eq_income_group`) werden **als Fixeffekte** in dasselbe Modell aufgenommen.\
-3. Der **verbleibende Strata-Varianzanteil** nach Hinzufügen dieser Fixeffekte wird als **Interaktion** der Strata verstanden.\
-4. Level‑1‑Prädiktoren werden **person-mean‑zentriert** (Within-Effekte); zusätzlich modellieren wir deren **Personenmittel** (Between-Effekte). So trennen wir situative von zwischenpersonellen Unterschieden.
-
-# Arbeitsablauf (erzählerisch)
-
-1.  **Import & Schlüsselprüfung:** Daten laden, `device_id` prüfen, Merge von Survey und Personen.\
-2.  **Outcome bilden:** geometrisches Mittel der fünf Skalen (robust gegen Ausreißer nach unten), plus arithmetische Alternative.\
-3.  **Strata definieren:** Interaktion der vier Achsen, Stratum-ID erzeugen.\
-4.  **Level‑1-Prädiktoren aufbereiten:** kontinuierliche Umweltvariablen in *within* (Abweichung vom Personenmittel) und *between* (Personenmittel) zerlegen; kategoriale Kontextvariablen als Faktoren.\
-5.  **Modellfamilie schätzen:**
-    -   M0: Nullmodell (3 Ebenen) → Varianzzerlegung & VPC.\
-    -   M1: + additive Achsen (Fixeffekte) → PCV(Strata) von M0→M1 (Anteil erklärter Strata‑Varianz).\
-    -   M2: + Umwelt & Kontext (within/between + Faktoren) → Haupteffekte der Umgebung.\
-    -   M3 (optional): Random Slopes für zentrale within‑Variablen auf Personenebene.\
-6.  **Ergebnisse darstellen:** Kennzahlen (VPC/PCV), Koeffizienten, Zerlegung der Vorhersagen in “additiv” vs. “inkl. Interaktion”, Ranglisten der Strata.\
-7.  **Sensitivitäten:** andere Outcome-Definition (arithmetischer Index), alternative Achsenspezifikation (z. B. `gender` vs. `sex`), Re-Kategorisierung.
-
-------------------------------------------------------------------------
 
 # Setup
 
 ```{r}
-# Pakete laden
+#| label: setup
+# Pakete
 library(tidyverse)
 library(janitor)
 library(readr)
@@ -59,42 +30,375 @@ library(performance)
 library(broom.mixed)
 library(gt)
 library(forcats)
-
+library(here)
+library(scales)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(ggplot2)
+theme_set(
+  theme_minimal(base_size = 11) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.title       = element_text(face = "bold"),
+      plot.subtitle    = element_text(face = "plain")
+    )
+)
+# Reproduzierbarkeit
 set.seed(42)
 options(dplyr.summarise.inform = FALSE)
 
-setwd("/Users/luba/Documents/GitHub/ba-emotional-city/analysis")
-
+# Arbeitsverzeichnis
+here()
 ```
 
-# Datenimport und Zusammenführung
 
-**Ziel:** Beide Quellen in einen sauberen, gemeinsamen Datensatz bringen; Schlüsselkonsistenz prüfen.
+## Import
 
 ```{r}
+#| label: dataload
+# Einlesen & Spaltennamen bereinigen
 survey <- read_csv("survey_answers.csv", show_col_types = FALSE) |> clean_names()
 people <- read_csv("people_data.csv",   show_col_types = FALSE) |> clean_names()
 
-# Einordnung der verfügbaren Spalten
-list(
-  survey_spalten = names(survey),
-  people_spalten = names(people)
-)
-```
-
-**Merge über `device_id`.**
-
-```{r}
+# Schlüssel prüfen
 stopifnot("device_id" %in% names(survey), "device_id" %in% names(people))
-
-# Eindeutigkeit der Personen-ID im people-Datensatz
 if (nrow(people) != n_distinct(people$device_id)) {
   warning("Hinweis: people_data enthält doppelte device_id-Einträge. Bitte bereinigen.")
 }
+```
 
+
+
+# Deskriptive Statistik (Stichprobe)
+
+## Grundzahlen, Verteilung „Surveys pro Person“, Missingness
+
+```{r}
+#| label: desc-basics-compute
+# Grundzahlen & Inputs für Tabellen/Plots
+
+# Snapshots & Geräte
+N_snapshots <- nrow(survey)
+N_devices   <- dplyr::n_distinct(survey$device_id)
+
+# Verteilung: Anzahl Surveys pro Person
+surveys_per_person <- survey |>
+  dplyr::count(device_id, name = "n_surveys")
+
+# Kennzahlen (wie pandas .describe)
+surveys_per_person_summ <- surveys_per_person |>
+  dplyr::summarise(
+    n    = dplyr::n(),
+    min  = min(n_surveys, na.rm = TRUE),
+    q25  = as.numeric(quantile(n_surveys, 0.25, na.rm = TRUE)),
+    med  = as.numeric(quantile(n_surveys, 0.50, na.rm = TRUE)),
+    q75  = as.numeric(quantile(n_surveys, 0.75, na.rm = TRUE)),
+    max  = max(n_surveys, na.rm = TRUE),
+    mean = mean(n_surveys, na.rm = TRUE),
+    sd   = sd(n_surveys,   na.rm = TRUE)
+  )
+
+# Missing-Anteil je Spalte (in %)
+na_share_tbl <- survey |>
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ mean(is.na(.)) * 100)) |>
+  tidyr::pivot_longer(dplyr::everything(), names_to = "Spalte", values_to = "Prozent_NA") |>
+  dplyr::mutate(Prozent_NA = round(Prozent_NA, 1)) |>
+  dplyr::arrange(dplyr::desc(Prozent_NA))
+```
+
+```{r}
+#| label: desc-basics-output
+#| code-fold: true
+# Ausgabe (gt + Plot) & Export
+
+
+# Kopfzeile
+tibble::tibble(
+  Kennzahl = c("Momentaufnahmen", "Geräte"),
+  Wert     = c(N_snapshots, N_devices)
+) |>
+  gt() |>
+  tab_header(title = "Grundzahlen der Stichprobe") |>
+  fmt_number(columns = Wert, decimals = 0)
+
+# Kennzahlen zur Verteilung der Surveys je Person
+surveys_per_person_summ |>
+  tidyr::pivot_longer(dplyr::everything(), names_to = "Stat", values_to = "Wert") |>
+  dplyr::mutate(Wert = round(Wert, 2)) |>
+  gt() |>
+  tab_header(title = "Surveys pro Person — Kennzahlen")
+
+# Missingness (Top 30 Spalten mit den meisten NAs)
+na_share_tbl |>
+  dplyr::slice_max(order_by = Prozent_NA, n = 30, with_ties = FALSE) |>
+  gt() |>
+  tab_header(title = "Fehlende Werte je Spalte (Top 30)") |>
+  cols_label(Spalte = "Spalte", Prozent_NA = "% fehlend")
+
+# Balkendiagramm: wie viele Personen haben 1, 2, 3, … Surveys?
+dir.create("plots", showWarnings = FALSE)
+freq_df <- surveys_per_person |>
+  dplyr::count(n_surveys, name = "n_personen")
+
+p_counts <- ggplot(freq_df, aes(x = n_surveys, y = n_personen)) +
+  geom_col(fill = "#c4c4c4", width = 0.8) +
+  scale_x_continuous(breaks = seq(min(freq_df$n_surveys), max(freq_df$n_surveys), by = 1)) +
+  labs(
+    title = "Verteilung der Teilnahme",
+    x = "Anzahl abgeschlossene Umfragen pro Person",
+    y = "Anzahl Personen"
+  ) +
+  theme()
+
+print(p_counts)
+ggsave("plots/survey_counts.pdf", p_counts, width = 8/2.54, height = 5/2.54, device = cairo_pdf)
+```
+
+## Kategoriale Verteilungen (einzeln, mit deutschen Labels)
+
+```{r}
+#| label: desc-cats-compute
+# Häufigkeiten (ggf. Mehrfachnennungen via ';') pro Kategorie – FIXED
+
+
+cat_cols <- c("activity", "location_category", "indoors_outdoors", "people_with_you")
+
+# Deutsche Titel
+title_mapping <- c(
+  activity = "Aktivität",
+  location_category = "Ortskategorie",
+  indoors_outdoors = "Drinnen / Draussen",
+  people_with_you  = "Personen um mich"
+)
+
+# Deutsche Label-Übersetzung
+label_mapping <- c(
+  "working / studying"               = "Arbeiten / Lernen",
+  "leisure / relaxation"             = "Freizeit / Entspannung",
+  "travelling / commuting"           = "Unterwegs / Pendeln",
+  "using media"                      = "Mediennutzung",
+  "cooking / eating"                 = "Kochen / Essen",
+  "social activities"                = "Soziale Aktivitäten",
+  "shopping / errands"               = "Einkaufen / Erledigungen",
+  "resting / sleeping"               = "Ruhen / Schlafen",
+  "housework / tidying"              = "Hausarbeit / Carearbeit",
+  "other"                            = "Sonstiges",
+  "school / university"              = "Schule / Universität",
+  "at home"                          = "Zuhause",
+  "on the move (foot / bike / car)"  = "Unterwegs (zu Fuss / Rad / Auto)",
+  "public transport"                 = "Öffentliche Verkehrsmittel",
+  "at someone else’s home"           = "Bei anderen zuhause",
+  "park / green space"               = "Park / Grünanlage",
+  "workplace"                        = "Arbeitsplatz",
+  "shopping / services"              = "Einkaufen / Dienstleistungen",
+  "other place"                      = "Anderer Ort",
+  "leisure / sports facility"        = "Freizeit- / Sporteinrichtung",
+  "indoors"                          = "Drinnen",
+  "outdoors"                         = "Draussen",
+  "friends"                          = "Freunde",
+  "alone"                            = "Alleine",
+  "strangers"                        = "Fremde",
+  "colleagues"                       = "Kollegen",
+  "family"                           = "Familie",
+  "acquaintances"                    = "Bekannte",
+  "partner"                          = "Partner",
+  "missing"                          = "Fehlend"
+)
+
+# String-sichere Version (kein {{col}}, sondern .data[[col]])
+cat_pct <- function(df, col) {
+  s <- ifelse(is.na(df[[col]]), "missing", as.character(df[[col]]))
+  tibble(tmp = s) |>
+    separate_rows(tmp, sep = ";") |>
+    mutate(tmp = trimws(tmp)) |>
+    filter(tmp != "") |>
+    count(tmp, name = "n") |>
+    mutate(
+      pct   = 100 * n / sum(n),
+      label = dplyr::recode(tmp, !!!label_mapping, .default = tmp)
+    ) |>
+    arrange(pct)
+}
+
+cat_pct_list <- setNames(lapply(cat_cols, function(x) cat_pct(survey, x)), cat_cols)
+```
+
+```{r}
+#| label: desc-cats-plots
+#| code-fold: true
+# Ein Plot pro Kategorie + PDF-Export
+dir.create("plots", showWarnings = FALSE)
+
+for (col in names(cat_pct_list)) {
+  dfp <- cat_pct_list[[col]]
+  p <- ggplot(dfp, aes(x = pct, y = reorder(label, pct))) +
+    geom_col(fill = "#c4c4c4", width = 0.8) +
+    geom_text(aes(label = sprintf("%.1f %%", pct)), hjust = -0.05, size = 3) +
+    scale_x_continuous(limits = c(0, min(100, ceiling(max(dfp$pct) + 10)))) +
+    labs(x = "Anteil (%)", y = NULL, title = title_mapping[[col]]) +
+    theme()
+  print(p)
+  ggsave(sprintf("plots/cat_dist_%s.pdf", col), p,
+         width  = if (col == "indoors_outdoors") 5/2.54 else 10/2.54,
+         height = if (col == "indoors_outdoors") 3/2.54 else 8/2.54,
+         device = cairo_pdf)
+}
+```
+
+## „Axis of Oppression“: Anzahl Kategorien pro Person & Kategorienhäufigkeiten
+
+```{r}
+#| label: desc-axis-compute
+# Berechnung auf Basis people_data.csv  → Objekt: people
+
+library(stringr)
+NO_TOKENS <- c("no", "nein", "", "nan")
+
+# 1) Anzahl Kategorien pro Person
+axis_counts <- people |>
+  dplyr::mutate(axis_vec = strsplit(tolower(dplyr::coalesce(axis_codes, "")), ";")) |>
+  dplyr::mutate(n_kategorien = purrr::map_int(axis_vec, function(v) {
+    v2 <- trimws(v); v2 <- v2[v2 != ""]
+    if (length(v2) == 0) return(0L)
+    if (any(v2 %in% NO_TOKENS)) return(0L)
+    length(v2)
+  }))
+
+axis_dist_table <- axis_counts |>
+  dplyr::count(n_kategorien, name = "count") |>
+  dplyr::arrange(n_kategorien) |>
+  dplyr::mutate(percent = round(100 * count / sum(count), 1))
+
+# 2) Häufigkeiten einzelner Kategorien
+axis_summary <- people |>
+  dplyr::mutate(x = strsplit(tolower(dplyr::coalesce(axis_codes, "")), ";")) |>
+  tidyr::unnest(x) |>
+  dplyr::mutate(x = trimws(x)) |>
+  dplyr::filter(!x %in% NO_TOKENS, x != "") |>
+  dplyr::count(category = x, name = "count") |>
+  dplyr::arrange(dplyr::desc(count)) |>
+  dplyr::mutate(percent = round(100 * count / dplyr::n_distinct(people$device_id), 1))
+```
+
+```{r}
+#| label: desc-axis-output
+#| code-fold: true
+# Ausgabe Tabellen
+axis_summary |>
+  gt() |>
+  tab_header(title = "axis_codes – Häufigkeiten (aufgesplittet)") |>
+  cols_label(category = "Kategorie", count = "Anzahl", percent = "Prozent (%)")
+
+axis_dist_table |>
+  gt() |>
+  tab_header(title = "Anzahl unterschiedlicher Diskriminierungsarten pro Person") |>
+  cols_label(n_kategorien = "n Kategorien", count = "Anzahl", percent = "Prozent (%)")
+```
+
+## Kreuztabelle: Gender × Altersgruppe (Counts & Spalten-%)
+
+```{r}
+#| label: desc-crosstab-output
+#| code-fold: true
+
+
+# (optional) Übersetzen wie oben genutzt
+gender_de <- c("woman" = "weiblich", "man" = "männlich")
+people_de <- people |>
+  dplyr::mutate(
+    gender = dplyr::recode(as.character(gender), !!!gender_de, .default = as.character(gender))
+  )
+
+cross <- with(people_de, table(gender, age_group))
+cross_pct <- prop.table(cross, margin = 2) * 100
+
+# Counts
+as.data.frame.matrix(cross) |>
+  tibble::rownames_to_column("Gender") |>
+  gt() |>
+  tab_header(title = "Gender × Altersgruppe — Häufigkeiten")
+
+# Spalten-Prozente
+as.data.frame.matrix(round(cross_pct, 1)) |>
+  tibble::rownames_to_column("Gender") |>
+  gt() |>
+  tab_header(title = "Gender × Altersgruppe — Spalten-Prozente (%)")
+```
+
+## Slider-Histogramme (auf –1 … +1 skaliert, 9 Facets)
+
+```{r}
+#| label: desc-sliders-compute
+
+slider_cols <- c(
+  "general_wellbeing","content","tense_relaxed","awake",
+  "environment_noise","environment_nature","environment_lively",
+  "environmen_pleasure","sense_of_belonging"
+)
+
+GERMAN_LABELS <- c(
+  environment_noise   = "Wie nimmst du die Geräuschkulisse wahr?",
+  environment_nature  = "Wie viel Natur ist sichtbar?",
+  environment_lively  = "Wie lebhaft oder ruhig wirkt der Ort?",
+  environmen_pleasure = "Wie angenehm empfindest du den Ort?",
+  content             = "Wie fühlst du dich insgesamt?",
+  general_wellbeing   = "Ganz allgemein – wie zufrieden bist du?",
+  tense_relaxed       = "Wie angespannt oder entspannt fühlst du dich?",
+  awake               = "Wie wach fühlst du dich?",
+  sense_of_belonging  = "Wie zugehörig oder fremd fühlst du dich?"
+)
+
+sliders_long <- survey |>
+  dplyr::select(dplyr::all_of(c("device_id", slider_cols))) |>
+  tidyr::pivot_longer(cols = dplyr::all_of(slider_cols),
+                      names_to = "variable", values_to = "value") |>
+  dplyr::mutate(
+    value = as.numeric(value),
+    scaled = (value - 0.5) * 2,
+    var_de = dplyr::recode(variable, !!!GERMAN_LABELS)
+  ) |>
+  dplyr::filter(!is.na(scaled))
+
+# Reihenfolge (wie im Python)
+var_order <- c("environment_noise","environment_nature","environment_lively",
+               "environmen_pleasure","content","general_wellbeing",
+               "tense_relaxed","awake","sense_of_belonging")
+sliders_long$var_de <- factor(sliders_long$var_de,
+                              levels = GERMAN_LABELS[var_order])
+```
+
+```{r}
+#| label: desc-sliders-plot
+#| code-fold: true
+dir.create("plots", showWarnings = FALSE)
+
+p_sliders <- ggplot(sliders_long, aes(x = scaled)) +
+  geom_histogram(binwidth = 0.1, boundary = -1, closed = "left",
+                 fill = "#c4c4c4", color = "white") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5) +
+  scale_x_continuous(limits = c(-1, 1), breaks = c(-1, 0, 1)) +
+  labs(x = NULL, y = "Häufigkeit") +
+  facet_wrap(~ var_de, ncol = 2, scales = "fixed") +
+  theme()
+
+print(p_sliders)
+ggsave("plots/slider_hists.pdf", p_sliders, width = 15/2.54, height = 22/2.54, device = cairo_pdf)
+```
+
+
+
+
+## Merge der Datensätze
+
+```{r}
+#| label: merge
+#| code-fold: true
+# Merge
 dat <- survey |> left_join(people, by = "device_id")
 
-# Stratum-ID auch im Analyse-Datensatz anlegen
+# Strata (Level 3)
 dat <- dat |>
   mutate(
     gender             = as.factor(gender),
@@ -104,50 +408,164 @@ dat <- dat |>
     stratum_id = interaction(gender, age_group, sexual_orientation, eq_income_group,
                              sep = "_", drop = TRUE) |> as.factor()
   )
-
-
-# Minimal-Check auf NAs in zentralen Spalten
-dat |>
-  summarise(
-    n = n(),
-    na_device_id = sum(is.na(device_id))
-  ) |>
-  gt()
 ```
-
-# Outcome-Konstruktion
-
-**Ziel:** ein zusammengesetztes Wohlbefinden bilden, das niedrige Teilwerte nicht “wegmittelt”.
-
--   **Geometrisches Mittel `wb_geom`:** fünfte Wurzel des Produkts aus `general_wellbeing`, `tense_relaxed`, `sense_of_belonging`, `content`, `awake`.\
--   **Arithmetischer Index `wb_mean`:** einfacher Mittelwert derselben fünf Skalen (Vergleich/Robustheit).
+## Freitext-Antworten
 
 ```{r}
-outcome_vars <- c("general_wellbeing", "tense_relaxed", "sense_of_belonging", "content", "awake")
+#| label: free-text-collect
+#| code-fold: true
+# Quelle: survey_answers.csv → Objekt: survey
+
+free_cols <- c("other_factors_negative", "other_factors_positive")
+
+collect_text <- function(x) {
+  v <- as.character(x)
+  v <- v[!is.na(v)]
+  v <- gsub("\\s+", " ", v)
+  v <- trimws(v)
+  v <- v[v != ""]
+  unique(v)
+}
+
+vals_neg <- collect_text(survey[["other_factors_negative"]])
+vals_pos <- collect_text(survey[["other_factors_positive"]])
+
+tbl_neg <- tibble::tibble(
+  Nr = seq_along(vals_neg),
+  Antwort = vals_neg
+) |>
+  gt() |>
+  tab_header(title = paste0("other_factors_negative — ", length(vals_neg), " einzigartige Antworten"))
+
+tbl_pos <- tibble::tibble(
+  Nr = seq_along(vals_pos),
+  Antwort = vals_pos
+) |>
+  gt() |>
+  tab_header(title = paste0("other_factors_positive — ", length(vals_pos), " einzigartige Antworten"))
+
+tbl_neg
+tbl_pos
+```
+
+## Interaktive Karte mit allen Surveys (leaflet + MarkerCluster)
+
+```{r}
+#| label: map-interactive
+#| code-fold: true
+# Quelle: gemergtes Objekt → dat
+
+library(leaflet)
+
+geo_df <- dat |>
+  dplyr::select(location_lat, location_lng, survey_created_at,
+                device_id, activity, general_wellbeing) |>
+  dplyr::filter(!is.na(location_lat), !is.na(location_lng)) |>
+  dplyr::mutate(
+    wb        = as.numeric(general_wellbeing),
+    ts_parsed = suppressWarnings(as.POSIXct(survey_created_at)),
+    ts_fmt    = ifelse(is.na(ts_parsed), as.character(survey_created_at),
+                       format(ts_parsed, "%Y-%m-%d %H:%M")),
+    act       = ifelse(is.na(activity), "", as.character(activity))
+  )
+
+cat(sprintf("%s Surveys mit Geo-Daten gefunden.\n", nrow(geo_df)))
+
+if (nrow(geo_df) > 0) {
+  center_lat <- mean(geo_df$location_lat)
+  center_lng <- mean(geo_df$location_lng)
+
+  leaflet(data = geo_df) |>
+    addProviderTiles(providers$CartoDB.Positron) |>
+    setView(lng = center_lng, lat = center_lat, zoom = 9) |>
+    addCircleMarkers(
+      lng = ~location_lng, lat = ~location_lat,
+      radius = 4, weight = 1, color = "#3388ff", fill = TRUE, fillOpacity = 0.7,
+      popup = ~sprintf("<b>%s</b><br>wb = %.2f<br>%s<br>device = %s",
+                       act, wb, ts_fmt, device_id),
+      clusterOptions = markerClusterOptions()
+    )
+} else {
+  gt::gt(tibble::tibble(Hinweis = "Keine Geo-Daten vorhanden."))
+}
+```
+
+```{r}
+#| label: dataload-cols
+#| code-fold: true
+# Ausgabe: Spaltenübersicht (reine Darstellung)
+bind_rows(
+  tibble(Datensatz = "survey_answers.csv", Spalte = names(survey)),
+  tibble(Datensatz = "people_data.csv",    Spalte = names(people))
+) |>
+  gt() |>
+  tab_header(title = "Verfügbare Spalten in den Datensätzen")
+```
+
+```{r}
+#| label: dataload-qc
+#| code-fold: true
+# Ausgabe: Merge-Qualität (reine Darstellung)
+dat |>
+  summarise(
+    n_beobachtungen = n(),
+    n_personen      = n_distinct(device_id),
+    n_strata        = n_distinct(stratum_id),
+    na_device_id    = sum(is.na(device_id))
+  ) |>
+  gt() |>
+  tab_header(title = "Datenqualität nach Zusammenführung")
+```
+
+## Outcome (Wohlbefinden)
+
+```{r}
+#| label: outcome
+# Items auf [0,1], geometrisches Mittel = Index
+outcome_vars <- c("general_wellbeing","tense_relaxed","sense_of_belonging","content","awake")
 
 dat <- dat |>
   mutate(across(all_of(outcome_vars), ~ pmin(pmax(as.numeric(.), 0), 1))) |>
   mutate(
     wb_prod = reduce(across(all_of(outcome_vars)), `*`),
-    wb_geom = wb_prod^(1/5),
-    wb_mean = rowMeans(across(all_of(outcome_vars)), na.rm = TRUE)
+    wb_geom = wb_prod^(1/5),                                   # geometrisches Mittel
+    wb_mean = rowMeans(across(all_of(outcome_vars)), na.rm = TRUE)  # Vergleich
   )
-
-dat |>
-  summarise(across(c(wb_geom, wb_mean), list(mittel = mean, sd = sd), na.rm = TRUE)) |>
-  gt()
 ```
 
-# Strata-Definition (Level 3)
+```{r}
+#| label: outcome-desc
+#| code-fold: true
+# Ausgabe: Deskriptivstatistik (reine Darstellung)
+dat |>
+  summarise(across(
+    c(wb_geom, wb_mean),
+    list(
+      n      = ~ sum(!is.na(.x)),
+      mittel = ~ mean(.x, na.rm = TRUE),
+      sd     = ~ sd(.x,   na.rm = TRUE),
+      min    = ~ min(.x,  na.rm = TRUE),
+      max    = ~ max(.x,  na.rm = TRUE)
+    )
+  )) |>
+  pivot_longer(everything(),
+               names_to = c("variable","stat"),
+               names_pattern = "^(.*)_(n|mittel|sd|min|max)$") |>
+  pivot_wider(names_from = stat, values_from = value) |>
+  mutate(across(c(mittel, sd, min, max), ~ round(.x, 3))) |>
+  gt() |>
+  tab_header(title = "Deskriptive Statistik: Wohlbefinden-Indizes") |>
+  cols_label(variable = "Variable", n = "N", mittel = "Mittelwert",
+             sd = "SD", min = "Minimum", max = "Maximum")
+```
 
-**Ziel:** Soziale Strata als Kontexte modellieren (MAIHDA).
+## Strata-Überblick
 
 ```{r}
-# --- Befragungen je Stratum (Level-1-Zeilen in dat) ---
-strata_counts_responses <- dat |>
-  count(stratum_id, name = "n_befragungen")
+#| label: strata-overview
+# Zählungen (Level 1 & Personen) je Stratum
+strata_counts_responses <- dat |> count(stratum_id, name = "n_befragungen")
 
-# --- Personen je Stratum (Level-2) – robuste Variante direkt aus people_data ---
 people_strata <- people |>
   mutate(
     gender             = as.factor(gender),
@@ -159,349 +577,681 @@ people_strata <- people |>
   )
 
 strata_counts_persons <- people_strata |>
-  count(stratum_id, name = "n_personen")
-
-# --- Zur Sicherheit: nur Strata betrachten, die im Analyse-Datensatz vorkommen ---
-# (falls es Personen ohne Survey gibt)
-strata_counts_persons <- strata_counts_persons |>
+  count(stratum_id, name = "n_personen") |>
   semi_join(strata_counts_responses, by = "stratum_id")
 
-# --- Zusammenführen & Kennzahlen ---
 strata_overview <- strata_counts_persons |>
   full_join(strata_counts_responses, by = "stratum_id") |>
   replace_na(list(n_personen = 0L, n_befragungen = 0L)) |>
-  mutate(
-    befragungen_pro_person = ifelse(n_personen > 0, n_befragungen / n_personen, NA_real_)
-  ) |>
+  mutate(befragungen_pro_person = ifelse(n_personen > 0, n_befragungen / n_personen, NA_real_)) |>
   arrange(desc(n_personen), desc(n_befragungen))
-
-# Präzise Übersicht ausgeben
-strata_overview
 ```
 
+```{r}
+#| label: strata-overview-table
+#| code-fold: true
+# Ausgabe: Tabelle (reine Darstellung, inkl. Übersetzung)
 
-# Level‑1‑Prädiktoren aufbereiten
+# Übersetzungen wie unten
+gender_de <- c("woman" = "weiblich", "man" = "männlich")
+so_de     <- c("straight / hetero" = "heterosexuell",
+               "gay / lesbian"     = "homosexuell",
+               "bisexual"           = "bisexuell",
+               "queer"              = "queer")
+eq_de     <- c("Very Low"  = "sehr niedrig",
+               "Low"       = "niedrig",
+               "High"      = "hoch",
+               "Very High" = "sehr hoch",
+               "Unknown"   = "—")
 
-**Ziel:** situative (within) vs. zwischenpersonelle (between) Effekte der kontinuierlichen Umweltvariablen trennen; Kontextfaktoren als Kategorien setzen.
+strata_overview |>
+  tidyr::separate(
+    col = stratum_id,
+    into = c("Gender","Altersgruppe","Sexuelle Orientierung","Äquivalenzeinkommensgruppe"),
+    sep = "_", remove = TRUE, fill = "right"
+  ) |>
+  # Übersetzen (fehlende Werte → Gedankenstrich)
+  mutate(
+    Gender                       = recode(Gender, !!!gender_de, .default = Gender, .missing = "—"),
+    `Sexuelle Orientierung`      = recode(`Sexuelle Orientierung`, !!!so_de, .default = `Sexuelle Orientierung`, .missing = "—"),
+    `Äquivalenzeinkommensgruppe` = recode(`Äquivalenzeinkommensgruppe`, !!!eq_de, .default = `Äquivalenzeinkommensgruppe`, .missing = "—"),
+    `Befragungen pro Person`     = round(befragungen_pro_person, 2),
+    `Anzahl Personen`            = n_personen,
+    `Anzahl Befragungen`         = n_befragungen
+  ) |>
+  select(
+    Gender, Altersgruppe, `Sexuelle Orientierung`, `Äquivalenzeinkommensgruppe`,
+    `Anzahl Personen`, `Anzahl Befragungen`, `Befragungen pro Person`
+  ) |>
+  mutate(across(everything(), ~ ifelse(is.na(.), "—", as.character(.)))) |>
+  gt() |>
+  tab_header(title = "Übersicht über Strata (aufgetrennt nach Achsen)") |>
+  tab_source_note("— = keine Daten verfügbar") |>
+  cols_align(
+    align = "center",
+    columns = c("Anzahl Personen","Anzahl Befragungen","Befragungen pro Person")
+  )
+```
+
+## Kontextvariablen
 
 ```{r}
-# Kontinuierliche Umweltvariablen (Schreibweisen aus Headern)
-env_cont <- c("environmen_pleasure", "environment_lively", "environment_nature", "environment_noise")
+#| label: context-prep
+# Metrische Variablen: Person-Mean-Centering (Within/Between)
+env_cont <- c("environmen_pleasure","environment_lively","environment_nature","environment_noise")  # 'environmen_pleasure' = Datensatzbezeichnung
+env_cat  <- c("activity","location_category","indoors_outdoors","people_with_you","majority_comparison")
 
-# Kategoriale Kontextvariablen
-env_cat <- c("activity", "location_category", "indoors_outdoors", "people_with_you", "majority_comparison")
+dat <- dat |> mutate(across(all_of(env_cont), as.numeric))
 
-# Numerisch erzwingen
-dat <- dat |>
-  mutate(across(all_of(env_cont), as.numeric))
-
-# Within/Between-Zerlegung (person-mean centering)
 dat <- dat |>
   group_by(device_id) |>
   mutate(across(all_of(env_cont),
-                list(personmean = ~ mean(.x, na.rm = TRUE)),
-                .names = "{.col}_pm")) |>
+                list(pm = ~ mean(.x, na.rm = TRUE)), .names = "{.col}_pm")) |>
   ungroup() |>
   mutate(across(all_of(env_cont),
                 ~ .x - get(paste0(cur_column(), "_pm")),
-                .names = "{.col}_within"))
-
-# Faktoren
-dat <- dat |>
+                .names = "{.col}_within")) |>
   mutate(across(all_of(env_cat), as.factor))
 ```
 
-# Modellstrategie und Schätzung
+```{r}
+#| label: context-prep-list
+#| code-fold: true
+# Ausgabe: Variable-Listing (reine Darstellung)
+tibble(
+  Typ = c("Kategorial","Metrisch (Original)","Metrisch (Person-Mean)","Metrisch (Within)"),
+  Variablen = list(env_cat, env_cont, paste0(env_cont,"_pm"), paste0(env_cont,"_within"))
+) |>
+  unnest(Variablen) |>
+  gt() |>
+  tab_header(title = "Verfügbare Kontextvariablen nach Typ")
+```
 
-Wir schätzen sukzessive Modelle mit **`wb_geom`** als Outcome.
-
-## M0: Nullmodell (3 Ebenen)
-
-**Zweck:** Varianzzerlegung in Stratum-, Personen- und Residualanteile; VPC/ICC.
+## Minimalfilter
 
 ```{r}
+#| label: minimal-filter
+# Strata mit >= 2 Befragungen; Personen mit >= 2 Messungen
+dat_before <- dat
+valid_strata  <- strata_overview |> filter(n_befragungen >= 2) |> pull(stratum_id)
+dat_after_s   <- dat_before |> filter(stratum_id %in% valid_strata)
+
+valid_persons <- dat_after_s |> count(device_id, name = "n_obs") |> filter(n_obs >= 2) |> pull(device_id)
+dat           <- dat_after_s |> filter(device_id %in% valid_persons)
+
+# Stufen säubern
+dat <- dat |>
+  mutate(across(c(stratum_id, device_id, gender, age_group, sexual_orientation, eq_income_group, all_of(env_cat)),
+                ~ droplevels(as.factor(.))))
+```
+
+```{r}
+#| label: minimal-filter-summary
+#| code-fold: true
+# Ausgabe: Reduktionen (reine Darstellung)
+tibble(
+  Schritt          = c("Vor Filter","Nach Strata-Filter","Nach Personen-Filter"),
+  N_Beobachtungen  = c(nrow(dat_before), nrow(dat_after_s), nrow(dat)),
+  N_Personen       = c(n_distinct(dat_before$device_id), n_distinct(dat_after_s$device_id), n_distinct(dat$device_id)),
+  N_Strata         = c(n_distinct(dat_before$stratum_id), n_distinct(dat_after_s$stratum_id), n_distinct(dat$stratum_id))
+) |>
+  gt() |>
+  tab_header(title = "Datenfilter: Übersicht über Reduktionen")
+```
+
+# Mehrebenenmodelle
+
+## Dreistufiges Nullmodell (ICC)
+
+```{r}
+#| label: M0_3L
 m0 <- lmer(
   wb_geom ~ 1 + (1 | stratum_id) + (1 | device_id),
   data = dat |> filter(!is.na(wb_geom)),
   REML = TRUE
 )
-
-summary(m0)
-performance::icc(m0)
+summary(m0)  # boundary (singular) fit bei sehr wenig Level-2-Varianz erwartbar
 ```
 
-Der Funktionsaufruf `performance::icc()` gibt hier `NA` zurück und warnt vor einem singulären Fit. Das bedeutet, dass mindestens eine zufällige Varianzkomponente exakt $0$ geschätzt wird – in diesem Fall die Personenebene (Level 2). Statistisch heißt das: Innerhalb desselben Stratum gibt es keine messbaren Unterschiede zwischen Personen, alle Variation innerhalb eines Stratum entsteht zwischen Messzeitpunkten.
-
-Zur Illustration berechnen wir die ICCs manuell aus den geschätzten Varianzkomponenten:
-
 ```{r}
-vc <- as.data.frame(VarCorr(m0))$vcov
-var_stratum <- vc[2]
-var_person  <- vc[1]
-var_resid   <- vc[3]
+#| label: M0_3L-icc
+# ICC manuell (robust bei Singularität)
+vc_df    <- as.data.frame(VarCorr(m0))
+v_strata <- vc_df |> filter(grp == "stratum_id") |> pull(vcov); v_strata <- ifelse(length(v_strata)==0, 0, v_strata)
+v_person <- vc_df |> filter(grp == "device_id")  |> pull(vcov); v_person <- ifelse(length(v_person)==0,  0, v_person)
+v_resid  <- vc_df |> filter(grp == "Residual")   |> pull(vcov); v_resid  <- ifelse(length(v_resid)==0,   0, v_resid)
 
-icc_stratum <- var_stratum / (var_stratum + var_person + var_resid)
-icc_person  <- var_person  / (var_stratum + var_person + var_resid)
-
-icc_stratum
-icc_person
+icc_stratum <- v_strata / (v_strata + v_person + v_resid)
+icc_person  <- v_person / (v_strata + v_person + v_resid)
 ```
 
-## M1: + additive Haupteffekte der Strata-Achsen
-
-**Zweck:** Trennung der additiven Achseneffekte von Strata-Interaktionen (MAIHDA).
-
 ```{r}
-m1 <- lmer(
-  wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
-    (1 | stratum_id) + (1 | device_id),
-  data = dat |> filter(!is.na(wb_geom)),
-  REML = TRUE
-)
-
-summary(m1)
-```
-
-**PCV(Strata) von M0 → M1.**
-
-```{r}
-vc0 <- as.data.frame(VarCorr(m0))
-vc1 <- as.data.frame(VarCorr(m1))
-
-s2_stratum_0 <- vc0 |> filter(grp == "stratum_id") |> pull(vcov)
-s2_stratum_1 <- vc1 |> filter(grp == "stratum_id") |> pull(vcov)
-pcv_m0_m1 <- (s2_stratum_0 - s2_stratum_1) / s2_stratum_0
-
-tibble(vergl = "M0 → M1", PCV_stratum = pcv_m0_m1) |>
+#| label: M0_3L-icc-table
+#| code-fold: true
+# Ausgabe: ICC-Tabelle (reine Darstellung)
+tibble(
+  Ebene       = c("Strata (Level 3)","Person (Level 2)","Momentaufnahmen (Level 1)"),
+  Varianz     = c(v_strata, v_person, v_resid),
+  ICC_Anteil  = c(icc_stratum, icc_person, 1 - icc_stratum - icc_person),
+  ICC_Prozent = round(100 * c(icc_stratum, icc_person, 1 - icc_stratum - icc_person), 2)
+) |>
   gt() |>
-  tab_header(title = "Proportional Change in Variance (Strata)")
+  tab_header(title = "Varianzzerlegung: Dreistufiges Nullmodell") |>
+  cols_label(Ebene = "Ebene", Varianz = "Varianzkomponente",
+             ICC_Anteil = "ICC (Anteil)", ICC_Prozent = "ICC (%)") |>
+  tab_source_note("ICC = Intraklassenkorrelation; Anteil der Gesamtvarianz je Ebene.")
 ```
 
-## M2: Design-Matrix verstehen (warum „rank deficient“?)
+> Befund: Personenebene ≈ 0 → dreistufiges Modell nicht informativ.
 
-**Idee:** Bevor wir M2 schätzen, schauen wir uns die **Fixed-Effects-Designmatrix** an.  
-Der Fehler kam, weil `model.matrix()` keine Random-Effects kennt. Wir entfernen diese zuerst.
-
-```{r}
-# 1) Formel wie geplant (mit Random-Effects):
-within_terms  <- paste0(env_cont, "_within")
-between_terms <- paste0(env_cont, "_pm")
-
-form_m2 <- as.formula(paste(
-  "wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +",
-  paste(c(within_terms, between_terms, env_cat), collapse = " + "),
-  "+ (1 | stratum_id) + (1 | device_id)"
-))
-
-# 2) Random-Effects aus der Formel entfernen -> reine Fixed-Effects-Formel
-fixef_form_m2 <- lme4::nobars(form_m2)
-
-# 3) Design-Matrix für Fixed Effects bauen
-X <- model.matrix(fixef_form_m2, data = dat)
-
-# Überblick
-dim(X)        # [n_beobachtungen, n_fixed_spalten]
-head(colnames(X), 20)  # erste 20 Spaltennamen
-````
-
-### Diagnose: konstante Spalten & lineare Abhängigkeiten
-
-Konstante Spalten (z. B. nie beobachtete Faktorstufen) und perfekte Linearitäten erzeugen Rangdefizit.
+## Zweistufiges Nullmodell
 
 ```{r}
-## Designmatrix für Fixed Effects extrahieren (ohne Random Effects)
-## model.frame sorgt dafür, dass nur vollständige Fälle verwendet werden
-
-# Formel der Fixed Effects aus deinem M2-Modell
-fixef_form_m2 <- wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
-  environmen_pleasure_within + environment_lively_within + environment_nature_within +
-  environment_noise_within + environmen_pleasure_pm + environment_lively_pm +
-  environment_nature_pm + environment_noise_pm + activity + location_category +
-  indoors_outdoors + people_with_you + majority_comparison
-
-# Model Frame (nur vollständige Beobachtungen)
-mf <- model.frame(fixef_form_m2, data = dat)
-
-# Designmatrix erstellen
-X <- model.matrix(fixef_form_m2, data = mf)
-
-# Outcome passend subsetten
-y <- mf$wb_geom
-
-## 4) Spalten ohne Varianz (immer 0 oder immer 1)
-zero_var_idx <- which(apply(X, 2, function(z) var(z, na.rm = TRUE) == 0))
-zero_var_names <- colnames(X)[zero_var_idx]
-zero_var_names
-
-## 5) Spalten, die komplett 0 sind (nie vorkommende Kategorie)
-all_zero_idx <- which(colSums(abs(X)) == 0)
-all_zero_names <- colnames(X)[all_zero_idx]
-all_zero_names
-
-## 6) Perfekte Linearitäten (Alias-Analyse)
-dfX <- data.frame(y = y, X)  # Outcome + Designmatrix
-lm_X <- lm(y ~ . - 1, data = dfX)  # -1 verhindert doppelten Intercept
-alias_complete <- alias(lm_X)$Complete
-alias_complete
-
-```
-
-**Kommentar.**
-
-* Alles, was in `zero_var_names` oder `all_zero_names` auftaucht, liefert **keine Information** (z. B. Dummy für eine Stufe, die im Datensatz nicht vorkommt).
-* Einträge unter `alias_complete` sind **perfekte Linearitäten** zwischen Spalten (z. B. Dummykombinationen, die exakt deterministisch sind).
-* Diese Spalten werden beim Schätzen **automatisch entfernt** → daher die Meldung *“fixed-effect model matrix is rank deficient so dropping … columns”*.
-
-### Optional: kleine Heatmap der Design-Matrix (zeigt „leere“ Dummys)
-
-```{r}
-# Achtung: Nur als Eindruck; bei vielen Spalten wird das breit.
-X_df <- as.data.frame(X)
-X_df$.row <- seq_len(nrow(X_df))
-X_long <- tidyr::pivot_longer(X_df, -$.row, names_to = "term", values_to = "value")
-
-ggplot(X_long, aes(x = term, y = .row, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient(low = "white", high = "black") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
-  labs(title = "Design-Matrix (Fixed Effects) für M2",
-       x = "Prädiktor-Spalten", y = "Beobachtungen")
-```
-
-### Versuch der M2-Schätzung (mit Warnhinweis)
-
-Wir lassen den Schätzversuch drin, um den Prozess zu zeigen – auch wenn Spalten gedroppt werden.
-
-```{r}
-m2 <- lmer(form_m2, data = dat |> filter(!is.na(wb_geom)), REML = TRUE)
-summary(m2)
-```
-
-> **Einordnung:** Die oben identifizierten Spalten werden beim Fit entfernt → dadurch kommt es zur *Rank Deficiency*.
-> In unserem kleinen, unbalancierten Datensatz verlieren die Fixed Effects damit inhaltlich an Interpretierbarkeit.
-> Für ein stabil schätzbares M2 bräuchten wir (a) mehr Beobachtungen pro Faktorstufe und (b) mehr Variation in den within-/between-Variablen.
-
-
-
-**PCV(Strata) von M1 → M2.**
-
-```{r}
-vc2 <- as.data.frame(VarCorr(m2))
-s2_stratum_2 <- vc2 |> filter(grp == "stratum_id") |> pull(vcov)
-pcv_m1_m2 <- (s2_stratum_1 - s2_stratum_2) / s2_stratum_1
-
-tibble(vergl = "M1 → M2", PCV_stratum = pcv_m1_m2) |>
-  gt() |>
-  tab_header(title = "Proportional Change in Variance (Strata)")
-```
-
-## M3 (optional): Random Slopes für zentrale within‑Variablen
-
-**Zweck:** Heterogenität der situativen Effekte auf Personenebene. *Hinweis:* sparsam einsetzen; Konvergenz/Überanpassung prüfen.
-
-```{r}
-m3 <- lmer(
-  wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
-    environmen_pleasure_within + environment_noise_within +
-    environmen_pleasure_pm + environment_noise_pm +
-    activity + location_category + indoors_outdoors + people_with_you + majority_comparison +
-    (1 + environmen_pleasure_within + environment_noise_within | device_id) +
-    (1 | stratum_id),
-  data = dat |> filter(!is.na(wb_geom)),
-  REML = TRUE
-)
-
-summary(m3)
-```
-
-# Vorhersagen und Zerlegung (additiv vs. inkl. Interaktion)
-
-**Ziel:** Differenz zwischen totaler Vorhersage (Fix + Random) und rein additiver Vorhersage (nur Fix) untersuchen; Strata aggregieren.
-
-```{r}
-dat_pred <- dat |>
+#| label: m0_2L-setup
+dat_2L <- dat |>
   filter(!is.na(wb_geom)) |>
+  mutate(stratum_id = droplevels(stratum_id))
+
+tibble(
+  n_beobachtungen = nrow(dat_2L),
+  n_personen      = n_distinct(dat_2L$device_id),
+  n_strata        = n_distinct(dat_2L$stratum_id)
+)
+```
+
+```{r}
+#| label: m0_2L
+m0_2L <- lmer(
+  wb_geom ~ 1 + (1 | stratum_id),
+  data = dat_2L,
+  REML = TRUE
+)
+summary(m0_2L)
+```
+
+```{r}
+#| label: m0_2L-icc
+vc2           <- as.data.frame(VarCorr(m0_2L))
+v_stratum_2L  <- vc2 |> filter(grp == "stratum_id") |> pull(vcov)
+v_resid_2L    <- vc2 |> filter(grp == "Residual")   |> pull(vcov)
+icc_stratum_2L <- v_stratum_2L / (v_stratum_2L + v_resid_2L)
+```
+
+```{r}
+#| label: m0_2L-icc-table
+#| code-fold: true
+# Ausgabe: 2-Level-Zerlegung (reine Darstellung)
+tibble(
+  Parameter = c("Intercept (Gesamtmittel)","Strata-Varianz","Residual-Varianz","VPC Strata"),
+  Wert      = c(fixef(m0_2L)[["(Intercept)"]], v_stratum_2L, v_resid_2L, icc_stratum_2L),
+  Einheit   = c("Wohlbefinden (0–1)","Varianz","Varianz","Anteil")
+) |>
+  mutate(Wert = round(Wert, 6)) |>
+  gt() |>
+  tab_header(title = "Zweistufiges Nullmodell: Varianzzerlegung & VPC(Strata)") |>
+  cols_label(Parameter = "Parameter", Wert = "Geschätzter Wert", Einheit = "Einheit")
+```
+
+# MAIHDA (2 Ebenen)
+
+## Additivmodell (M1\_2L)
+
+```{r}
+#| label: m1_2L
+m1_2L <- lmer(
+  wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
+    (1 | stratum_id),
+  data = dat_2L,
+  REML = TRUE
+)
+
+# PEV_strata relativ zu M0
+var_strata_m0 <- as.data.frame(VarCorr(m0_2L)) |> filter(grp == "stratum_id") |> pull(vcov)
+var_strata_m1 <- as.data.frame(VarCorr(m1_2L)) |> filter(grp == "stratum_id") |> pull(vcov)
+PEV_strata_M0_M1 <- (var_strata_m0 - var_strata_m1) / var_strata_m0
+```
+
+```{r}
+#| label: m1_2L-pev-table
+#| code-fold: true
+# Ausgabe: Vergleich M0 vs. M1 (reine Darstellung)
+tibble(
+  Modell     = c("M0_2L (Null)","M1_2L (additive Achsen)"),
+  Var_Strata = c(var_strata_m0, var_strata_m1),
+  PEV_vs_M0  = c(0, PEV_strata_M0_M1)
+) |>
+  mutate(Var_Strata = round(Var_Strata, 6),
+         PEV_vs_M0  = round(PEV_vs_M0, 3)) |>
+  gt() |>
+  tab_header(title = "Strata-Varianz: Null vs. Additives MAIHDA-Modell") |>
+  tab_source_note(paste0("PEV_strata (M0→M1) = ", round(PEV_strata_M0_M1, 3),
+                         " → Anteil der Strata-Varianz durch additive Haupteffekte."))
+```
+
+## + Kontext (M2\_2L)
+
+```{r}
+#| label: m2_2L_prep
+# Typen absichern
+dat_2L <- dat_2L |>
   mutate(
-    yhat_total = predict(m2, re.form = NULL),
-    yhat_fix   = predict(m2, re.form = NA),
-    interaktion = yhat_total - yhat_fix
+    activity            = as.factor(activity),
+    location_category   = as.factor(location_category),
+    indoors_outdoors    = as.factor(indoors_outdoors),
+    people_with_you     = as.factor(people_with_you),
+    majority_comparison = as.factor(majority_comparison),
+    environment_noise   = as.numeric(environment_noise),
+    environment_nature  = as.numeric(environment_nature),
+    environment_lively  = as.numeric(environment_lively),
+    environmen_pleasure = as.numeric(environmen_pleasure)  # Bezeichnung wie im Datensatz
+  ) |>
+  droplevels()
+```
+
+```{r}
+#| label: m2_2L
+m2_2L_context <- lmer(
+  wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
+    activity + location_category + indoors_outdoors + people_with_you + majority_comparison +
+    environment_noise + environment_nature + environment_lively + environmen_pleasure +
+    (1 | stratum_id),
+  data = dat_2L,
+  REML = TRUE
+)
+```
+
+```{r}
+#| label: m2_2L-varcomp
+extract_var <- function(model) {
+  vc <- as.data.frame(VarCorr(model))
+  tibble(
+    var_strata = vc |> filter(grp == "stratum_id") |> pull(vcov),
+    var_resid  = vc |> filter(grp == "Residual")   |> pull(vcov)
+  )
+}
+
+vars <- bind_rows(
+  extract_var(m0_2L)         |> mutate(Modell = "M0_2L (Null)"),
+  extract_var(m1_2L)         |> mutate(Modell = "M1_2L (+ Achsen)"),
+  extract_var(m2_2L_context) |> mutate(Modell = "M2_2L (+ Kontext)")
+) |>
+  relocate(Modell)
+
+var0_s <- vars$var_strata[vars$Modell == "M0_2L (Null)"]
+var0_e <- vars$var_resid[ vars$Modell == "M0_2L (Null)"]
+```
+
+```{r}
+#| label: m2_2L-varcomp-table
+#| code-fold: true
+# Ausgabe: Varianzvergleich (reine Darstellung)
+vars |>
+  mutate(
+    PEV_strata_vs_M0 = (var0_s - var_strata) / var0_s,
+    PEV_resid_vs_M0  = (var0_e - var_resid)  / var0_e
+  ) |>
+  mutate(across(c(var_strata, var_resid, PEV_strata_vs_M0, PEV_resid_vs_M0), ~ round(.x, 6))) |>
+  gt() |>
+  tab_header(title = "Varianzvergleich (2-Level): Null vs. +Achsen vs. +Kontext") |>
+  tab_source_note("PEV = Proportional Explained Variance relativ zu M0. 
+MAIHDA: Rest-Strata-Varianz in M1 = intersektionaler Überschuss.") |>
+  cols_label(Modell = "Modell", var_strata = "Strata-Varianz",
+             var_resid = "Residual-Varianz", PEV_strata_vs_M0 = "PEV Strata vs. M0",
+             PEV_resid_vs_M0 = "PEV Residual vs. M0")
+```
+
+# Vertiefungen
+
+## Intersektionaler Überschuss (Random Intercepts von M1)
+
+```{r}
+#| label: strata-effects
+# BLUPs + 95%-CIs
+re1     <- ranef(m1_2L, condVar = TRUE)$stratum_id
+postVar <- attr(ranef(m1_2L, condVar = TRUE)[[1]], "postVar")
+ci_lo   <- re1[,1] - 1.96 * sqrt(postVar[1,1,])
+ci_hi   <- re1[,1] + 1.96 * sqrt(postVar[1,1,])
+
+strata_effekte <- tibble(
+  stratum_id = rownames(re1),
+  eff        = re1[,1],
+  ci_lower   = ci_lo,
+  ci_upper   = ci_hi
+) |>
+  left_join(dat_2L |> distinct(stratum_id, gender, age_group, sexual_orientation, eq_income_group),
+            by = "stratum_id") |>
+  arrange(desc(eff))
+```
+
+```{r}
+#| label: strata-effects-table
+#| code-fold: true
+# Ausgabe: Tabelle (reine Darstellung, übersetzt & strukturiert)
+
+strata_effekte |>
+  mutate(
+    eff      = round(eff, 3),
+    ci_lower = round(ci_lower, 3),
+    ci_upper = round(ci_upper, 3),
+    Geschl.        = recode(as.character(gender), !!!gender_de, .default = as.character(gender)),
+    Alter          = as.character(age_group),
+    `Sex. Orient.` = recode(as.character(sexual_orientation), !!!so_de, .default = as.character(sexual_orientation)),
+    `Äquiv.-Eink.` = recode(as.character(eq_income_group), !!!eq_de, .default = as.character(eq_income_group))
+  ) |>
+  select(
+    Geschl., Alter, `Sex. Orient.`, `Äquiv.-Eink.`,
+    Effekt = eff, `CI-untere Grenze` = ci_lower, `CI-obere Grenze` = ci_upper
+  ) |>
+  mutate(across(everything(), ~ ifelse(is.na(.), "—", as.character(.)))) |>
+  gt() |>
+  tab_header(title = "Intersektionaler Überschuss (M1) nach Stratum") |>
+  tab_source_note("Werte nahe 0: geringe Abweichung vom durch additive Achsen erklärten Erwartungswert.") |>
+  cols_align(
+    align = "center",
+    columns = c(Effekt, `CI-untere Grenze`, `CI-obere Grenze`)
   )
 
-strata_summary <- dat_pred |>
-  group_by(stratum_id) |>
-  summarise(
-    n = n(),
-    beob_wb  = mean(wb_geom, na.rm = TRUE),
-    vorh_tot = mean(yhat_total, na.rm = TRUE),
-    vorh_fix = mean(yhat_fix,   na.rm = TRUE),
-    interaktion_mittel = mean(interaktion, na.rm = TRUE)
+```
+
+```{r}
+#| label: strata-effects-plot
+#| fig-width: 10
+#| fig-height: 8
+# Visualisierung (Berechnung + Plot sichtbar)
+# Daten für Plot: übersetzen und Label bauen
+se_plot <- strata_effekte |>
+  dplyr::mutate(
+    Geschl.        = dplyr::recode(as.character(gender), !!!gender_de, .default = as.character(gender)),
+    Alter          = as.character(age_group),
+    `Sex. Orient.` = dplyr::recode(as.character(sexual_orientation), !!!so_de, .default = as.character(sexual_orientation)),
+    `Äquiv.-Eink.` = dplyr::recode(as.character(eq_income_group), !!!eq_de, .default = as.character(eq_income_group)),
+    label          = paste(Geschl., Alter, `Sex. Orient.`, `Äquiv.-Eink.`, sep = " / ")
+  )
+
+# Plot
+ggplot(se_plot, aes(
+  x = reorder(label, eff),
+  y = eff
+)) +
+  geom_point(size = 3, color = "steelblue") +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.2, color = "steelblue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.7) +
+  coord_flip() +
+  labs(
+    title = "Intersektionaler Überschuss pro Stratum (M1)",
+    subtitle = "Abweichung vom durch additive Achsen erklärten Erwartungswert",
+    x = "Stratum (Achsenkombination, übersetzt)",
+    y = "Abweichung (Random Intercept)"
+  ) +
+  theme()
+```
+
+## Situative Effekte (M2, Fixed Effects)
+
+```{r}
+#| label: situational-effects
+fixef_m2 <- broom.mixed::tidy(m2_2L_context, effects = "fixed") |>
+  filter(term != "(Intercept)")
+
+if (!"statistic" %in% names(fixef_m2)) fixef_m2 <- fixef_m2 |> mutate(statistic = NA_real_)
+if (!"p.value"  %in% names(fixef_m2)) fixef_m2  <- fixef_m2  |> mutate(p.value  = NA_real_)
+```
+
+```{r}
+#| label: situational-effects-table
+#| echo: true
+#| code-fold: true
+# Kompakte Ausgabe: kontinuierlich (pro +1 SD) & kategorial (ggü. Referenz)
+library(dplyr)
+
+library(stringr)
+
+# Erwartet: 'fixef_m2' (aus vorherigem Chunk) und 'dat_2L' (Datenbasis von M2)
+
+# 1) Definitionen
+cont_vars <- c("environment_noise","environment_nature","environment_lively","environmen_pleasure")
+cont_de   <- c(environment_noise = "Lautstärke",
+               environment_nature = "Natur",
+               environment_lively = "Lebhaftigkeit",
+               environmen_pleasure = "Angenehmkeit")
+
+cat_vars  <- c("activity","location_category","indoors_outdoors","people_with_you","majority_comparison")
+cat_de    <- c(activity = "Aktivität",
+               location_category = "Ortskategorie",
+               indoors_outdoors = "drinnen/draußen",
+               people_with_you = "Begleitung",
+               majority_comparison = "Mehrheitsvergleich")
+
+# 2) Kontinuierliche Effekte: standardisiert (Δ WB pro +1 SD der Prädiktorvariable)
+sd_lookup <- sapply(cont_vars, function(v) sd(dat_2L[[v]], na.rm = TRUE))
+cont_tbl <- fixef_m2 %>%
+  filter(term %in% cont_vars) %>%
+  mutate(
+    var_de      = recode(term, !!!cont_de),
+    sd_x        = sd_lookup[term],
+    estimate_sd = estimate * sd_x,
+    se_sd       = std.error * sd_x,
+    ci_lo       = estimate_sd - 1.96 * se_sd,
+    ci_hi       = estimate_sd + 1.96 * se_sd
+  ) %>%
+  transmute(
+    Variable = var_de,
+    `Δ Wohlbefinden (+1 SD)` = round(estimate_sd, 3),
+    `CI-untere Grenze`       = round(ci_lo, 3),
+    `CI-obere Grenze`        = round(ci_hi, 3)
+  ) %>%
+  arrange(desc(abs(`Δ Wohlbefinden (+1 SD)`)))
+
+cont_gt <- cont_tbl %>%
+  gt() %>%
+  tab_header(title = "Situative Einflüsse (kontinuierlich, pro +1 SD)") %>%
+  cols_align(align = "center", columns = everything()) %>%
+  tab_source_note("Effekt auf den Wohlbefindensindex (0–1) pro +1 SD des Prädiktors.")
+
+# 3) Kategoriale Effekte: Kontraste vs. Referenz
+#    Referenzen sind i. d. R. die ersten Factor-Levels (Treatment-Coding).
+ref_levels <- lapply(cat_vars, function(v) levels(dat_2L[[v]])[1])
+names(ref_levels) <- cat_vars
+
+cat_rows <- fixef_m2 %>%
+  filter(!term %in% c("(Intercept)", cont_vars)) %>%
+  mutate(
+    var = vapply(term, function(t) {
+      hit <- cat_vars[sapply(cat_vars, function(v) startsWith(t, v))]
+      if (length(hit) == 0) NA_character_ else hit[1]
+    }, character(1)),
+    level = ifelse(is.na(var), term, str_sub(term, nchar(var) + 1L))
+  ) %>%
+  filter(!is.na(var)) %>%
+  mutate(
+    var_de = recode(var, !!!cat_de),
+    ref    = vapply(var, function(v) ref_levels[[v]], character(1)),
+    ci_lo  = estimate - 1.96 * std.error,
+    ci_hi  = estimate + 1.96 * std.error,
+    sig    = !is.na(ci_lo) & !is.na(ci_hi) & (ci_lo * ci_hi > 0),
+    Label  = paste0(var_de, ": ", level, " (vs. ", ref, ")")
+  ) %>%
+  transmute(
+    Variable = Label,
+    `Δ Wohlbefinden`   = round(estimate, 3),
+    `CI-untere Grenze` = round(ci_lo, 3),
+    `CI-obere Grenze`  = round(ci_hi, 3),
+    sig = sig
+  ) %>%
+  arrange(desc(abs(`Δ Wohlbefinden`)))
+
+# Kompakt: erst „signifikante“ Kontraste (95%-CI ohne 0), max. 12 Zeilen;
+# Fallback: falls keine signifikanten, die 12 größten nach Betrag.
+cat_tbl <- cat_rows %>% filter(sig) %>% slice_head(n = 12)
+if (nrow(cat_tbl) == 0) cat_tbl <- cat_rows %>% slice_head(n = 12)
+
+cat_gt <- cat_tbl %>%
+  gt() %>%
+  tab_header(title = "Situative Einflüsse (kategorial, vs. Referenz)") %>%
+  cols_align(align = "center", columns = c(`Δ Wohlbefinden`,`CI-untere Grenze`,`CI-obere Grenze`)) %>%
+  cols_hide(columns = "sig") %>%
+  tab_source_note(
+    paste(
+      "Referenzen:",
+      paste(paste(recode(names(ref_levels), !!!cat_de), shQuote(unlist(ref_levels)), sep = " = "),
+            collapse = "; ")
+    )
+  )
+
+# 4) Ausgeben (beide Tabellen)
+cont_gt
+cat_gt
+```
+
+## Random Slopes (within-Variablen je Stratum)
+
+```{r}
+#| label: random-slopes-compute
+# Voraussetzungen
+stopifnot(
+  exists("dat_2L"),
+  all(c("wb_geom","stratum_id","gender","age_group","sexual_orientation","eq_income_group") %in% names(dat_2L))
+)
+
+need_within <- c("environment_noise_within","environment_nature_within",
+                 "environment_lively_within","environmen_pleasure_within")  # Datensatzbezeichnung
+stopifnot(all(need_within %in% names(dat_2L)))
+
+axes <- list(
+  noise  = list(within = "environment_noise_within"),
+  nature = list(within = "environment_nature_within"),
+  lively = list(within = "environment_lively_within"),
+  pleas  = list(within = "environmen_pleasure_within")
+)
+
+fit_axis <- function(dat, within_var, axis_id) {
+  x_w <- within_var
+  x_z <- paste0(x_w, "_z")
+  dat <- dat |> mutate("{x_z}" := as.numeric(scale(.data[[x_w]])))
+
+  form <- as.formula(
+    glue::glue("wb_geom ~ gender + age_group + sexual_orientation + eq_income_group +
+               `{x_z}` + (1 + `{x_z}` | stratum_id)")
+  )
+  m <- lmer(form, data = dat, REML = TRUE)
+
+  cf   <- as.data.frame(coef(summary(m)))
+  beta <- cf[x_z, "Estimate"]; se_b <- cf[x_z, "Std. Error"]
+
+  re      <- ranef(m, condVar = TRUE)$stratum_id
+  postVar <- attr(re, "postVar")
+  col_id  <- which(colnames(re) == x_z)
+
+  strata_meta <- dat |> distinct(stratum_id, gender, age_group, sexual_orientation, eq_income_group)
+
+  tibble(
+    stratum_id = rownames(re),
+    slope_dev  = re[, x_z],
+    se_dev     = sqrt(postVar[col_id, col_id, ])
   ) |>
-  arrange(desc(vorh_tot))
+    mutate(
+      beta        = beta,
+      se_b        = se_b,
+      slope_total = beta + slope_dev,
+      se_total    = sqrt(se_b^2 + se_dev^2),
+      ci_lo       = slope_total - 1.96 * se_total,
+      ci_hi       = slope_total + 1.96 * se_total,
+      sig_flag    = dplyr::case_when(ci_lo > 0 ~ "klar > 0",
+                                     ci_hi < 0 ~ "klar < 0",
+                                     TRUE      ~ "unsicher"),
+      axis_id     = axis_id
+    ) |>
+    left_join(strata_meta, by = "stratum_id")
+}
 
-strata_summary |> head(12) |> gt()
+slopes_raw <- bind_rows(
+  fit_axis(dat_2L, axes$noise$within,  "noise"),
+  fit_axis(dat_2L, axes$nature$within, "nature"),
+  fit_axis(dat_2L, axes$lively$within, "lively"),
+  fit_axis(dat_2L, axes$pleas$within,  "pleas")
+)
 ```
-
-# Visualisierungen
-
-**Within/Between-Effekte (Kontinuierliche Umweltvariablen).**
 
 ```{r}
-coefs <- broom.mixed::tidy(m2, effects = "fixed") |>
-  filter(str_detect(term, "within|_pm$"))
+#| label: random-slopes-table
+#| code-fold: true
+# Ausgabe: Heatmap-Tabelle (reine Darstellung)
 
-coefs |>
-  mutate(term = fct_reorder(term, estimate)) |>
-  ggplot(aes(x = term, y = estimate)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = estimate - 1.96*std.error,
-                    ymax = estimate + 1.96*std.error),
-                width = 0.2) +
-  coord_flip() +
-  labs(
-    title = "Within- und Between-Effekte der Umweltvariablen",
-    x = "Prädiktor",
-    y = "Effekt (Schätzer ± 95%-Intervall)"
-  ) +
-  theme_minimal()
+
+
+axis_labels <- c(noise="Lautstärke", nature="Natur", lively="Lebhaftigkeit", pleas="Angenehmkeit")
+
+slopes_disp <- slopes_raw |>
+  mutate(
+    Geschl.        = recode(gender, !!!gender_de, .default = "—"),
+    Alter          = age_group,
+    `Sex. Orient.` = recode(sexual_orientation, !!!so_de, .default = "—"),
+    `Äquiv.-Eink.` = recode(eq_income_group, !!!eq_de, .default = "—"),
+    Achse          = recode(axis_id, !!!axis_labels),
+    Wert           = slope_total,
+    Sig            = sig_flag
+  )
+
+# Falls vorhanden: empirische Befragungszählungen je Stratum für Sortierung
+stratum_counts <- tibble::tribble(
+  ~Geschl., ~Alter, ~`Sex. Orient.`, ~`Äquiv.-Eink.`, ~Befr.,
+  "weiblich","16 – 25","heterosexuell","hoch",13,
+  "männlich","16 – 25","heterosexuell","sehr niedrig",9,
+  "männlich","16 – 25","heterosexuell","—",9,
+  "weiblich","16 – 25","heterosexuell","—",8,
+  "weiblich","16 – 25","bisexuell","—",12,
+  "männlich","16 – 25","heterosexuell","sehr hoch",9,
+  "männlich","16 – 25","heterosexuell","niedrig",8,
+  "männlich","16 – 25","homosexuell","niedrig",7,
+  "weiblich","16 – 25","heterosexuell","sehr niedrig",6,
+  "weiblich","26 – 35","heterosexuell","sehr niedrig",5,
+  "männlich","26 – 35","heterosexuell","sehr hoch",4,
+  "männlich","16 – 25","homosexuell","hoch",3,
+  "männlich","16 – 25","heterosexuell","hoch",3,
+  "männlich","16 – 25","homosexuell","—",3,
+  "männlich","16 – 25","bisexuell","sehr niedrig",2,
+  "weiblich","16 – 25","queer","sehr niedrig",2
+)
+
+slopes_disp <- slopes_disp |>
+  left_join(stratum_counts, by = c("Geschl.","Alter","Sex. Orient.","Äquiv.-Eink.")) |>
+  mutate(Befr. = ifelse(is.na(Befr.), -Inf, Befr.)) |>
+  arrange(desc(Befr.))
+
+wide <- slopes_disp |>
+  select(Geschl., Alter, `Sex. Orient.`, `Äquiv.-Eink.`, Befr., Achse, Wert, Sig) |>
+  mutate(Achse = factor(Achse, levels = c("Lautstärke","Natur","Lebhaftigkeit","Angenehmkeit"))) |>
+  pivot_wider(names_from = Achse, values_from = c(Wert, Sig))
+
+names(wide) <- gsub("^Wert_", "", names(wide))
+names(wide) <- gsub("^Sig_",  "sig_", names(wide))
+
+wide <- wide |>
+  select(Geschl., Alter, `Sex. Orient.`, `Äquiv.-Eink.`, Befr.,
+         Lautstärke, Natur, Lebhaftigkeit, Angenehmkeit,
+         sig_Lautstärke, sig_Natur, sig_Lebhaftigkeit, sig_Angenehmkeit)
+
+heat_cols <- c("Lautstärke","Natur","Lebhaftigkeit","Angenehmkeit")
+rng      <- range(unlist(wide[heat_cols]), na.rm = TRUE)
+max_abs  <- max(abs(rng))
+pal <- col_numeric(palette = c("#2b8cbe","#f7f7f7","#d7301f"),
+                   domain  = c(-max_abs, max_abs), na.color = "#f0f0f0")
+
+wide |>
+  gt() |>
+  tab_header(
+    title    = "Effekte pro Stratum (Δ Wohlbefinden pro +1 SD)",
+    subtitle = "Links Strata-Merkmale; rechts Heatmap je Achse. Fett = 95%-KI ≠ 0."
+  ) |>
+  fmt_number(columns = Befr., decimals = 0) |>
+  fmt_number(columns = all_of(heat_cols), decimals = 2) |>
+  data_color(columns = all_of(heat_cols), colors = pal) |>
+  tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = "Lautstärke",     rows = sig_Lautstärke != "unsicher")) |>
+  tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = "Natur",          rows = sig_Natur != "unsicher")) |>
+  tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = "Lebhaftigkeit",  rows = sig_Lebhaftigkeit != "unsicher")) |>
+  tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = "Angenehmkeit",   rows = sig_Angenehmkeit != "unsicher")) |>
+  cols_hide(starts_with("sig_")) |>
+  cols_label(`Sex. Orient.` = "Sex. Orient.", `Äquiv.-Eink.` = "Äquiv.-Eink.", Befr. = "Befr.") |>
+  tab_options(table.font.size = px(14), data_row.padding = px(6))
 ```
 
-**Strata nach vorhergesagtem Wert (Rangliste).**
-
-```{r}
-strata_summary |>
-  arrange(vorh_tot) |>
-  mutate(stratum_id = fct_inorder(stratum_id)) |>
-  ggplot(aes(x = stratum_id, y = vorh_tot)) +
-  geom_point() +
-  geom_segment(aes(xend = stratum_id, y = vorh_fix, yend = vorh_tot), alpha = 0.5) +
-  coord_flip() +
-  labs(
-    title = "Vorhergesagtes Wohlbefinden je Stratum (Punkt) und additive Basis (Segmentstart)",
-    x = "Stratum (geordnet)",
-    y = "Vorhersage (wb_geom)"
-  ) +
-  theme_minimal()
-```
-
-# Interpretation – Leitfaden
-
--   **VPC (M0):** Anteil der Gesamtvarianz auf Strata‑ bzw. Personenebene. Bereits einstellige Prozentwerte können substanziell sein – abhängig von der Outcome-Streuung.\
--   **PCV(Strata, M0→M1):** Anteil der Strata-Varianz, der durch die *additiven Haupteffekte* der Achsen erklärt wird. Der Rest ist **Interaktion** im MAIHDA‑Sinn.\
--   **PCV(Strata, M1→M2):** zusätzlicher Anteil, den die Umwelt- und Kontextvariablen erklären.\
--   **Within vs. Between:** `*_within` misst **situative Abweichungen** innerhalb derselben Person; `*_pm` (Personenmittel) misst **systematische Unterschiede zwischen Personen**.\
--   **Strata-Rangliste:** Große Abstände zwischen `vorh_fix` und `vorh_tot` deuten auf bedeutsame Interaktionsanteile hin.
-
-# Sensitivitäten und Erweiterungen
-
--   **Outcome-Definition:** `wb_mean` statt `wb_geom` testen.\
--   **Achsenspezifikation:** Kategorien zusammenfassen oder feiner differenzieren; alternative Achsen (z. B. `sex` statt `gender`).\
--   **Zeitliche Kontrollen:** Wochentag/Tageszeit hinzufügen, falls verfügbar.\
--   **Logistische Variante:** Für binäre Outcomes `glmer(family = binomial)` verwenden (VPC via latente Antwortvarianz).\
--   **MCMC/Bayes:** Für Intervallschätzungen zusammengesetzter Größen (z. B. totale Stratumvorhersagen).
-
-# Session-Info
-
-```{r}
-sessionInfo()
-```
