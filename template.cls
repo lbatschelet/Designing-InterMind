@@ -45,6 +45,9 @@
 % Deutsche Begriffe
 \renewcommand{\appendixpagename}{Anhang}   % Überschrift auf der Anhang-Seite
 \renewcommand{\appendixtocname}{Anhang}    % Eintrag im Haupt-ToC
+\addto\captionsnswissgerman{%
+  \renewcommand{\abstractname}{Abstract}%
+}
 
 \makeatletter
 \renewcommand\appendixpage{
@@ -260,6 +263,18 @@
     \justifying
 }
 \makeatother
+
+
+% Abstract-Überschrift: sans serif, linksbündig; Text: normal Serif
+\makeatletter
+\renewenvironment{abstract}{%
+  % Überschrift (nutzt dein Section-Layout nicht, sondern setzt direkt Format)
+  {\sffamily\bfseries\raggedright\section*{\abstractname}}%
+  % Textformat zurück auf Fliesstext
+  \normalfont\normalsize\rmfamily\justifying
+}{}
+\makeatother
+
 
 % Tabelle Serifenlos
 \AtBeginEnvironment{table}{\sffamily\footnotesize\color{gray!30!black}}

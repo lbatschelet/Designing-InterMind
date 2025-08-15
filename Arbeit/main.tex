@@ -33,11 +33,11 @@ Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden}
 
 \vspace*{1cm}
 \huge
-\textbf{Intersektionales Wohlbefinden im Stadtraum}
+\textbf{Designing InterMind}
 
 \vspace{0.5cm}
 \large
-Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden
+Konzeption sowie Umsetzung einer offenen Erhebungsinfrastruktur und Pilotierung einer intersektionalen Mehrebenenanalyse affektiven Wohlbefindens.
 
 \vspace{1.5cm}
 \textbf{Lukas Batschelet}
@@ -73,7 +73,13 @@ Bern, \today
 
 \pagenumbering{roman}
 
-\tableofcontents
+\begingroup
+  \let\clearpage\relax
+  \let\cleardoublepage\relax
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{0pt plus 0.15pt}
+  \tableofcontents
+\endgroup
 
 % common abkürzungen beim ersten mal nicht ausführen
 \glsunset{vgl}
@@ -90,8 +96,20 @@ Bern, \today
 \glsadd{ua}
 \glsadd{etc}
 
+% Glossar ohne erzwungenen Seitenumbruch
+\begingroup
+  \let\clearpage\relax
+  \let\cleardoublepage\relax
+  \printglossary[
+    type=\acronymtype,
+    title=Abkürzungsverzeichnis,
+    toctitle=Abkürzungsverzeichnis,
+    nonumberlist,
+    nogroupskip
+  ]
+\endgroup
 
-\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis, nonumberlist]
+
 
 \listoffigures
 \listoftables
@@ -154,7 +172,6 @@ Dieses Dokument wurde mithilfe von KI-basierten Tools überarbeitet. LanguageToo
 
 \phantomsection
 \section*{Selbstständigkeitserklärung}
-\addcontentsline{toc}{chapter}{Selbstständigkeitserklärung}
 
 Ich erkläre hiermit, dass ich diese Arbeit selbstständig verfasst und keine anderen als die angegebenen Quellen benutzt habe. Alle Stellen, die wörtlich oder sinngemäss aus Quellen entnommen wurden, habe ich als solche gekennzeichnet. Mir ist bekannt, dass andernfalls der Senat gemäss Artikel 36 Absatz 1 Buchstabe r des Gesetzes vom 5. September 1996 über die Universität zum Entzug des aufgrund dieser Arbeit verliehenen Titels berechtigt ist.
 
