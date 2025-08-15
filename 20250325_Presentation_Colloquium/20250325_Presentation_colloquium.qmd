@@ -16,7 +16,7 @@ format:
     incremental: true
     chalkboard: true
     transition: slide
-bibliography: ../references.bib
+bibliography: ../BA_Lukas_Batschelet.bib
 csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropologie"
 ---
 
@@ -57,10 +57,10 @@ csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropo
 :::
 
 ::: {.nonincremental}
-- @crenshaw_mapping_1991: Mapping the Margins: Intersectionality, Identity Politics, and Violence against Women of Color  
-- @rodo-de-zarate_developing_2014: Developing geographies of intersectionality with Relief Maps: reflections from youth research in Manresa, Catalonia  
-- @rodo-de-zarate_intersectionality_2018: Intersectionality in feminist geographies  
-- @beebeejaun_race_2022: Race, Gender, and Positionality in Urban Planning Research  
+- @crenshawMappingMarginsIntersectionality1991: Mapping the Margins: Intersectionality, Identity Politics, and Violence against Women of Color  
+- @rodo-de-zarateDevelopingGeographiesIntersectionality2014: Developing geographies of intersectionality with Relief Maps: reflections from youth research in Manresa, Catalonia  
+- @rodo-de-zarateIntersectionalityFeministGeographies2018: Intersectionality in feminist geographies  
+- @beebeejaunRaceGenderPositionality2022: Race, Gender, and Positionality in Urban Planning Research  
 <!-- @webster_centering_2021: Centering social-technical relations in studying platform urbanism: intersectionality for just futures in European cities -->
 :::
 
@@ -83,9 +83,9 @@ csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropo
 :::
 
 ::: {.nonincremental}
-- @kan_impacts_2022: The Impacts of Housing Characteristics and Built-Environment Features on Mental Health  
-- @hammoud_smartphone-based_2024: Smartphone-based ecological momentary assessment reveals an incremental association between natural diversity and mental wellbeing  
-- @bergou_mental_2022: The mental health benefits of visiting canals and rivers: An ecological momentary assessment study
+- @kanImpactsHousingCharacteristics2022: The Impacts of Housing Characteristics and Built-Environment Features on Mental Health  
+- @hammoudSmartphonebasedEcologicalMomentary2024: Smartphone-based ecological momentary assessment reveals an incremental association between natural diversity and mental wellbeing  
+- @bergouMentalHealthBenefits2022: The mental health benefits of visiting canals and rivers: An ecological momentary assessment study
 :::
 
 
@@ -99,9 +99,9 @@ csl: "https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropo
 - Fehlende Open-Source-Lösungen
 :::
 
-- **Urban Mind** [@bakolis_urban_2018]  
+- **Urban Mind** [@bakolisUrbanMindUsing2018]  
   Echtzeit- & Ortsdaten, jedoch mit starkem Fokus auf Mental Health und Grünraum
-- **InterMaps** [@rodo-de-zarate_developing_2014]  
+- **InterMaps** [@rodo-de-zarateDevelopingGeographiesIntersectionality2014]  
   Intersektionale Perspektive, jedoch retrospektiv
 
 . . .
@@ -162,9 +162,9 @@ Unterfragen
 
 ::: {.nonincremental}
 - **Grundlagen:**
-  - *Intersektionalität* [@crenshaw_mapping_1991; @rodo-de-zarate_developing_2014]
-  - *Ecological Momentary Assessment* (EMA) zur Echtzeit-Erhebung [@shiffman_ecological_2008]
-  - Echtzeit-Erhebung von Wohlbefinden [@bakolis_urban_2018]
+  - *Intersektionalität* [@crenshawMappingMarginsIntersectionality1991; @rodo-de-zarateDevelopingGeographiesIntersectionality2014]
+  - *Ecological Momentary Assessment* (EMA) zur Echtzeit-Erhebung [@shiffmanEcologicalMomentaryAssessment2008]
+  - Echtzeit-Erhebung von Wohlbefinden [@bakolisUrbanMindUsing2018]
 :::
 
 ---
@@ -233,10 +233,10 @@ Unterfragen
 
 ::: {.columns}
 ::: {.column .fragment}
-![Darstellung des Wohlbefindens an einem heissen Sommertag in Bern [@friebel_thermisches_2024 p. 32]](./resources/orte_des_wohlbefindens.jpeg)
+![Darstellung des Wohlbefindens an einem heissen Sommertag in Bern [@friebelThermischesEmpfindenUnd2024 p. 32]](./resources/orte_des_wohlbefindens.jpeg)
 :::
 ::: {.column .fragment}
-![ReliefMap erstellt mit dem online-Tool von @font-casaseca_margins_2024 [https://reliefmaps.upf.edu/](https://reliefmaps.upf.edu/)](./resources/ReliefMap.png)
+![ReliefMap erstellt mit dem online-Tool von @font-casasecaMarginsGeographicalInformation2024 [https://reliefmaps.upf.edu/](https://reliefmaps.upf.edu/)](./resources/ReliefMap.png)
 :::
 :::
 
