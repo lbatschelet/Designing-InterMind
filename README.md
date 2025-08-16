@@ -16,7 +16,7 @@ Methodisch kombiniere ich (i) eine theoretische Fundierung in Intersektionalitä
 Die Arbeit leistet drei Beiträge: Erstens integriere ich Intersektionalität, *affective geographies* und kritisch-digitale Perspektiven zu einem kohärenten methodischen Rahmen. Zweitens stelle ich mit *InterMind* eine quelloffene, anpassbare und prüfbare Infrastruktur bereit. Drittens liefere ich Evidenz zur Machbarkeit und Grenzen einer intersektional auswertbaren Datenerhebung im Feld. Die Pilotstudie beansprucht keine inhaltlichen Effektschätzungen oder Generalisierungen; sie markiert einen methodischen Ausgangspunkt für weiterführende, grössere Studien – mit längeren Erhebungsfenstern, diverseren Stichproben und engerer Co-Kreation mit betroffenen Communities.
 
 
-## Latex build skript
+## Latex Build Skript
 
 Dieses Repository enthält ein Skript, das das Kompilieren des LaTeX-Dokuments automatisiert. Zum ausführen:
 

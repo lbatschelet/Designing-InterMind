@@ -35,6 +35,7 @@
 \RequirePackage{ltablex}
 \RequirePackage{threeparttablex}
 \RequirePackage{etoolbox}
+\RequirePackage{ccicons}
 \keepXColumns
 
 
