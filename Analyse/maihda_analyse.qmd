@@ -1,5 +1,5 @@
 ---
-title: "MAIHDA-Analyse: Prozessdarstellung bis zum Nullmodell"
+title: "Analyse nach Intersectional Multilevel Analysis of Individual Heterogeneity and Discriminatory Accuracy (MAIHDA)"
 format:
   html:
     toc: true
@@ -13,15 +13,18 @@ execute:
   warning: false
   message: false
 editor: visual
-lang: de
-output-dir: ../InterMind.ch/analyse/
-site-url: https://intermind.ch/analyse/
+lang: de-CH
 ---
+
+Analyse nach @evansTutorialConductingIntersectional2024.
+
+Um die Darstellung etwas übersichtlicher zu halten ist berechnender Code standarmässig ausgeklappt, und Code zur Darstellung und Übersetzung nicht.
 
 # Setup
 
 ```{r}
 #| label: setup
+#| code-fold: true
 # Pakete
 library(tidyverse)
 library(janitor)
@@ -53,8 +56,6 @@ options(dplyr.summarise.inform = FALSE)
 # Arbeitsverzeichnis
 here()
 ```
-
-## Import
 
 ```{r}
 #| label: dataload

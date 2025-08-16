@@ -1,3 +1,9 @@
+% template.cls
+% Lukas Batschelet
+% 2025-08-16
+% Persönliche LaTeX Template Klasse
+
+
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{template}[2024/12/19 My custom template class]
 
@@ -7,10 +13,10 @@
 % ---------------------- Pakete für Layout ----------------------
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
-\RequirePackage{helvet}    % Serifenlose Schrift für Titel und Überschriften
+\RequirePackage{helvet}
 \RequirePackage{ragged2e}
 \RequirePackage{lipsum}
-\RequirePackage{mathptmx}  % Times-ähnliche Schrift für den Fliesstext
+\RequirePackage{mathptmx}
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{amsthm}

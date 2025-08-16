@@ -1,0 +1,51 @@
+project:
+  type: website
+  output-dir: InterMind.ch/dokumentation
+  render:
+    - index.qmd
+    - Analyse/maihda_analyse.qmd
+    - 20250325_Presentation_Colloquium/20250325_Presentation_colloquium.qmd
+
+author: Lukas Batschelet
+date: last-modified
+website:
+  title: "Designing InterMind"
+  site-url: https://intermind.ch/dokumentation/
+  repo-url: https://github.com/lbatschelet/Designing-InterMind/
+  navbar:
+    left:
+      - text: Start
+        file: index.qmd
+      - text: Analyse
+        file: Analyse/maihda_analyse.qmd
+      - text: Präsentationen
+        menu:
+          - text: Präsentation Kolloquium
+            file: 20250325_Presentation_Colloquium/20250325_Presentation_colloquium.qmd
+    right:
+      - text: "Download"
+        href: ../static-docs/Bachelorarbeit_Lukas_Batschelet.pdf
+        icon: file-earmark-pdf
+        target: _blank
+  page-navigation: true
+
+bibliography: BA_Lukas_Batschelet.bib
+csl: https://www.zotero.org/styles/universitat-bern-institut-fur-sozialanthropologie
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    fig-format: svg
+    df-print: paged
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+lang: de

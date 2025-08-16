@@ -1,5 +1,10 @@
 # Designing InterMind
 
+Dieses Repository enthält sämtliche Dokumente und Quellcode für die Bachelorarbeit *Designing InterMind*.
+
+
+
+Gerenderte Versionen des Analyse-Codes und der Präsentationen sind auf der [Website des Projekts](https://intermind.ch/dokumentation/) verfügbar.
 
 
 ## Abstract
@@ -11,64 +16,10 @@ Methodisch kombiniere ich (i) eine theoretische Fundierung in Intersektionalitä
 Die Arbeit leistet drei Beiträge: Erstens integriere ich Intersektionalität, *affective geographies* und kritisch-digitale Perspektiven zu einem kohärenten methodischen Rahmen. Zweitens stelle ich mit *InterMind* eine quelloffene, anpassbare und prüfbare Infrastruktur bereit. Drittens liefere ich Evidenz zur Machbarkeit und Grenzen einer intersektional auswertbaren Datenerhebung im Feld. Die Pilotstudie beansprucht keine inhaltlichen Effektschätzungen oder Generalisierungen; sie markiert einen methodischen Ausgangspunkt für weiterführende, grössere Studien -- mit längeren Erhebungsfenstern, diverseren Stichproben und engerer Co-Kreation mit betroffenen Communities.
 
 
+## Latex build skript
 
-
-
-
-## Zeitplan
-
-```mermaid
----
-config:
-  theme: neo
-  title: Bachelorarbeit
----
-gantt
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d.%m
-    tickinterval 2week
-    todayMarker on
-    section App-Entwicklung
-    Frameworks evaluieren       :               2025-01-02, 2025-01-20
-    Spezifikation und Design    :               2025-01-20, 2025-02-10
-    Entwicklung                 :               2025-02-01, 2025-04-10
-    Testentwicklung             :               2025-03-01, 2025-03-21
-    Alpha Testing               :               2025-03-21, 2025-04-10
-    Feedback umsetzen           :               2025-04-18, 2025-05-20
-    section _ 
-    section Fragenentwicklung
-    Literaturrecherche          :               2025-03-01, 2025-05-01
-    Fragen entwickeln           :               2025-03-15, 2025-05-01
-    Pre-test                    :               2025-04-20, 2025-05-01
-    section _ 
-    section Datenanalyse
-    Datenerhebung               :               2025-05-10, 2025-05-22
-    Datenauswertung             :               2025-05-10, 2025-05-30
-    section _ 
-    section Abschlussphase
-    Arbeit Schreiben            :               2025-04-20, 2025-06-20
-    Abgabe Probekapitel         : milestone,    2025-06-01, 
-    Korrekturlesen              :               2025-06-15, 2025-06-25
-    Layout                      :               2025-06-20, 2025-06-26
-    Abgabe                      : milestone,    2025-06-27,
-    section Prüfungen
-    Prüfungswoche Geographie    :               2025-02-10, 2025-02-14
-    Prüfungswoche Data Science  :               2025-06-01, 2025-06-10
-```
-
-
-## Latex compile
-
-
-To use the custom build script, that compiles the document, names it with a timestamp, moves it to the top level directory and moves older versions to the archive, run:
+Dieses Repository enthält ein Skript, das das Kompilieren des LaTeX-Dokuments automatisiert. Zum ausführen:
 
 ```bash
 ./build_ba.sh
 ```
-
-To compile the document with latexmk, run:
-
-```bash
-latexmk -pdf -outdir=Arbeit/out -jobname=main Arbeit/main.tex
-```
-

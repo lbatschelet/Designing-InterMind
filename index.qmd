@@ -1,0 +1,6 @@
+---
+title: "Designing InterMind"
+format: html
+---
+
+Diese Seite dient als Einstiegspunkt für die Dokumentation der Bachelorarbeit *Designing InterMind*.
