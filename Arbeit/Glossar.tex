@@ -110,10 +110,14 @@
   description={Bezeichnet Software, deren Quellcode öffentlich einsehbar, veränderbar und frei verwendbar ist. \gls[noindex]{supabase} und viele Komponenten von \gls[noindex]{reactnative} und \gls[noindex]{expo} sind Open-Source.}
 }
 
-\newglossaryentry{datenbank}{
+\newglossaryentry{tech:db}{
   name={Datenbank},
-  description={Ein digitales System zur strukturierten Speicherung, Abfrage und Verwaltung von Daten. In der App kommt eine relationale Datenbank zum Einsatz, die durch \gls[noindex]{supabase} bereitgestellt wird.}
+  text={Datenbank},
+  sort={datenbank},
+  plural={Datenbanken},
+  description={System zur strukturierten Speicherung, Verwaltung und Abfrage von Daten}
 }
+
 
 \newglossaryentry{rls}{
   name={RLS},
@@ -285,6 +289,25 @@
     plural={Strata},
     description={Bezeichnung für eine Teilmenge einer Grundgesamtheit in der Statistik, gebildet nach gemeinsamen Merkmalen der darin enthaltenen Beobachtungen.}
 }
+
+\newglossaryentry{lic:agpl}{
+  name={AGPL-3.0},
+  text={AGPL},
+  sort={agpl},
+  plural={AGPL-Lizenzen},
+  description={Freie Copyleft-Lizenz (GNU \emph{Affero General Public License}, Version~3),
+  entwickelt für netzwerkbasierte Software. Sie verlangt, dass bei Bereitstellung
+  über ein Netzwerk der vollständige Quellcode einschließlich aller Änderungen unter
+  derselben Lizenz zugänglich gemacht wird.}
+}
+
+\newglossaryentry{tech:sql}{
+  name={SQL},
+  text={SQL},
+  sort={sql},
+  description={\emph{Structured Query Language}, eine standardisierte Abfragesprache zur Definition, Abfrage und Manipulation von Daten in relationalen \glspl[noindex]{datenbank}.}
+}
+
 
 
 
