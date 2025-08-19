@@ -46,7 +46,14 @@ theme_set(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       plot.title       = element_text(face = "bold"),
-      plot.subtitle    = element_text(face = "plain")
+      plot.subtitle    = element_text(face = "plain"),
+      axis.text.x      = element_text(size = 8),
+      axis.text.y      = element_text(size = 8),
+      axis.title.x     = element_text(size = 9),
+      axis.title.y     = element_text(size = 9),
+      strip.text       = element_text(size = 9),
+      legend.text      = element_text(size = 8),
+      legend.title     = element_text(size = 9)
     )
 )
 # Reproduzierbarkeit
@@ -142,7 +149,7 @@ freq_df <- surveys_per_person |>
   dplyr::count(n_surveys, name = "n_personen")
 
 p_counts <- ggplot(freq_df, aes(x = n_surveys, y = n_personen)) +
-  geom_col(fill = "#c4c4c4", width = 0.8) +
+  geom_col(fill = "#2F2E41", width = 0.8) +
   scale_x_continuous(breaks = seq(min(freq_df$n_surveys), max(freq_df$n_surveys), by = 1)) +
   labs(
     title = "Verteilung der Teilnahme",
@@ -233,7 +240,7 @@ dir.create("plots", showWarnings = FALSE)
 for (col in names(cat_pct_list)) {
   dfp <- cat_pct_list[[col]]
   p <- ggplot(dfp, aes(x = pct, y = reorder(label, pct))) +
-    geom_col(fill = "#c4c4c4", width = 0.8) +
+    geom_col(fill = "#2F2E41", width = 0.8) +
     geom_text(aes(label = sprintf("%.1f %%", pct)), hjust = -0.05, size = 3) +
     scale_x_continuous(limits = c(0, min(100, ceiling(max(dfp$pct) + 10)))) +
     labs(x = "Anteil (%)", y = NULL, title = title_mapping[[col]]) +
@@ -375,7 +382,7 @@ dir.create("plots", showWarnings = FALSE)
 
 p_sliders <- ggplot(sliders_long, aes(x = scaled)) +
   geom_histogram(binwidth = 0.1, boundary = -1, closed = "left",
-                 fill = "#c4c4c4", color = "white") +
+                 fill = "#2F2E41", color = "white") +
   geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5) +
   scale_x_continuous(limits = c(-1, 1), breaks = c(-1, 0, 1)) +
   labs(x = NULL, y = "Häufigkeit") +
@@ -901,8 +908,8 @@ ggplot(se_plot, aes(
   x = reorder(label, eff),
   y = eff
 )) +
-  geom_point(size = 3, color = "steelblue") +
-  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.2, color = "steelblue") +
+  geom_point(size = 3, color = "2F2E41") +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.2, color = "2F2E41") +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.7) +
   coord_flip() +
   labs(

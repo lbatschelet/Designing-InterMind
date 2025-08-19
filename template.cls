@@ -8,21 +8,22 @@
 \ProvidesClass{template}[2024/12/19 My custom template class]
 
 % Basierend auf article
-\LoadClass[10pt,a4paper]{report}
+\LoadClass[fontsize=10.4pt,a4paper,DIV=calc]{scrreprt}
+\KOMAoptions{toc=flat}
 
 % ---------------------- Pakete für Layout ----------------------
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{helvet}
+\RequirePackage{newtxtext}
 \RequirePackage{ragged2e}
 \RequirePackage{lipsum}
-\RequirePackage{mathptmx}
 \RequirePackage{amsmath}
-\RequirePackage{amssymb}
+\let\openbox\relax
 \RequirePackage{amsthm}
+\RequirePackage{newtxmath}
 \RequirePackage{amsfonts}
 \RequirePackage{amscd}
-\RequirePackage{amsthm}
 \RequirePackage{booktabs}
 \RequirePackage{array}
 \RequirePackage{tabularray}
@@ -83,7 +84,7 @@
 \geometry{a4paper, left=3cm, right=3cm, top=2.5cm, bottom=2.5cm}
 
 \RequirePackage{setspace}
-\onehalfspacing
+\setstretch{1.3}
 
 \RequirePackage{microtype}
 % \DisableLigatures{encoding = *, family = * }
@@ -103,6 +104,7 @@
 \RequirePackage{bookmark}
 
 \definecolor{rowgray}{gray}{0.95}
+\definecolor{Headercolor}{HTML}{2F2E41}
 
 \RequirePackage[german]{cleveref}
 \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
@@ -113,11 +115,11 @@
 
 
 \RequirePackage{titlesec}
-\titleformat{\part}{\sffamily\LARGE\bfseries\raggedright}{\thepart}{1em}{}
-\titleformat{\chapter}{\sffamily\Large\bfseries\raggedright}{\thechapter}{1em}{}
-\titleformat{\section}{\sffamily\large\bfseries\raggedright}{\thesection}{1em}{} 
-\titleformat{\subsection}{\sffamily\normalsize\bfseries\raggedright}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright}{\thesubsubsection}{1em}{}
+\titleformat{\part}{\sffamily\LARGE\bfseries\raggedright\color{Headercolor}}{\thepart}{1em}{}
+\titleformat{\chapter}{\sffamily\Large\bfseries\raggedright\color{Headercolor}}{\thechapter}{1em}{}
+\titleformat{\section}{\sffamily\large\bfseries\raggedright\color{Headercolor}}{\thesection}{1em}{} 
+\titleformat{\subsection}{\sffamily\normalsize\bfseries\raggedright\color{Headercolor}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright\color{Headercolor}}{\thesubsubsection}{1em}{}
 \titlespacing*{\chapter}{0pt}{*2}{1em}
 
 \makeatletter
@@ -284,11 +286,11 @@
 
 
 % Tabelle Serifenlos
-\AtBeginEnvironment{table}{\sffamily\footnotesize\color{gray!30!black}}
-\AtBeginEnvironment{table*}{\sffamily\footnotesize\color{gray!30!black}}
+\AtBeginEnvironment{table}{\sffamily\color{gray!30!black}}
+\AtBeginEnvironment{table*}{\sffamily\color{gray!30!black}}
 
-\AtBeginEnvironment{longtable}{\sffamily\footnotesize\color{gray!30!black}}
-\AtBeginEnvironment{ltablex}{\sffamily\footnotesize\color{gray!30!black}}
+\AtBeginEnvironment{longtable}{\sffamily\color{gray!30!black}}
+\AtBeginEnvironment{ltablex}{\sffamily\color{gray!30!black}}
 
-\AtBeginEnvironment{tblr}{\sffamily\footnotesize\color{gray!30!black}}
-\AtBeginEnvironment{threeparttable}{\sffamily\footnotesize\color{gray!30!black}}
+\AtBeginEnvironment{tblr}{\sffamily\color{gray!30!black}}
+\AtBeginEnvironment{threeparttable}{\sffamily\color{gray!30!black}}

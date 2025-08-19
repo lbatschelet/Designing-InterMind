@@ -5,12 +5,18 @@
 \usepackage{csquotes}
 \usepackage[automake,acronym, toc]{glossaries-extra}
 
+\hypersetup{
+    pdftitle={Designing InterMind -- Entwicklung eines kritisch-digitalen, quantitativen Forschungsdesigns zur raumbezogenen Erfassung intersektionalen affektiven (Un-)Wohlbefindens},
+    pdfauthor={Lukas Batschelet},
+    pdfsubject={Bachelorarbeit},
+    pdfkeywords={Intersektionalität, Wohlbefinden, App, Erhebung, Geographie}
+}
 
 
 
 
-\SetTitle{Intersektionales Wohlbefinden im Stadtraum: \\
-Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden}
+
+\SetTitle{Designing InterMind -- Entwicklung eines kritisch-digitalen, quantitativen Forschungsdesigns zur raumbezogenen Erfassung intersektionalen affektiven (Un-)Wohlbefindens}
 \SetAuthor{Lukas Batschelet}
 \SetDate{\today}
 
@@ -37,7 +43,7 @@ Konzeption und Umsetzung einer App zur räumlichen Erfassung von Wohlbefinden}
 
 \vspace{0.5cm}
 \large
-Konzeption sowie Umsetzung einer offenen Erhebungsinfrastruktur und Pilotierung einer intersektionalen Mehrebenenanalyse affektiven Wohlbefindens.
+Entwicklung eines kritisch-digitalen, quantitativen Forschungsdesigns zur raumbezogenen Erfassung intersektionalen affektiven (Un-)Wohlbefindens
 
 \vspace{1.5cm}
 \textbf{Lukas Batschelet}
@@ -79,11 +85,10 @@ Diese Arbeit ist lizenziert unter einer
 \pagenumbering{roman}
 
 \begingroup
-  \let\clearpage\relax
-  \let\cleardoublepage\relax
+  \fontsize{10.4pt}{1.0em}\selectfont
   \setlength{\parskip}{0pt}
-  \setlength{\itemsep}{0pt plus 0.15pt}
-  \tableofcontents
+  \setlength{\itemsep}{0pt plus 0.02pt}
+  \tableofcontents\null
 \endgroup
 
 % common abkürzungen beim ersten mal nicht ausführen
@@ -107,6 +112,8 @@ Diese Arbeit ist lizenziert unter einer
 
 % Glossar ohne erzwungenen Seitenumbruch
 \begingroup
+  \fontsize{10.4pt}{1.0em}\selectfont
+  \setstretch{1.2}
   \let\clearpage\relax
   \let\cleardoublepage\relax
   \printglossary[
@@ -120,8 +127,12 @@ Diese Arbeit ist lizenziert unter einer
 
 
 
-\listoffigures
-\listoftables
+\begingroup
+  \let\clearpage\relax
+  \let\cleardoublepage\relax
+  \listoffigures
+  \listoftables
+\endgroup
 
 
 \clearpage
@@ -167,7 +178,7 @@ Diese Arbeit ist lizenziert unter einer
 % ----------------- Bibliographie ------------------
 \clearpage
 \phantomsection
-\printbibliography[heading=bibintoc]
+\printbibliography[heading=bibintoc, title=Literaturverzeichnis]
 
 \clearpage
 

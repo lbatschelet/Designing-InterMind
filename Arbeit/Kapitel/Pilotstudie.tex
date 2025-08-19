@@ -14,12 +14,13 @@ Sämtlicher Code zur Analyse ist im \gls[noindex]{github}-Repository\footnote{\h
 
 \section{Stichprobe}
 
-Die Datenerhebung fand im Rahmen der einführenden Exkursion Recht auf Stadt im ersten Studienjahr des Bachelorstudiengangs Geographie an der Universität Bern im Mai 2025 statt. Zu Beginn jedes der insgesamt vier Exkursionstage erfolgte eine Einladung zur freiwilligen Teilnahme an der Studie -- beim ersten Termin von mir persönlich, an den folgenden Terminen durch die Exkursionsleitenden. Für jede teilnehmende Person begann die Erhebungsphase mit einer einmaligen Baseline-Befragung und dauerte ab diesem Zeitpunkt sieben Tage.
+Die Datenerhebung fand im Rahmen der einführenden Exkursion \enquote{Recht auf Stadt} im ersten Studienjahr des Bachelorstudiengangs Geographie an der Universität Bern im Mai 2025 statt. Zu Beginn jedes der insgesamt vier Exkursionstage erfolgte eine Einladung zur freiwilligen Teilnahme an der Studie -- beim ersten Termin von mir persönlich, an den folgenden Terminen durch die Exkursionsleitenden. Für jede teilnehmende Person begann die Erhebungsphase mit einer einmaligen Baseline-Befragung und dauerte ab diesem Zeitpunkt sieben Tage.
 
 \subsection*{Demographische Daten aus der Baseline Befragung}
 
 Insgesamt wurden rund \num{80} Personen zur Teilnahme eingeladen. \num{24} davon schlossen mindestens die einmalige Baseline-Befragung vollständig ab und wurden in die Stichprobe aufgenommen. \num{8} begonnene, aber nicht abgeschlossene Baseline-Befragungen wurden ausgeschlossen. Ebenfalls ausgeschlossen wurden \num{6} während der Erhebungsphase begonnene, aber nicht abgeschlossene Momentaufnahmen. Die endgültige Stichprobe umfasst somit \num{24} Personen. \cref{tab:kreuztabelle_abs} zeigt die Verteilung von sozialem Geschlecht und Altersgruppe.
 
+\footnotesize
 \begin{longtable}{lcccS}
     \caption{Kreuztabelle: Soziales Geschlecht und Altersgruppe (absolute Häufigkeiten)}
     \label{tab:kreuztabelle_abs}\\
@@ -45,7 +46,8 @@ Insgesamt wurden rund \num{80} Personen zur Teilnahme eingeladen. \num{24} davon
     Frau &  8 & 1 & 0 &  9 \\
     \midrule
     \textbf{Gesamt} & 20 & 3 & 1 & 24 \\
-    \end{longtable}
+\end{longtable}
+\normalsize
     
   
 
@@ -66,7 +68,7 @@ Die Verteilung der Anzahl abgeschlossener Momentaufnahmen pro Person ist in \cre
 Die Verteilungen der während der Momentaufnahmen angegebenen Tätigkeiten und Aufenthaltsortkategorien sind in \cref{fig:survey_activities} bzw. \cref{fig:survey_locations} dargestellt.  
 Innenräume ($n = \num{54}; \SI{51}{\percent}$) und Aussenräume ($n = \num{52}; \SI{49}{\percent}$) waren nahezu gleich häufig vertreten.
 
-Das soziale Umfeld variierte: Etwa ein Drittel der Momentaufnahmen wurde allein durchgeführt ($n = \num{37}; \SI{35}{\percent}$), ein weiteres Drittel in Gegenwart von Freund\genderstern innen ($n = \num{28}; \SI{26}{\percent}$). Weitere Angaben betrafen die Anwesenheit von Fremden ($n = \num{10}; \SI{9}{\percent}$), Kolleg\genderstern innen ($n = \num{8}; \SI{8}{\percent}$) oder Kombinationen dieser Gruppen (\gls[noindex]{vgl} \cref{app:people_table}).
+Das soziale Umfeld variierte: Etwa ein Drittel der Momentaufnahmen wurde allein durchgeführt ($n = \num{37}; \SI{35}{\percent}$), ein weiteres Drittel in Gegenwart von Freund\genderstern innen ($n = \num{28}; \SI{26}{\percent}$). Weitere Angaben betrafen die Anwesenheit von Fremden ($n = \num{10}; \SI{9}{\percent}$), Kolleg\genderstern innen ($n = \num{8}; \SI{8}{\percent}$) oder Kombinationen dieser Gruppen (siehe \cref{tab:moments}).
 
 \begin{figure}[h]
     \centering
@@ -126,6 +128,7 @@ Das erste Modell ($M0_{3L}$) dient dazu, die Gesamtvarianz des Wohlbefindens auf
     \item \textbf{Level~3:} soziale \glspl{stratum}.
 \end{enumerate}
 
+\footnotesize
 \begin{longtable}{llll ccc}
     \caption{Übersicht über soziale \glspl[noindex]{stratum}}\label{tab:strata-uebersicht}\\
     \toprule
@@ -166,6 +169,8 @@ Das erste Modell ($M0_{3L}$) dient dazu, die Gesamtvarianz des Wohlbefindens auf
     männlich    & 26 -- 35    & bisexuell     & Sehr niedrig   & 1 &  1 & 1.00 \\
     
 \end{longtable}
+\normalsize
+
 
 Die Schätzung ergibt, dass rund \SI{8.9}{\percent} der Gesamtvarianz zwischen den \glspl{stratum} liegt, während auf der Personenebene keine eigenständige Varianz feststellbar ist. Mit anderen Worten: Innerhalb desselben \glspl{stratum} unterscheiden sich die mittleren Wohlbefindenswerte der einzelnen Personen in diesen Daten nicht systematisch. Der Grossteil der Varianz ($\approx$\SI{91.1}{\percent}) entfällt auf kurzfristige Schwankungen zwischen verschiedenen Momentaufnahmen derselben Person.
 
@@ -193,6 +198,7 @@ Methodisch eröffnet dieser Ansatz die Möglichkeit, \gls[noindex]{ema}- und \gl
 
 Für jede der vier metrischen Umweltbewertungen (\emph{Lautstärke}, \emph{sichtbare Natur}, \emph{Lebhaftigkeit} und \emph{empfundende Angenehmheit}) wurde ein separates Mehrebenenmodell mit zufälligen Steigungen geschätzt. Die Umweltvariablen wurden vorab \emph{person-mean}-zentriert und standardisiert, sodass die Koeffizienten als Veränderung des Wohlbefindens pro Anstieg um eine Standardabweichung gegenüber dem individuellen Mittelwert interpretiert werden können. Jedes Modell enthielt die vier sozialen Achsen als feste Effekte, während für die jeweilige Umweltvariable eine variierende Steigung (\emph{Random Slope}) pro \gls{stratum} geschätzt wurde. Aus den Modellen wurden stratum-spezifische Steigungen mit 95\%-Konfidenzintervallen extrahiert und in Tabelle~\ref{tab:effekte-pro-stratum} zusammengeführt.
 
+\footnotesize
 \begin{ThreePartTable}
     \begin{TableNotes}[flushleft]
         \item $\Delta$ Wohlbefindensindex pro Anstieg der erklärenden Variable um eine Standardabweichung.
@@ -241,6 +247,8 @@ Für jede der vier metrischen Umweltbewertungen (\emph{Lautstärke}, \emph{sicht
     
     \end{longtable}
 \end{ThreePartTable}
+\normalsize
+
 
 Einzelne Effektschätzungen waren statistisch signifikant (95\%-Konfidenzintervall schliesst 0 aus). Angesichts der geringen Fallzahlen pro Stratum und der unbalancierten Stichprobe sind diese Resultate jedoch nicht inhaltlich belastbar. Die Auswertung ist hier vor allem als Demonstration zu verstehen, wie heterogene Umwelteffekte entlang sozialer \glspl{stratum} modelliert und dargestellt werden können.
 
