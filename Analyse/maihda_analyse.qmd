@@ -337,7 +337,9 @@ as.data.frame.matrix(round(cross_pct, 1)) |>
 
 ```{r}
 #| label: desc-sliders-compute
+#| echo: true
 
+# Long-Format + Skalierung beibehalten (–1 … +1), Reihenfolge setzen
 slider_cols <- c(
   "general_wellbeing","content","tense_relaxed","awake",
   "environment_noise","environment_nature","environment_lively",
@@ -351,7 +353,7 @@ GERMAN_LABELS <- c(
   environmen_pleasure = "Wie angenehm empfindest du den Ort?",
   content             = "Wie fühlst du dich insgesamt?",
   general_wellbeing   = "Ganz allgemein – wie zufrieden bist du?",
-  tense_relaxed       = "Wie angespannt oder entspannt fühlst du dich?",
+  tense_relaxed       = "Wie angespannt fühlst du dich?",
   awake               = "Wie wach fühlst du dich?",
   sense_of_belonging  = "Wie zugehörig oder fremd fühlst du dich?"
 )
@@ -361,13 +363,13 @@ sliders_long <- survey |>
   tidyr::pivot_longer(cols = dplyr::all_of(slider_cols),
                       names_to = "variable", values_to = "value") |>
   dplyr::mutate(
-    value = as.numeric(value),
+    value  = as.numeric(value),
     scaled = (value - 0.5) * 2,
     var_de = dplyr::recode(variable, !!!GERMAN_LABELS)
   ) |>
   dplyr::filter(!is.na(scaled))
 
-# Reihenfolge (wie im Python)
+# Reihenfolge wie bisher
 var_order <- c("environment_noise","environment_nature","environment_lively",
                "environmen_pleasure","content","general_wellbeing",
                "tense_relaxed","awake","sense_of_belonging")
@@ -375,22 +377,99 @@ sliders_long$var_de <- factor(sliders_long$var_de,
                               levels = GERMAN_LABELS[var_order])
 ```
 
+
 ```{r}
 #| label: desc-sliders-plot
-#| code-fold: true
-dir.create("plots", showWarnings = FALSE)
+#| echo: true
+#| message: false
+#| warning: false
 
-p_sliders <- ggplot(sliders_long, aes(x = scaled)) +
-  geom_histogram(binwidth = 0.1, boundary = -1, closed = "left",
-                 fill = "#2F2E41", color = "white") +
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5) +
-  scale_x_continuous(limits = c(-1, 1), breaks = c(-1, 0, 1)) +
-  labs(x = NULL, y = "Häufigkeit") +
-  facet_wrap(~ var_de, ncol = 2, scales = "fixed") +
-  theme()
+# Endpunkte (links/rechts)
+label_pairs <- data.frame(
+  variable = c(
+    "environment_noise","environment_nature","environment_lively",
+    "environmen_pleasure","content","general_wellbeing",
+    "tense_relaxed","awake","sense_of_belonging"
+  ),
+  left = c(
+    "Sehr laut","Keine Natur","Lebhaft",
+    "Unangenehm","Sehr unwohl","Sehr unzufrieden",
+    "Sehr angespannt","Sehr müde","Sehr fremd"
+  ),
+  right = c(
+    "Sehr leise","Viel Natur","Ruhig",
+    "Angenehm","Sehr wohl","Sehr zufrieden",
+    "Sehr entspannt","Sehr wach","Sehr zugehörig"
+  ),
+  stringsAsFactors = FALSE
+)
 
-print(p_sliders)
-ggsave("plots/slider_hists.pdf", p_sliders, width = 15/2.54, height = 22/2.54, device = cairo_pdf)
+# interne Geom für Grob-Annotation (stabil genug für diesen Zweck)
+annotation_custom2 <- function(grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) {
+  ggplot2::layer(
+    data = NULL, stat = "identity", position = "identity",
+    geom = ggplot2:::GeomCustomAnn, inherit.aes = FALSE,
+    params = list(grob = grob, xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
+  )
+}
+
+make_slider_plot <- function(data_long, var_id, left_lab, right_lab, title_txt, file) {
+  p <- data_long |>
+    dplyr::filter(variable == var_id, !is.na(scaled)) |>
+    ggplot2::ggplot(ggplot2::aes(x = scaled)) +
+    ggplot2::geom_histogram(binwidth = 0.1, boundary = -1, closed = "left",
+                            fill = "#2F2E41", color = "white") +
+    ggplot2::geom_vline(xintercept = 0, linetype = "dashed",
+                        color = "red", linewidth = 0.5) +
+    # keine Achsen-Beschriftung unten; Endpunkte kommen als Annotation
+    ggplot2::scale_x_continuous(limits = c(-1, 1), breaks = NULL, expand = c(0, 0)) +
+    ggplot2::labs(x = NULL, y = "Häufigkeit", title = title_txt) +
+    ggplot2::coord_cartesian(clip = "off") +
+    theme_minimal(base_size = 10) +
+    theme(
+      panel.grid.minor = element_blank(),
+      panel.grid.major.x = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      plot.title.position = "plot",
+      plot.title = element_text(
+        hjust = 0,             # linksbündig
+        face = "plain",        # nicht fett
+        size = rel(1),         # gleiche Größe wie Achsenlabels
+        margin = margin(b = 4)
+      ),
+      axis.title.y = element_text(margin = margin(r = 6)),
+      plot.margin = margin(t = 5, r = 6, b = 18, l = 6)
+    ) +
+    # Linkes Label exakt an der linken Panelkante (erste Säule), linksbündig
+    annotation_custom2(
+      grid::textGrob(label = left_lab, x = grid::unit(0, "npc"),
+                     y = grid::unit(-0.02, "npc"), hjust = 0, vjust = 1,
+                     gp = grid::gpar(cex = 0.85))
+    ) +
+    # Rechtes Label exakt an der rechten Panelkante (letzte Säule), rechtsbündig
+    annotation_custom2(
+      grid::textGrob(label = right_lab, x = grid::unit(1, "npc"),
+                     y = grid::unit(-0.02, "npc"), hjust = 1, vjust = 1,
+                     gp = grid::gpar(cex = 0.85))
+    )
+
+  ggplot2::ggsave(file, p, width = 7.5/2.54, height = 6.5/2.54, device = cairo_pdf)
+}
+
+dir.create("plots/sliders", recursive = TRUE, showWarnings = FALSE)
+titles_de <- GERMAN_LABELS
+
+for (i in seq_len(nrow(label_pairs))) {
+  make_slider_plot(
+    data_long = sliders_long,
+    var_id    = label_pairs$variable[i],
+    left_lab  = label_pairs$left[i],
+    right_lab = label_pairs$right[i],
+    title_txt = titles_de[[ label_pairs$variable[i] ]],
+    file      = file.path("plots/sliders", paste0(label_pairs$variable[i], "_hist.pdf"))
+  )
+}
 ```
 
 ## Merge der Datensätze
