@@ -159,6 +159,8 @@
   citetracker=true,
   giveninits=false,
   maxbibnames=999,
+  maxcitenames=2,
+  mincitenames=1,
   date=year,
   uniquename=false,
   language=swissgerman,
@@ -209,13 +211,13 @@
 \DeclareCiteCommand{\textcite}
   {\usebibmacro{prenote}}
   {%
-    % Name(n) – mit Vorname nur beim allerersten Auftreten
-    \printnames[firstfullonce]{labelname}%
+    % Namen ausgeben: Format "firstfullonce", begrenzt auf min=1, max=2
+    \printnames[firstfullonce][1-2]{labelname}%
     \addspace
-    % Jahr in runden Klammern, bleibt vollständig verlinkt
+    % Jahr in runden Klammern, verlinkt
     \mkbibparens{\bibhyperref{\printfield{year}}}%
   }
-  {\multicitedelim}      % Trennzeichen, falls Sie doch einmal mehrere Schlüssel angeben
+  {\multicitedelim}
   {\usebibmacro{postnote}}
 \makeatother
 % -------------------------------------------------------------
