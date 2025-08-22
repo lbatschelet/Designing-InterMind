@@ -36,8 +36,10 @@
 \RequirePackage{ltablex}
 \RequirePackage{threeparttablex}
 \RequirePackage{etoolbox}
+\RequirePackage{pdfpages}
 \RequirePackage{ccicons}
 \keepXColumns
+
 
 
 \renewcommand{\sfdefault}{phv}
@@ -90,12 +92,15 @@
 % \DisableLigatures{encoding = *, family = * }
 
 \RequirePackage[dvipsnames, table]{xcolor}
+
+\definecolor{rowgray}{gray}{0.95}
+\definecolor{Headercolor}{HTML}{29317a}
 \RequirePackage{hyperref}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
-    citecolor=TealBlue,
-    urlcolor=TealBlue
+    citecolor=Headercolor,
+    urlcolor=Headercolor
 }
 
 
@@ -103,8 +108,7 @@
 
 \RequirePackage{bookmark}
 
-\definecolor{rowgray}{gray}{0.95}
-\definecolor{Headercolor}{HTML}{2F2E41}
+
 
 \RequirePackage[german]{cleveref}
 \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
@@ -115,11 +119,11 @@
 
 
 \RequirePackage{titlesec}
-\titleformat{\part}{\sffamily\LARGE\bfseries\raggedright\color{Headercolor}}{\thepart}{1em}{}
-\titleformat{\chapter}{\sffamily\Large\bfseries\raggedright\color{Headercolor}}{\thechapter}{1em}{}
-\titleformat{\section}{\sffamily\large\bfseries\raggedright\color{Headercolor}}{\thesection}{1em}{} 
-\titleformat{\subsection}{\sffamily\normalsize\bfseries\raggedright\color{Headercolor}}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright\color{Headercolor}}{\thesubsubsection}{1em}{}
+\titleformat{\part}{\sffamily\LARGE\bfseries\raggedright\color{black}}{\thepart}{1em}{}
+\titleformat{\chapter}{\sffamily\Large\bfseries\raggedright\color{black}}{\thechapter}{1em}{}
+\titleformat{\section}{\sffamily\large\bfseries\raggedright\color{black}}{\thesection}{1em}{} 
+\titleformat{\subsection}{\sffamily\normalsize\bfseries\raggedright\color{black}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright\color{black}}{\thesubsubsection}{1em}{}
 \titlespacing*{\chapter}{0pt}{*2}{1em}
 
 \makeatletter

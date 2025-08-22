@@ -3,11 +3,10 @@
 # Lukas Batschelet
 # 2025-08-16
 # Skript zum Kompilieren der Bachelorarbeit und Aktualisieren der Website
-# Das Skript erstellt ein Versioniertes PDF der Bachelorarbeit und kopiert es in das Submodul intermind.ch/static-docs
-# Das Skript kann mit ./build_ba.sh ausgeführt werden.
+# Das Skript erstellt ein versioniertes PDF der Bachelorarbeit und kopiert es in das Submodul intermind.ch/static-docs
+# Compiler (pdfLaTeX, XeLaTeX, LuaLaTeX) wählbar über $LATEX_ENGINE
 
 set -euo pipefail
-
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
@@ -30,8 +29,29 @@ STABLE_WEB_NAME="Bachelorarbeit_Lukas_Batschelet.pdf"
 PUSH_SUBMODULE="${PUSH_SUBMODULE:-true}"
 SUBMODULE_BRANCH_DEFAULT="${SUBMODULE_BRANCH_DEFAULT:-main}"
 
+# === LaTeX Engine wählen ===
+# Default = pdfLaTeX
+LATEX_ENGINE="${LATEX_ENGINE:-pdflatex}"
+
+case "$LATEX_ENGINE" in
+  pdflatex)
+    LATEXMK_OPT="-pdf"
+    ;;
+  xelatex)
+    LATEXMK_OPT="-xelatex"
+    ;;
+  lualatex)
+    LATEXMK_OPT="-lualatex"
+    ;;
+  *)
+    echo "!!! Unbekannter LATEX_ENGINE: $LATEX_ENGINE (erlaubt: pdflatex, xelatex, lualatex)"
+    exit 1
+    ;;
+esac
+
 echo "--- Starte Build-Prozess für Bachelorarbeit ---"
 echo "[DEBUG] SCRIPT_DIR=$SCRIPT_DIR"
+echo "[DEBUG] LATEX_ENGINE=$LATEX_ENGINE"
 echo "[DEBUG] SUBMODULE_DIR=$SUBMODULE_DIR"
 echo "[DEBUG] WEB_DOC_DIR=$WEB_DOC_DIR"
 
@@ -40,8 +60,8 @@ echo "[1] Erstelle Verzeichnisse (falls nötig)..."
 mkdir -p "$OUTPUT_DIR" "$ARCHIVE_DIR"
 
 # 2) latexmk
-echo "[2] Führe latexmk aus (Output → '$OUTPUT_DIR')..."
-latexmk -pdf -outdir="$OUTPUT_DIR" -jobname="${BASE_PDF_NAME%.pdf}" "$MAIN_TEX_FILE"
+echo "[2] Führe latexmk aus (Engine=$LATEX_ENGINE, Output → '$OUTPUT_DIR')..."
+latexmk $LATEXMK_OPT -outdir="$OUTPUT_DIR" -jobname="${BASE_PDF_NAME%.pdf}" "$MAIN_TEX_FILE"
 
 # 3) Ergebnis prüfen
 COMPILED_PDF="$OUTPUT_DIR/$BASE_PDF_NAME"
