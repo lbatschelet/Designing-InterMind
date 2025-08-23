@@ -44,13 +44,16 @@ library(extrafont)
 
 # Fonts laden
 loadfonts()
+
 theme_set(
   theme_minimal(base_size = 11, base_family = "Fira Sans Light") +
     theme(
+      text             = element_text(colour = "black"),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      plot.title       = element_text(family = "Fira Sans Light", face = "bold"),
-      plot.subtitle    = element_text(family = "Fira Sans Light", face = "plain"),
+      plot.title       = element_text(family = "Fira Sans", face = "bold", hjust = 0.5),
+      plot.title.position = "plot",
+      plot.subtitle    = element_text(family = "Fira Sans Light"),
       axis.text.x      = element_text(family = "Fira Sans Light", size = 8),
       axis.text.y      = element_text(family = "Fira Sans Light", size = 8),
       axis.title.x     = element_text(family = "Fira Sans Light", size = 9),
@@ -60,6 +63,11 @@ theme_set(
       legend.title     = element_text(family = "Fira Sans Light", size = 9)
     )
 )
+
+# Falls deine Zahlenlabels per geom_text()/geom_label() kommen, noch explizit:
+update_geom_defaults("text",  list(family = "Fira Sans Light", face = "plain", colour = "black"))
+update_geom_defaults("label", list(family = "Fira Sans Light", face = "plain", colour = "black"))
+
 # Reproduzierbarkeit
 set.seed(42)
 options(dplyr.summarise.inform = FALSE)
@@ -436,12 +444,13 @@ make_slider_plot <- function(data_long, var_id, left_lab, right_lab, title_txt, 
       axis.ticks.x = element_blank(),
       plot.title.position = "plot",
       plot.title = element_text(
-        family = "URW Grotesk",
-        hjust = 0,             # linksbündig
-        face = "plain",        # nicht fett
+        family = "Fira Sans",
+        hjust = 0.5,           # zentriert
+        face = "bold",        # fett
         size = rel(1),         # gleiche Größe wie Achsenlabels
         margin = margin(b = 4)
       ),
+      axis.text.y = element_text(family = "Fira Sans Light"),
       axis.title.y = element_text(family = "Fira Sans Light", margin = margin(r = 6)),
       plot.margin = margin(t = 5, r = 6, b = 18, l = 6)
     ) +
@@ -449,13 +458,13 @@ make_slider_plot <- function(data_long, var_id, left_lab, right_lab, title_txt, 
     annotation_custom2(
       grid::textGrob(label = left_lab, x = grid::unit(0, "npc"),
                      y = grid::unit(-0.02, "npc"), hjust = 0, vjust = 1,
-                     gp = grid::gpar(cex = 0.85))
+                     gp = grid::gpar(cex = 0.85, fontfamily = "Fira Sans Light"))
     ) +
     # Rechtes Label exakt an der rechten Panelkante (letzte Säule), rechtsbündig
     annotation_custom2(
       grid::textGrob(label = right_lab, x = grid::unit(1, "npc"),
                      y = grid::unit(-0.02, "npc"), hjust = 1, vjust = 1,
-                     gp = grid::gpar(cex = 0.85))
+                     gp = grid::gpar(cex = 0.85, fontfamily = "Fira Sans Light"))
     )
 
   ggplot2::ggsave(file, p, width = 7.5/2.54, height = 6.5/2.54, device = cairo_pdf)
