@@ -6,9 +6,10 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{template}[2024/12/19 My custom template class]
+\raggedbottom
 
 % Basierend auf article
-\LoadClass[fontsize=10.4pt,a4paper,DIV=calc]{scrreprt}
+\LoadClass[fontsize=10.4pt,a4paper]{scrreprt}
 \KOMAoptions{toc=flat}
 
 % ---------------------- Pakete für Layout ----------------------
@@ -43,7 +44,6 @@
 \RequirePackage{ccicons}
 \keepXColumns
 
-\interfootnotelinepenalty=10000
 
 % --- Schriften ---
 % 1) Fira Sans als Standardsans (OHNE Option 'light')

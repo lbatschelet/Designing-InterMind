@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{csquotes}
-\usepackage[automake,acronym, toc]{glossaries-extra}
+\usepackage[automake,acronym, toc=false]{glossaries-extra}
 
 \hypersetup{
     pdftitle={Designing InterMind -- Entwicklung eines kritisch-digitalen Forschungsdesigns zur raumbezogenen Erfassung intersektional situierten (Un-)Wohlbefindens},
@@ -19,74 +19,6 @@
 %TC:ignore
 \input{Arbeit/Glossar}
 %TC:endignore
-
-
-
-\AddBibFile{BA_Lukas_Batschelet.bib}
-
-
-\begin{document}
-\pagenumbering{gobble}
-
-\includepdf[pages=1]{Arbeit/Titelblatt/Titelblatt_digital.pdf}
-
-% \begin{titlepage}
-% \sffamily
-% \raggedright
-% 
-% \vspace*{1cm}
-% \huge
-% \textbf{Designing InterMind}
-% 
-% \vspace{0.5cm}
-% \large
-% Entwicklung eines kritisch-digitalen Forschungsdesigns zur raumbezogenen Erfassung intersektional situierten (Un-)Wohlbefindens
-% 
-% \vspace{1.5cm}
-% \textbf{Lukas Batschelet}
-% 
-% \vspace{0.5cm}
-% Matrikel-Nr. 16-499-733
-% 
-% \vfill
-% \normalsize
-% Bachelorarbeit der Philosophisch-naturwissenschaftlichen Fakultät der Universität Bern
-% 
-% \vspace{0.8cm}
-% Betreut durch Prof. Dr. Carolin Schurr und Dr. Moritz Gubler
-% 
-% 
-% Geographisches Institut \\
-% Unit für Sozial- und Kulturgeographie\\
-% Bern, \today
-% 
-% \end{titlepage}
-
-
-
-\clearpage
-
-
-\input{Arbeit/Kapitel/Abstract}
-
-
-\vfill
-\noindent
-Diese Arbeit ist lizenziert unter einer 
-\href{https://creativecommons.org/licenses/by-sa/4.0/}
-{CC BY-SA 4.0 Lizenz}. \ccbysa
-
-
-\clearpage
-
-\pagenumbering{roman}
-
-\begingroup
-  \fontsize{10.4pt}{1.0em}\selectfont
-  \setlength{\parskip}{0pt}
-  \setlength{\itemsep}{0pt plus 0.02pt}
-  \tableofcontents\null
-\endgroup
 
 % common abkürzungen beim ersten mal nicht ausführen
 \glsunset{vgl}
@@ -111,18 +43,55 @@ Diese Arbeit ist lizenziert unter einer
 \glsadd{kap}
 \glsadd{s}
 
+
+
+\AddBibFile{BA_Lukas_Batschelet.bib}
+
+
+\begin{document}
+\pagenumbering{Roman}
+
+\includepdf[pages=1]{Arbeit/Titelblatt/Titelblatt_digital.pdf}
+
+\clearpage
+\pagenumbering{roman}
+
+\input{Arbeit/Kapitel/Abstract}
+
+\vfill
+\noindent
+Diese Arbeit ist lizenziert unter einer 
+\href{https://creativecommons.org/licenses/by-sa/4.0/}
+{CC BY-SA 4.0 Lizenz}. \ccbysa
+
+\cleardoublepage
+
+
+
+\begingroup
+  \fontsize{10.4pt}{0.9em}\selectfont
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{0pt plus 0.02pt}
+  \tableofcontents\null
+\endgroup
+
+\begingroup
+\makeatletter
+\renewcommand*{\glossarypreamble}{%
+  \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}%
+}
+\makeatother
+
+
 % Glossar ohne erzwungenen Seitenumbruch
 \begingroup
-  \fontsize{10.4pt}{1.0em}\selectfont
-  \setstretch{1.2}
-  \let\clearpage\relax
-  \let\cleardoublepage\relax
+  \fontsize{10.4pt}{0.9em}\selectfont
+  \setstretch{1.1}
   \printglossary[
     type=\acronymtype,
-    title=Abkürzungsverzeichnis,
-    toctitle=Abkürzungsverzeichnis,
     nonumberlist,
-    nogroupskip
+    title=Abkürzungsverzeichnis,
+    nogroupskip,
   ]
 \endgroup
 
@@ -172,6 +141,7 @@ Diese Arbeit ist lizenziert unter einer
 % ------------------ Glossar
 %TC:ignore
 \clearpage
+\addcontentsline{toc}{chapter}{Glossar}
 \printglossary[label=sec:glossary]
 
 
