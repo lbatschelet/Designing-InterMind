@@ -14,16 +14,19 @@
 % ---------------------- Pakete für Layout ----------------------
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
-\RequirePackage{helvet}
-\RequirePackage{newtxtext}
+
+% Grundlayout / Tabellen / Sonstiges (reihenfolge unkritisch)
 \RequirePackage{ragged2e}
 \RequirePackage{lipsum}
-\RequirePackage{amsmath}
+
+% --- Math (nur Infrastruktur; keine Formeln nötig) ---
+\RequirePackage{amsmath}   % vor hyperref/cleveref laden
 \let\openbox\relax
 \RequirePackage{amsthm}
-\RequirePackage{newtxmath}
 \RequirePackage{amsfonts}
 \RequirePackage{amscd}
+
+% Tabellen & Co.
 \RequirePackage{booktabs}
 \RequirePackage{array}
 \RequirePackage{tabularray}
@@ -40,9 +43,37 @@
 \RequirePackage{ccicons}
 \keepXColumns
 
+\interfootnotelinepenalty=10000
 
+% --- Schriften ---
+% 1) Fira Sans als Standardsans (OHNE Option 'light')
+\RequirePackage[sfdefault]{FiraSans}
+\renewcommand{\familydefault}{\sfdefault}
 
-\renewcommand{\sfdefault}{phv}
+% 2) Sans-Math (nicht Fira Math, sondern newtxsf)
+\RequirePackage{newtxsf}
+
+% 3) Ab Dokumentstart Textserie auf 'Light' stellen (nur Text, nicht Math)
+\AtBeginDocument{\firalight}
+
+% 4) Sicherheit: Math immer in 'normal' lassen (unterdrückt etwaige light-Switches)
+\everymath{\mathversion{normal}}
+\everydisplay{\mathversion{normal}}
+
+% Überschriften: URW Grotesk (UGQ)
+\newcommand{\headingfont}{\fontfamily{ugq}\selectfont}
+
+% --- Überschriftengestaltung ---
+\RequirePackage{titlesec}
+\titleformat{\part}{\headingfont\LARGE\bfseries\raggedright\color{black}}{\thepart}{1em}{}
+\titleformat{\chapter}{\headingfont\Large\bfseries\raggedright\color{black}}{\thechapter}{1em}{}
+\titleformat{\section}{\headingfont\large\bfseries\raggedright\color{black}}{\thesection}{1em}{}
+\titleformat{\subsection}{\sffamily\bfseries\normalsize\raggedright\color{black}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright\color{black}}{\thesubsubsection}{1em}{}
+\titlespacing*{\chapter}{0pt}{*2}{1em}
+
+\AtBeginEnvironment{tabular}{\firalight}
+\AtBeginEnvironment{tabular*}{\firalight}
 
 \RequirePackage[nswissgerman]{babel}
 
@@ -64,6 +95,15 @@
   \section*{\appendixpagename}
 }
 \makeatother
+
+\RequirePackage[format=plain,labelfont=bf,labelsep=colon]{caption}
+
+\captionsetup{
+  format=plain,
+  justification=raggedright,
+  labelfont=bf,
+  labelsep=space
+}
  
 % ---------------------------------------
 
@@ -114,17 +154,16 @@
 \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
 
 
-\newcommand{\genderstern}{\raisebox{0.55ex}{\small\textasteriskcentered}}
+% hochgestellter Stern ohne Umbruch an der Stern-Stelle,
+% aber mit normaler Hyphenation davor/danach
+\DeclareRobustCommand{\genderstern}{%
+  \nobreak\hskip0pt%
+  \textsuperscript{\textasteriskcentered}%
+  \nobreak\hskip0pt%
+}
 
 
 
-\RequirePackage{titlesec}
-\titleformat{\part}{\sffamily\LARGE\bfseries\raggedright\color{black}}{\thepart}{1em}{}
-\titleformat{\chapter}{\sffamily\Large\bfseries\raggedright\color{black}}{\thechapter}{1em}{}
-\titleformat{\section}{\sffamily\large\bfseries\raggedright\color{black}}{\thesection}{1em}{} 
-\titleformat{\subsection}{\sffamily\normalsize\bfseries\raggedright\color{black}}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\raggedright\color{black}}{\thesubsubsection}{1em}{}
-\titlespacing*{\chapter}{0pt}{*2}{1em}
 
 \makeatletter
 \patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
@@ -247,56 +286,15 @@
     }%
 }
 
+% --- biblatex: Literatur in Fira Sans Light ---
+\renewcommand*{\bibfont}{\firalight} % oder \normalsize, wie du willst
 
-% ---------------------- Titel- und Metainformationen ----------------------
-\newcommand{\ReportTitle}{}
-\newcommand{\ReportAuthor}{}
-\newcommand{\ReportDate}{\today}
-
-\newcommand{\SetTitle}[1]{\renewcommand{\ReportTitle}{#1}}
-\newcommand{\SetAuthor}[1]{\renewcommand{\ReportAuthor}{#1}}
-\newcommand{\SetDate}[1]{\renewcommand{\ReportDate}{#1}}
-
+% URLs in der Bibliographie: Fira Sans OLDSTYLE + Light erzwingen
+\urlstyle{same} % keine Monospace-URL
 \makeatletter
-\renewcommand{\maketitle}{
-    % Titel in serifenlos und linksbündig
-    \vspace*{-2em}
-    \sffamily
-    \raggedright
-    {\Large\bfseries \ReportTitle \par}
-    \vspace{1em}
-    {\footnotesize
-        \ReportAuthor \\
-        \ReportDate
-    }
-    \par\vspace{2em}
-
-    % Nach dem Titel wieder zurück zu Times (Serif) und Blocksatz
-    \normalfont
-    \normalsize
-    \rmfamily
-    \justifying
-}
+\def\UrlFont{%
+  \fontencoding{T1}%
+  \fontfamily{FiraSans-OsF}% Oldstyle Figures (hat Light)
+  \fontseries{l}% Light
+  \selectfont}
 \makeatother
-
-
-% Abstract-Überschrift: sans serif, linksbündig; Text: normal Serif
-\makeatletter
-\renewenvironment{abstract}{%
-  % Überschrift (nutzt dein Section-Layout nicht, sondern setzt direkt Format)
-  {\sffamily\bfseries\raggedright\section*{\abstractname}}%
-  % Textformat zurück auf Fliesstext
-  \normalfont\normalsize\rmfamily\justifying
-}{}
-\makeatother
-
-
-% Tabelle Serifenlos
-\AtBeginEnvironment{table}{\sffamily\color{gray!30!black}}
-\AtBeginEnvironment{table*}{\sffamily\color{gray!30!black}}
-
-\AtBeginEnvironment{longtable}{\sffamily\color{gray!30!black}}
-\AtBeginEnvironment{ltablex}{\sffamily\color{gray!30!black}}
-
-\AtBeginEnvironment{tblr}{\sffamily\color{gray!30!black}}
-\AtBeginEnvironment{threeparttable}{\sffamily\color{gray!30!black}}

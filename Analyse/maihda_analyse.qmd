@@ -40,20 +40,24 @@ library(dplyr)
 library(tidyr)
 library(purrr)
 library(ggplot2)
+library(extrafont)
+
+# Fonts laden
+loadfonts()
 theme_set(
-  theme_minimal(base_size = 11) +
+  theme_minimal(base_size = 11, base_family = "Fira Sans Light") +
     theme(
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      plot.title       = element_text(face = "bold"),
-      plot.subtitle    = element_text(face = "plain"),
-      axis.text.x      = element_text(size = 8),
-      axis.text.y      = element_text(size = 8),
-      axis.title.x     = element_text(size = 9),
-      axis.title.y     = element_text(size = 9),
-      strip.text       = element_text(size = 9),
-      legend.text      = element_text(size = 8),
-      legend.title     = element_text(size = 9)
+      plot.title       = element_text(family = "Fira Sans Light", face = "bold"),
+      plot.subtitle    = element_text(family = "Fira Sans Light", face = "plain"),
+      axis.text.x      = element_text(family = "Fira Sans Light", size = 8),
+      axis.text.y      = element_text(family = "Fira Sans Light", size = 8),
+      axis.title.x     = element_text(family = "Fira Sans Light", size = 9),
+      axis.title.y     = element_text(family = "Fira Sans Light", size = 9),
+      strip.text       = element_text(family = "Fira Sans Light", size = 9),
+      legend.text      = element_text(family = "Fira Sans Light", size = 8),
+      legend.title     = element_text(family = "Fira Sans Light", size = 9)
     )
 )
 # Reproduzierbarkeit
@@ -424,7 +428,7 @@ make_slider_plot <- function(data_long, var_id, left_lab, right_lab, title_txt, 
     ggplot2::scale_x_continuous(limits = c(-1, 1), breaks = NULL, expand = c(0, 0)) +
     ggplot2::labs(x = NULL, y = "Häufigkeit", title = title_txt) +
     ggplot2::coord_cartesian(clip = "off") +
-    theme_minimal(base_size = 10) +
+    theme_minimal(base_size = 10, base_family = "Fira Sans Light") +
     theme(
       panel.grid.minor = element_blank(),
       panel.grid.major.x = element_blank(),
@@ -432,12 +436,13 @@ make_slider_plot <- function(data_long, var_id, left_lab, right_lab, title_txt, 
       axis.ticks.x = element_blank(),
       plot.title.position = "plot",
       plot.title = element_text(
+        family = "URW Grotesk",
         hjust = 0,             # linksbündig
         face = "plain",        # nicht fett
         size = rel(1),         # gleiche Größe wie Achsenlabels
         margin = margin(b = 4)
       ),
-      axis.title.y = element_text(margin = margin(r = 6)),
+      axis.title.y = element_text(family = "Fira Sans Light", margin = margin(r = 6)),
       plot.margin = margin(t = 5, r = 6, b = 18, l = 6)
     ) +
     # Linkes Label exakt an der linken Panelkante (erste Säule), linksbündig
