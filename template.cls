@@ -80,7 +80,7 @@
 % =====================================================
 % Appendix-Setup (für Klassen ohne \chapter, z.B. article, eigene .cls)
 % =====================================================
-\RequirePackage[toc, page]{appendix}      % KEINE Optionen 'toc,page' hier!
+\RequirePackage[toc]{appendix}      % KEINE Optionen 'toc,page' hier!
 \RequirePackage{etoc}          % Für lokales TOC im Anhang (optional)
 
 % Deutsche Begriffe

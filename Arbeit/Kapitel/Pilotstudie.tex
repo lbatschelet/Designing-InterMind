@@ -1,4 +1,4 @@
-\chapter{Pilotstudie}
+\chapter{Ein erster Test -- die Pilotstudie}
 \label{sec:pilotstudie}
 
 In diesem Kapitel dokumentiere ich die Durchführung und die Analyse einer Pilotstudie, mit der ich überprüfe, ob das in dieser Arbeit entwickelte Forschungsdesign -- bestehend aus dem Erhebungsinstrument \gls{intermind} und dem dazugehörigen Fragebogen (\cref{sec:entwicklung_app,sec:fragebogenentwicklung}) -- geeignet ist, Daten zu generieren, die sich für eine intersektional-quantitative Analyse nutzen lassen. Zudem begründe ich meine Entscheidung für \gls{i-maihda} als Analyseverfahren und reflektiere dessen Anschlussfähigkeit an eine intersektionale Perspektive.
@@ -13,7 +13,7 @@ Die Frage ist bewusst allgemein formuliert, da sie in dieser Pilotstudie nicht v
 
 Sämtlicher Analysecode ist im \gls[noindex]{github}-Repository\footnote{\href{https://github.com/lbatschelet/Designing-InterMind}{https://github.com/lbatschelet/Designing-InterMind}} dieser Arbeit verfügbar.
 
-\section{Stichprobe}
+\section{Kleine Basis -- die Stichprobe}
 
 Die Datenerhebung fand im Rahmen der einführenden Exkursion \enquote{Recht auf Stadt} im ersten Studienjahr des Bachelorstudiengangs Geographie an der Universität Bern im Mai 2025 statt. Zu Beginn jedes der insgesamt vier Exkursionstage erfolgte eine Einladung zur freiwilligen Teilnahme an der Studie -- beim ersten Termin von mir persönlich, an den folgenden Terminen durch die Exkursionsleitenden. Für jede teilnehmende Person begann die Erhebungsphase mit einer einmaligen Baseline-Befragung und dauerte ab diesem Zeitpunkt sieben Tage.
 
@@ -61,24 +61,23 @@ Die Verteilung der Aufenthaltsorte gliedert sich in die in \cref{fig:survey_loca
 
 Die während der Momentaufnahmen ausgeübten Tätigkeiten sind in \cref{fig:survey_activities} zusammengefasst.
 
-Das soziale Umfeld variiert: Etwa ein Drittel der Befragungen wurden ohne die Anwesenheit anderer Personen durchgeführt (n = 37; 35~\%), ein weiteres Drittel in Gegenwart von Freund\genderstern innen (n = 28; 26~\%). Seltener ist die Anwesenheit von Fremden (n = 10; 9~\%), Arbeitskolleg\genderstern innen (n = 8; 8~\%) oder Kombinationen dieser Gruppen angegeben. Die vollständige Übersicht über die Angaben ist in \cref{tab:moments} festgehalten.
-
-
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=8cm]{Analyse/Plots/survey_counts.pdf}
     \caption{Verteilung der Anzahl abgeschlossener Momentaufnahmen pro Person}
     \label{fig:survey_counts}
 \end{figure}
 
-\begin{figure}[h]
+Das soziale Umfeld variiert: Etwa ein Drittel der Befragungen wurden ohne die Anwesenheit anderer Personen durchgeführt (n = 37; 35~\%), ein weiteres Drittel in Gegenwart von Freund\genderstern innen (n = 28; 26~\%). Seltener ist die Anwesenheit von Fremden (n = 10; 9~\%), Arbeitskolleg\genderstern innen (n = 8; 8~\%) oder Kombinationen dieser Gruppen angegeben. Die vollständige Übersicht über die Angaben ist in \cref{tab:moments} festgehalten.
+
+\begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Analyse/Plots/cat_dist_activity.pdf}
     \caption{Tätigkeit während der Momentaufnahme}
     \label{fig:survey_activities}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Analyse/Plots/cat_dist_location_category.pdf}
     \caption{Aufenthaltsortkategorie während der Momentaufnahme}
@@ -104,11 +103,11 @@ Der zentrale Vorteil von \gls{i-maihda} gegenüber klassischen Regressionsmodell
 
 \gls{i-maihda} ist aus der epidemiologischen Mehrebenenanalyse hervorgegangen und wurde nicht primär entwickelt, um intersektionale Theorien oder Machtverhältnisse theoretisch zu adressieren. Seine intersektionale Anschlussfähigkeit entsteht erst durch eine bewusste, theoriegeleitete Auswahl der Merkmale, eine reflektierte Modellierung und die Einbettung der Ergebnisse in einen sozialen und politischen Kontext \parencite{grossModellingIntersectionalityQuantitative2023}. In diesem Sinne kann \gls{i-maihda} helfen, die eingangs skizzierte Spannung zwischen theoretischem Anspruch und quantitativer Operationalisierung zu verringern -- sie jedoch nicht vollständig auflösen.
 
-\section{Versuch einer Analyse}
+\section{Potenziale sichtbar machen -- ein Analyseversuch}
 
 Mit dieser Pilotanalyse will ich prüfen, ob und in welchem Ausmass sich Unterschiede im situierten (Un\nobreakdash-)Wohl\-be\-find\-en durch die Kombination mehrerer sozialer \glspl{stratum} und durch situative Kontextfaktoren erklären lassen. Dafür setze ich ein mehrstufiges Analyseverfahren ein, das die Messwerte auf verschiedenen Ebenen der Datenhierarchie modelliert. Da die Stichprobe klein und unbalanciert ist -- viele \glspl{stratum} umfassen nur eine Person und die Zahl der Befragungen pro Person ist gering -- verstehe ich die folgenden Schritte als methodische Illustration und nicht als inhaltlich belastbare Beantwortung der Forschungsfrage. Im Analysevorgehen folge ich \textcite{evansTutorialConductingIntersectional2024}.
 
-Als abhängige Variable verwende ich einen Wohlbefindensindex, den ich aus fünf Einzelfragen bilde: Generelles Wohlbefinden, aktuelle Zufriedenheit, vorhandene Anspannung, Energie und soziale Zugehörigkeit (Die genaue Formulierung der Fragen und die Verteilung der Antworten ist in \cref{app:slider_hists} festgehalten). Alle Items sind auf einen Wertebereich von 0 bis 1 skaliert, wobei höhere Werte stets ein positiveres Befinden darstellen. Anschliessend aggregiere ich die Items mittels des geometrischen Mittels, um zu vermeiden, dass ein sehr hoher Wert in einer Dimension einen niedrigen Wert in einer anderen vollständig ausgleicht; zugleich reduziere ich dadurch den Einfluss einzelner Ausreisser.
+Als abhängige Variable verwende ich einen Wohlbefindensindex, den ich aus fünf Einzelfragen bilde: Generelles Wohlbefinden, aktuelle Zufriedenheit, vorhandene Anspannung, Energie und soziale Zugehörigkeit. Die genaue Formulierung der Fragen und die Verteilung der Antworten ist in \cref{app:slider_hists} festgehalten. Alle Items sind auf einen Wertebereich von 0 bis 1 skaliert, wobei höhere Werte stets ein positiveres Befinden darstellen. Anschliessend aggregiere ich die Items mittels des geometrischen Mittels, um zu vermeiden, dass ein sehr hoher Wert in einer Dimension einen niedrigen Wert in einer anderen vollständig ausgleicht; zugleich reduziere ich dadurch den Einfluss einzelner Ausreisser.
 
 Als zeitinvariante erklärende Variablen verwende ich die vier \glslink{identitaetsachse}{Achsen} \emph{Geschlecht}, \emph{Altersgruppe}, \emph{sexuelle Orientierung} und \emph{Äquivalenzeinkommensgruppe} (\gls{vgl} \cref{tab:soziodemografie_gesamt}). Die eindeutige Kombination dieser Merkmale definiert ein soziales \gls{stratum}. Damit gehört jede Person genau zu einem solchen \gls{stratum}.
 
@@ -147,24 +146,24 @@ Das erste Modell (M0:3L) dient dazu, die Gesamtvarianz des Wohlbefindens auf die
     \bottomrule
     \endlastfoot
     
-    weiblich    & 16 -- 25    & heterosexuell & Hoch           & 3 & 13 & 4.33 \\
-    männlich    & 16 -- 25    & heterosexuell & Sehr niedrig   & 3 &  9 & 3.00 \\
+    weiblich    & 16 -- 25    & heterosexuell & hoch           & 3 & 13 & 4.33 \\
+    männlich    & 16 -- 25    & heterosexuell & sehr niedrig   & 3 &  9 & 3.00 \\
     männlich    & 16 -- 25    & heterosexuell & \textemdash    & 2 &  9 & 4.50 \\
     weiblich    & 16 -- 25    & heterosexuell & \textemdash    & 2 &  8 & 4.00 \\
     weiblich    & 16 -- 25    & bisexuell     & \textemdash    & 1 & 12 & 12.00\\
-    männlich    & 16 -- 25    & heterosexuell & Sehr hoch      & 1 &  9 & 9.00 \\
-    männlich    & 16 -- 25    & heterosexuell & Niedrig        & 1 &  8 & 8.00 \\
-    männlich    & 16 -- 25    & homosexuell   & Niedrig        & 1 &  7 & 7.00 \\
-    weiblich    & 16 -- 25    & heterosexuell & Sehr niedrig   & 1 &  6 & 6.00 \\
-    weiblich    & 26 -- 35    & heterosexuell & Sehr niedrig   & 1 &  5 & 5.00 \\
-    männlich    & 26 -- 35    & heterosexuell & Sehr hoch      & 1 &  4 & 4.00 \\
-    männlich    & 16 -- 25    & homosexuell   & Hoch           & 1 &  3 & 3.00 \\
-    männlich    & 16 -- 25    & heterosexuell & Hoch           & 1 &  3 & 3.00 \\
+    männlich    & 16 -- 25    & heterosexuell & sehr hoch      & 1 &  9 & 9.00 \\
+    männlich    & 16 -- 25    & heterosexuell & niedrig        & 1 &  8 & 8.00 \\
+    männlich    & 16 -- 25    & homosexuell   & niedrig        & 1 &  7 & 7.00 \\
+    weiblich    & 16 -- 25    & heterosexuell & sehr niedrig   & 1 &  6 & 6.00 \\
+    weiblich    & 26 -- 35    & heterosexuell & sehr niedrig   & 1 &  5 & 5.00 \\
+    männlich    & 26 -- 35    & heterosexuell & sehr hoch      & 1 &  4 & 4.00 \\
+    männlich    & 16 -- 25    & homosexuell   & hoch           & 1 &  3 & 3.00 \\
+    männlich    & 16 -- 25    & heterosexuell & hoch           & 1 &  3 & 3.00 \\
     männlich    & 16 -- 25    & homosexuell   & \textemdash    & 1 &  3 & 3.00 \\
-    männlich    & 16 -- 25    & bisexuell     & Sehr niedrig   & 1 &  2 & 2.00 \\
-    weiblich    & 16 -- 25    & queer         & Sehr niedrig   & 1 &  2 & 2.00 \\
+    männlich    & 16 -- 25    & bisexuell     & sehr niedrig   & 1 &  2 & 2.00 \\
+    weiblich    & 16 -- 25    & queer         & sehr niedrig   & 1 &  2 & 2.00 \\
     \textemdash & \textemdash & \textemdash   & \textemdash    & 1 &  2 & 2.00 \\
-    männlich    & 26 -- 35    & bisexuell     & Sehr niedrig   & 1 &  1 & 1.00 \\
+    männlich    & 26 -- 35    & bisexuell     & sehr niedrig   & 1 &  1 & 1.00 \\
     
 \end{longtable}
 \normalsize
