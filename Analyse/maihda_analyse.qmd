@@ -172,6 +172,7 @@ p_counts <- ggplot(freq_df, aes(x = n_surveys, y = n_personen)) +
 
 print(p_counts)
 ggsave("plots/survey_counts.pdf", p_counts, width = 8/2.54, height = 5/2.54, device = cairo_pdf)
+ggsave("plots/survey_counts.png", p_counts, width = 8/2.54, height = 5/2.54, dpi = 300)
 ```
 
 ## Kategoriale Verteilungen (einzeln, mit deutschen Labels)
@@ -262,6 +263,10 @@ for (col in names(cat_pct_list)) {
          width  = if (col == "indoors_outdoors") 5/2.54 else 10/2.54,
          height = if (col == "indoors_outdoors") 3/2.54 else 8/2.54,
          device = cairo_pdf)
+  ggsave(sprintf("plots/cat_dist_%s.png", col), p,
+         width  = if (col == "indoors_outdoors") 5/2.54 else 10/2.54,
+         height = if (col == "indoors_outdoors") 3/2.54 else 8/2.54,
+         dpi = 300)
 }
 ```
 
@@ -468,6 +473,9 @@ make_slider_plot <- function(data_long, var_id, left_lab, right_lab, title_txt, 
     )
 
   ggplot2::ggsave(file, p, width = 7.5/2.54, height = 6.5/2.54, device = cairo_pdf)
+  # Speichere auch als PNG
+  png_file <- gsub("\\.pdf$", ".png", file)
+  ggplot2::ggsave(png_file, p, width = 7.5/2.54, height = 6.5/2.54, dpi = 300)
 }
 
 dir.create("plots/sliders", recursive = TRUE, showWarnings = FALSE)
@@ -1264,7 +1272,8 @@ max_abs  <- max(abs(rng))
 pal <- col_numeric(palette = c("#2b8cbe","#f7f7f7","#d7301f"),
                    domain  = c(-max_abs, max_abs), na.color = "#f0f0f0")
 
-wide |>
+# Erstelle die Tabelle
+table_plot <- wide |>
   gt() |>
   tab_header(
     title    = "Effekte pro Stratum (Δ Wohlbefinden pro +1 SD)",
@@ -1280,4 +1289,10 @@ wide |>
   cols_hide(starts_with("sig_")) |>
   cols_label(`Sex. Orient.` = "Sex. Orient.", `Äquiv.-Eink.` = "Äquiv.-Eink.", Befr. = "Befr.") |>
   tab_options(table.font.size = px(14), data_row.padding = px(6))
+
+# Zeige die Tabelle an
+print(table_plot)
+
+# Speichere als PDF mit besserer Qualität
+gtsave(table_plot, "Plots/random_slopes_table.png")
 ```

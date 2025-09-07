@@ -1,0 +1,199 @@
+/*-- scss:defaults --*/
+
+// Fonts über Adobe Fonts
+@import url("https://use.typekit.net/box2vwe.css");
+
+// Typografie
+// Standard-Font: Extra Thin (verwende hier den Display-Font, z. B. für große Überschriften)
+$font-family-sans-serif: "neue-haas-grotesk-display", sans-serif !default;
+$presentation-heading-font: "fira-sans", sans-serif !default;
+
+// Textausrichtung
+$presentation-slide-text-align: left !default;
+$presentation-title-slide-text-align: left !default;
+
+// Farben
+$body-bg: #ffffff !default;
+$body-color: #111111 !default;
+$link-color: #0066cc !default;
+$selection-bg: lighten($link-color, 25%) !default;
+$selection-color: $body-bg !default;
+
+// Schriftgrößen und Abstände
+$presentation-font-size-root: 30px !default;
+$presentation-line-height: 1.5 !default;
+$presentation-heading-line-height: 1.2 !default;
+$presentation-heading-font-weight: 700 !default;
+$presentation-font-weight-normal: 300 !default;
+$presentation-font-weight-bold: 600 !default;
+
+/*-- scss:rules --*/
+
+// Explizite Font-Weight-Regeln für Fira Sans
+.reveal {
+  font-family: $presentation-heading-font;
+  font-weight: $presentation-font-weight-normal; // Das ist jetzt 300 (Light)
+}
+
+// Links innerhalb von Fetttext auch fett darstellen
+.reveal strong a,
+.reveal b a {
+  font-weight: inherit;
+}
+
+// Allgemeine Textausrichtung für Inhalte
+.reveal p,
+.reveal ul,
+.reveal ol {
+  text-align: left;
+}
+
+.reveal .slide-number {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.reveal img {
+  max-width: 100%;
+  border-radius: 0.25rem;
+  display: block;
+  margin: 0.5em 0;
+}
+
+.reveal .quarto-title-author,
+.reveal .date {
+  font-size: 0.6em !important;
+  margin-top: 0.5em;
+}
+
+
+// Wenn der aktive Slide (z. B. Titelfolie oder Abschnittsheader) den Zustand "no-band" hat,
+// wird Reveal.js die Klasse no-band auf .reveal setzen – der Balken wird dann ausgeblendet.
+.reveal.no-band::after {
+  display: none;
+}
+
+// Positionierung der Seitenzahlen (genug Abstand zum Balken)
+.reveal .slide-number {
+  right: 4vh !important;
+  bottom: 1.5vh;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+// Optional: Schutzbereich für den Inhalt (damit nichts unter den Balken rutscht)
+.reveal .slides {
+  padding-right: 40px;
+}
+
+/*--------------------------------------------------------
+  Gemeinsamer Stil für Titelfolien und Abschnittsheader-Folien
+--------------------------------------------------------*/
+
+// Definiere ein Mixin für den gemeinsamen Layout-Stil
+@mixin title-slide-style {
+  text-align: $presentation-title-slide-text-align;
+  font-family: $font-family-sans-serif;
+  padding: 4rem; // Hier kannst du den Innenabstand anpassen
+  // Weitere gemeinsame Eigenschaften (z. B. Hintergründe oder Farben) lassen sich hier ergänzen
+}
+
+// Stil für die Titelfolie
+// (In Quarto: class: title-slide)
+.reveal .slide.title-slide {
+  @include title-slide-style;
+}
+.reveal .slide.title-slide h1 {
+  font-size: 3rem; // Beispielwert für Titelfolien
+  margin: 0;
+}
+
+// Stil für Abschnittsheader-Folien
+// (In Quarto: class: section-header no-band)
+.reveal .slide.section-header {
+  @include title-slide-style;
+}
+.reveal .slide.section-header h2 {
+  font-size: 4.5rem; // "Riesiger" Text für Abschnittsheader
+  margin-top: 10vh;
+}
+
+/* Vertikale Zentrierung NUR für die Folie mit .center-blocks */
+.reveal .slides section.center-blocks > .columns {
+  display: grid;                    /* Quarto columns = grid ist robust */
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;              /* vertikal mittig */
+  column-gap: 2rem;
+  min-height: 60vh;                 /* genug Höhe, damit zentrieren sichtbar ist */
+}
+
+/* Inhalt in den einzelnen Spalten ebenfalls sauber ausrichten */
+.reveal .slides section.center-blocks > .columns > .column {
+  display: grid;
+  align-content: center;            /* zentriert den Block-Inhalt in der Spalte */
+}
+
+/* Nur für die Folie mit .center-blocks: volle Breite, keine erzwungene max-width */
+.reveal .slides section.center-blocks p {
+  max-width: none !important;
+  width: auto !important;
+  margin: 0.15em 0;
+}
+
+.reveal section.center-blocks .subpoints {
+  font-size: 0.8em;
+  line-height: 1.3;
+  display: inline-block;  /* statt block */
+  margin: 0;              /* Abstand killen */
+  padding: 0;
+}
+
+/* Standard: ausblenden auf allen Slides */
+.license-fixed { 
+  display: none;
+  position: fixed;
+  left: 4rem;            /* gleich wie dein Title-Padding -> bündig mit Author/Date */
+  bottom: 1rem;        /* ggf. minimal feinjustieren */
+  inline-size: max-content;
+  align-items: center;
+  gap: 0.35em;
+  font-family: $font-family-sans-serif !important;
+  font-size: 1em !important;    /* identisch zu Author/Date */
+  font-weight: 300;
+  line-height: 1.2;
+  color: rgba(255,255,255,.9);
+  z-index: 10000;
+  margin: 0;
+  padding: 0;
+}
+.license-fixed .license-text { margin-right: 0.25em; }
+.license-fixed i.fa-brands { font-size: 1em; line-height: 1; color: currentColor; }
+
+/* Nur zeigen, wenn die Titelfolie aktiv ist */
+.reveal.has-license .license-fixed,
+.has-license .license-fixed { 
+  display: inline-flex; 
+}
+
+/* rechte Spalte wirklich rechts anlehnen */
+.reveal section.edge-right .screenshot-col {
+  display: flex;
+  justify-content: flex-end;   /* nach rechts */
+  align-items: center;         /* vertikal mittig */
+}
+
+/* Bild bekommt die volle Höhe (fast) und keinen extra Rand */
+.reveal img.screenshot {
+  height: 90vh;        /* fast volle Höhe */
+  max-height: 90vh;
+  width: auto;
+  max-width: none;     /* Breitenlimit entfernen */
+  object-fit: contain;
+  margin: 0;
+  display: block;
+}
+
+/* optional: etwas weniger Spaltengap */
+.reveal section.edge-right .columns {
+  column-gap: 1.2rem;
+}

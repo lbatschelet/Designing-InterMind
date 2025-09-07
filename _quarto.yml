@@ -5,6 +5,7 @@ project:
     - index.qmd
     - Analyse/maihda_analyse.qmd
     - 20250325_Presentation_Colloquium/20250325_Presentation_colloquium.qmd
+    - 20250909_Presentation/20250909_Presentation.qmd
 
 author: Lukas Batschelet
 date: last-modified
@@ -20,6 +21,8 @@ website:
         file: Analyse/maihda_analyse.qmd
       - text: Präsentationen
         menu:
+          - text: Abschlusspräsentation
+            file: 20250909_Presentation/20250909_Presentation.qmd
           - text: Präsentation Kolloquium
             file: 20250325_Presentation_Colloquium/20250325_Presentation_colloquium.qmd
     right:

@@ -1,0 +1,495 @@
+---
+title: "Designing InterMind"
+filters:
+  - fontawesome
+resources:
+  - images/Titelblatt.png
+  - fonts/URWGrotesk-Bold.woff
+title-slide-attributes:
+  data-background-image: images/Titelblatt.png
+  data-background-color: black
+  data-state: has-license   # <— wichtig
+subtitle: "Entwicklung eines feministisch-digitalen Forschungsdesigns zur raumbezogenen Erfassung intersektional situierten (Un-)Wohlbefindens"
+author: "Lukas Batschelet"
+date-format: "long"
+lang: "de-CH"
+date: "2025-09-09"
+license: "CC BY-NC-SA"
+format:
+  revealjs:
+    theme: custom.scss
+    template-partials:
+      - title-slide.html
+    slide-number: true
+    hash: true
+    controls: true
+    progress: true
+    transition: fade
+    incremental: false
+    toc: false
+    overview: true
+    code-overflow: wrap
+execute:
+  echo: false
+include-after-body: license.html
+---
+
+---
+nocite: |
+  @*
+---
+
+## {background-color="black" background-image="https://images.unsplash.com/photo-1603977691724-25520d267838?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+
+
+::: notes
+Ich beginne mit diesem Bild, weil es für mich auf den Punkt bringt, worum es in meiner Arbeit im Kern geht.  
+Orte sind nicht neutral. Wenn Menschen durch dieselbe Umgebung gehen, erleben sie sie sehr unterschiedlich: Für manche kann sie Ruhe und Orientierung bieten, für andere vielleicht Unbehagen oder Unsicherheit hervorrufen.  
+Das zeigt: (Un-)Wohlbefinden entsteht nicht losgelöst, sondern in einer konkreten Situation, in einer bestimmten Umgebung, zu einem bestimmten Zeitpunkt.
+
+Genau dieses situative und kontextabhängige (Un-)Wohlbefinden interessiert mich.  
+Es macht einen Unterschied, ob wir uns auf einer belebten Strasse, in einem Park, auf dem Heimweg oder in einer Wartesituation befinden.  
+Und es macht einen Unterschied, wer wir sind, mit welchen Erfahrungen, Positionierungen und Erwartungen wir einen Ort betreten.  
+All das prägt, wie wir uns fühlen.
+
+Als ich darüber nachgedacht habe, wie man dieses situative (Un-)Wohlbefinden empirisch erfassen könnte, wurde schnell deutlich: mit bestehenden Fragebogen- oder App-Instrumenten lässt sich das nicht befriedigend abbilden.  
+Viele sind zu starr, andere berücksichtigen die Kontexte nicht, und wieder andere sind proprietär und intransparent.  
+
+Deshalb habe ich im Rahmen meiner Arbeit ein eigenes **digitales Tool** entwickelt – eine App, die es ermöglicht, (Un-)Wohlbefinden im Alltag zu erfassen, und zwar so, dass **räumliche Kontexte**, **soziale Positionierungen** und **Datenschutzanforderungen** mitgedacht werden.  
+Diese App habe ich in einer **Pilotstudie** getestet, um zu prüfen, ob es möglich ist, situatives (Un-)Wohlbefinden intersektional und offen zu erheben.  
+
+Schon beim Entwerfen dieses Vorhabens wurde klar, dass drei Ausgangspunkte meine Arbeit besonders prägen:  
+ein theoretischer, ein methodischer und ein normativer.
+:::
+
+---
+
+## Drei Ausgangspunkte {.center-blocks}
+
+::: {.columns}
+::: {.column width="33%" .fragment}
+**Theoretisch**
+<div class="subpoints">  
+Situiertes&nbsp;(Un-)Wohlbefinden<br>
+Emotional&nbsp;Geographies<br>
+Intersektional
+</div>
+:::
+
+::: notes
+Mein erster Ausgangspunkt ist **theoretisch**:  
+Ich arbeite mit dem Konzept des **situierten (Un-)Wohlbefindens**, eng angelehnt an Donna Haraways Idee des situierten Wissens.  
+Das bedeutet, dass (Un-)Wohlbefinden nicht abstrakt oder universal gedacht werden kann, sondern immer **in konkreten Kontexten und Positionierungen** entsteht.  
+Ich knüpfe hier an die Tradition der **Emotional Geographies** an, die Gefühle räumlich und situativ verortet, und kombiniere das mit einer **intersektionalen Perspektive**, die anerkennt, dass unterschiedliche soziale Positionen – etwa Geschlecht, Klasse oder Herkunft – diese Erfahrungen komplex prägen.
+:::
+
+::: {.column width="33%" .fragment}
+**Methodisch**
+<div class="subpoints">
+Bestehende&nbsp;Instrumente<br>
+Konflikt&nbsp;mit&nbsp;Kontext&nbsp;&amp;&nbsp;Normen<br>
+Neue&nbsp;Erhebungslogik
+</div>
+:::
+
+::: notes
+Zweitens geht es um den **methodischen Ausgangspunkt**:  
+Es gibt zwar bereits Instrumente wie EMA-Apps oder Survey-Tools, aber sie geraten in Konflikt mit den Anforderungen, die sich aus meiner theoretischen und normativen Perspektive ergeben.  
+Manche sind zu starr, andere vernachlässigen Kontextinformationen, wieder andere sind proprietär und intransparent.  
+Für mein Vorhaben reicht das nicht: ich brauche eine **kontextsensitive Erhebungslogik**, die im Alltag funktioniert, aber nicht in Widerspruch zu den theoretischen und normativen Ansprüchen steht.
+:::
+
+::: {.column width="33%" .fragment}
+**Normativ**
+<div class="subpoints">
+Feministische&nbsp;Prinzipien<br>
+Offenheit&nbsp;&amp;&nbsp;Transparenz<br>
+Datenschutz&nbsp;als&nbsp;Design
+</div>
+:::
+
+::: notes
+Drittens der **normative Ausgangspunkt**:  
+Meine Arbeit ist von **feministischen Prinzipien** geleitet.  
+Das heisst, Forschung soll so angelegt sein, dass sie **offen, transparent und kritisch überprüfbar** bleibt.  
+Gerade weil es um sensible Alltagsdaten geht, ist **Datenschutz** kein Zusatz, sondern muss integraler Bestandteil des Designs sein.  
+Offenheit, Nachvollziehbarkeit und Schutz sind daher keine „nice to have“-Elemente, sondern **notwendige Bedingungen** für dieses Forschungsprojekt.
+:::
+:::
+
+::: notes
+Diese drei Ausgangspunkte spiegeln sich in der Fragstellung meiner Arbeit wieder:
+:::
+
+---
+
+## Forschungsfrage
+
+::: {.fragment}
+*Wie lässt sich der Einfluss räumlicher Umgebungen auf das situierte (Un-)Wohlbefinden intersektional positionierter Personen quantitativ erfassen und analysieren?*
+:::
+
+::: {.incremental}
+1. Wie muss ein Forschungsdesign gestaltet sein, um situiertes (Un-)Wohlbefinden intersektional positionierter Personen gemeinsam mit relevanten Kontextmerkmalen wiederholt zu erfassen?
+2. Welche Anforderungen ergeben sich aus einer feministisch-digitalen Perspektive an eine Infrastruktur, die solche Erhebungen ermöglicht, und wie lassen sich diese praktisch umsetzen?
+3. Welche Möglichkeiten und Grenzen bieten die erhobenen Daten im Hinblick auf eine intersektionale Mehrebenenmodellierung?
+:::
+---
+
+## Methodische Grundlagen
+
+
+**Ecological Momentary Assessment (EMA)**  
+- wiederholte Kurzbefragungen im Alltag  
+- Auslösung durch Signale oder Zeitfenster, heute häufig mit Apps
+- Befinden und Verhalten in der Umgebung unmittelbar erfassen
+
+
+::: {.fragment}
+**Geographically Explicit Ecological Momentary Assessment (GEMA)**  
+- EMA erweitert um Standortdaten
+- ermöglicht Verknüpfungen mit Kontextdaten wie Temperatur, Lärm oder Bebauungsstruktur  
+- Beforschung von konkreten Umgebungen wie Parks möglich
+:::
+
+
+::: notes
+**EMA:**  
+Erfasst wiederholt und alltagsnah Befinden oder Verhalten. Statt Menschen im Nachhinein zu fragen, werden sie direkt im Alltag über kurze Prompts befragt. Dadurch lassen sich Verzerrungen durch Erinnerung reduzieren.  
+
+**GEMA:**  
+Baut auf EMA auf und ergänzt räumliche Komponenten. Mit Standortdaten können die Befragungen kontextsensitiv ausgelöst oder mit externen Umgebungsinformationen verknüpft werden, etwa Temperatur, Luftqualität oder Bebauungsstruktur. So rückt die räumliche Dimension stärker in den Fokus.  
+:::
+
+---
+
+## Warum eine eigene App?
+
+::: {.columns}
+::: {.column width="50%"}
+**Probleme bestehender Apps**  
+- Nicht offen, nicht nachvollziehbar  
+- Wenig Fragetypen (meist Single-/Multiple-Choice)  
+- Proprietär, nicht erweiterbar
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+**Anforderungen für InterMind**  
+- Wiederholte, geolokalisierte Erhebungen  
+- Vielfältige Fragetypen inkl. *offene Antworten*  
+- Pseudonym, Daten selbst löschbar  
+- Mehrsprachig, alltagstauglich (DE/EN/FR)  
+:::
+:::
+:::
+
+::: notes
+**Links (Probleme):**  
+- Urban Mind und ähnliche Apps sind *Black Boxes*: man weiss nicht, wie Daten erhoben und verarbeitet werden.  
+- Nur sehr eingeschränkte Fragetypen, fast nur Multiple-Choice.  
+- Proprietär und nicht erweiterbar → kein Nachvollzug, kein eigener Einsatz möglich.  
+
+**Rechts (Anforderungen):**  
+- Eigene App soll wiederholt, geolokalisiert und kontextsensitiv erheben.  
+- Mehr Fragetypen, auch offene Antworten, damit Erfahrungen nicht in vorgegebene Kategorien gezwungen werden.  
+- Datenschutz by design: Pseudonyme, Daten jederzeit löschbar.  
+- Niedrigschwellig: mobil, mehrsprachig (DE/EN/FR), kurze Dauer → geeignet auch für kleinere Studien.  
+:::
+
+---
+
+## InterMind – Umsetzung
+
+::: {.columns}
+::: {.column width="70%"}
+- Offen & modular (AGPL, [intermind.ch/code](https://intermind.ch/code))  
+- React Native + Expo: eine Codebasis, iOS & Android  
+- Supabase: Open-Source-Backend, Server in CH  
+- Fragebögen flexibel und losgelöst vom code  
+- Datenschutz by design, nachvollziehbar 
+- stabil nutzbar, aber ausbaufähig
+:::
+
+::: {.column width="25%"}
+![Willkommensbildschirm aus InterMind](../Arbeit/Bilder/printscreens/welcome.jpeg){fig-alt="Willkommensbildschirm aus InterMind"}
+:::
+:::
+
+::: notes
+Die App basiert auf einer **offenen, modularen Architektur** – der Code ist AGPL-lizenziert und zugänglich über [intermind.ch/code](https://intermind.ch/code).  
+
+**React Native + Expo** liefern eine gemeinsame Codebasis für iOS und Android und erleichtern Schnittstellen wie Push-Benachrichtigungen und Standortzugriff.  
+
+Das Backend läuft auf **Supabase**, Open Source, Postgres-basiert, mit Servern in der Schweiz.  
+
+Die **Fragebögen** sind als Konfigurationsdateien ausgelagert – neue Studien können so ohne Neubau der App umgesetzt werden.  
+
+Von Anfang an wurde **Datenschutz by design** umgesetzt: minimale Erhebung, klare Einwilligung, Transparenz für Nutzer:innen.  
+
+Das Ganze ist bewusst ein **MVP**: stabil, dokumentiert, einsatzbereit – und mit Spielraum für Weiterentwicklung.  
+:::
+
+---
+
+## InterMind – Veröffentlichung
+
+::: {.columns}
+::: {.column width="70%"}
+- **Entwickleraccounts & Infrastruktur**  
+  (Domain, Projektwebsite, Privacy Policy)  
+- **App Stores als Gatekeeper**  
+  Apple: Ablehnungen („zu wenig Mehrwert“)  
+  Google: Gebühren & verpflichtende Vortests  
+- **Distribution stark unterschätzt**  
+  Veröffentlichung fast so aufwendig wie Coding  
+- **Spannung: Offenheit ↔ Plattformmacht**  
+  Offener Code – aber gebunden an geschlossene Systeme
+:::
+
+::: {.column width="25%"}
+![Eine offene Frage aus InterMind](../Arbeit/Bilder/printscreens/offen_unwohl.jpeg){fig-alt="InterMind Store Listing"}
+:::
+:::
+
+::: notes
+Die Veröffentlichung war ein sehr arbeitsintensiver Teil:  
+- Zunächst die **Infrastrukturarbeit**: Accounts, Server, Domain, Datenschutzseite – ohne das keine Veröffentlichung.  
+- Dann die **Gatekeeper-Rolle der Stores**: Apple lehnte mehrfach ab mit der Begründung „zu wenig Mehrwert“; Google verlangte Gebühren und Vortests.  
+- Die **Distribution habe ich massiv unterschätzt**: sie war fast so aufwendig wie das Coden selbst – sicher auch, weil es mein erster vollständiger Veröffentlichungsprozess war.  
+- Am Ende zeigt sich die **Spannung**: ich habe die App offen und modular entwickelt, aber die Distribution bleibt an die geschlossenen Systeme von Apple und Google gebunden.  
+
+Mündlich kann ich ergänzen, dass die App heute nicht mehr öffentlich verfügbar ist, weil eine Datenerhebung ohne Forschungszweck nicht verantwortbar wäre.  
+:::
+
+---
+
+## Fragebogen 
+
+::: {.columns}
+::: {.column width="70%"}
+::: {.r-fit-text}
+- **Kein Standard**  
+  Keine etablierten Kurzfragebögen für situatives (Un-)Wohlbefinden  
+  → pragmatischer Eigenentwurf  
+
+- **Baseline-Modul** (einmalig)  
+  Soziale Positionierungen & Diskriminierung  
+  → Grundlage für intersektionale Analyse  
+
+- **Situatives Modul** (3x täglich)  
+  Kontext: Ort & soziale Umgebung  
+  (Un-)Wohlbefinden 
+  Intersektionale Fragen (Mehrheitsvergleich, Zugehörigkeit)  
+  Offene Fragen für Gründe & Kontext  
+
+- **Gestaltung**  
+  Alltagstauglich: kurz (10 / 3 Minuten)  
+  Mehrsprachig (DE / EN / FR)  
+  Direkte, alltagsnahe Sprache
+:::
+:::
+
+::: {.column width="25%"}
+![Screenshot eines Sliders](../Arbeit/Bilder/printscreens/zugehoerigkeit.jpeg){fig-alt="Screenshot Slider-Fragetyp"}
+:::
+:::
+
+::: notes
+**Wichtiger Ausgangspunkt**  
+– Es existiert kein standardisiertes, breit akzeptiertes Instrument für kurzfristige, situative Erhebungen von (Un-)Wohlbefinden.  
+– Psychologische Skalen (z. B. WHO-5, WEMWBS, PANAS) sind auf Wochen oder längere Zeiträume ausgelegt, viel zu umfangreich für mehrfache Erhebungen pro Tag.  
+– Daher: pragmatischer Eigenentwurf → kurzer, reduzierter Fragebogen, der situativ funktioniert.  
+
+**Baseline-Modul**  
+– einmalige Eingangsbefragung: Alter, Geschlecht, sexuelle Orientierung, (Dis-)Ability, Einkommen, Bildung etc.  
+– zusätzlich Diskriminierungserfahrungen.  
+– liefert die Grundlage, um die Stichprobe intersektional zu charakterisieren.  
+
+**Situatives Modul**  
+– mehrfach täglich in Alltagssituationen.  
+– drei Teile:  
+   1. **Kontext**: Ort (Drinnen/Draussen, spezifische Kategorie), soziale Umgebung, Geräuschkulisse.  
+   2. **Wohlbefinden**: fünf Dimensionen (Zufriedenheit, Anspannung, Energie, Zugehörigkeit, generelles Befinden).  
+   3. **Intersektional**: Zugehörigkeitsgefühl und Vergleich mit der Mehrheit vor Ort.  
+– ergänzt durch offene Fragen, um Gründe in eigenen Worten benennen zu können.  
+
+**Gestaltung**  
+– bewusst kurz: 10 Min. Baseline, 3 Min. situativ.  
+– direkte, adressierende Sprache, um Distanz zu vermeiden.  
+– mehrsprachig (DE, EN, FR), um Zugang für unterschiedliche Gruppen zu ermöglichen.  
+:::
+
+---
+
+## Pilotstudie
+
+::: {.columns}
+::: {.column width=“50%”}
+::: {.nonincremental}
+- Teilnehmende mit Momentaufnahmen: 25
+- Momentaufnahmen gesamt: 106
+- Design: 7 Tage · Baseline + situative Erhebungen (Push in Tagesfenstern)
+- Kontext: Ort, soziale Umgebung, Lärm, Natur, Lebhaftigkeit, Angenehmheit
+:::
+:::
+
+::: {.column width=“50%”}
+![](../Analyse/Plots/survey_counts.png)
+:::
+:::
+
+::: notes
+Warum diese Folie? Schneller Überblick über Engagement / Drop-off: wie viele Momentaufnahmen pro Person wirklich vorliegen (wichtig für Mehrebenenmodelle).
+Anonymisierung über Rang. Design/Kontext kurz benennen, Details nicht auf die Folie packen.
+:::
+
+---
+
+## Analyse mit I-MAIHDA
+
+::: {.r-fit-text}
+- Spannungsfeld: Intersektionalität in quantitativen Methoden
+- Intersectional Multilevel Analysis of Individual Heterogeneity and Discriminatory Accuracy  
+- Hierarchische Ebenen:  
+  - Level 1: Momentaufnahmen (Beschäftigung, Lautstärke, Lebhaftigkeit, etc.)
+  - Level 2: Personen (Intrapersonelle Varianz über die Zeit)
+  - Level 3: Strata (Kombination sozialer Merkmale wie Geschlecht, Alter, Einkommen, etc.)  
+- Varianzzerlegung: Wie viel Unterschied liegt auf welcher Ebene?
+- Additive Haupteffekte: Geschlecht, Alter, Einkommen, sexuelle Orientierung
+- Intersektionaler Überschuss: Restvarianz, die nur durch Kombination erklärbar ist
+- Kleine, homogene Stichprobe → methodische Illustration
+:::
+
+::: notes
+– Spannungsfeld: Intersektionalität vs. quantitative Methoden  
+  - Intersektionalität → Verschränkung, Kontext, Relationalität  
+  - Quantitative Analyse → Kategorien operationalisieren, klare Variablen  
+  - Risiko: fluid-dynamische Identitäten in starre Kategorien übersetzen  
+
+– Warum I-MAIHDA?  
+  - Herkunft: Epidemiologie / Mehrebenenanalyse  
+  - Ziel: Varianz in mehreren Ebenen zerlegen (Level 1 = Momentaufnahmen, Level 2 = Personen, Level 3 = Strata)  
+  - Jede Kombination sozialer Achsen = eigenes Stratum  
+  - Vorteil: jede Kombination wird als Einheit behandelt, nicht nur Haupteffekte + ausgewählte Interaktionen  
+
+– Zentrale Konzepte  
+  - Varianzzerlegung: Anteil Unterschiede zwischen Strata, Personen, Momentaufnahmen  
+  - Additive Haupteffekte: Geschlecht, Alter, Einkommen, sexuelle Orientierung  
+  - Intersektionaler Überschuss = Restvarianz, die nur durch Kombination erklärbar ist  
+  - Diskriminatorische Genauigkeit: wie trennscharf Strata Unterschiede im Outcome abbilden  
+
+– Einschränkung Pilotstudie
+  - Praktisch kein intersektionaler Überschuss da viele Strata nur 1 Person, wenige Wiederholungen
+  - Sehr kleine, homogene Stichprobe  
+  - Viele Strata nur 1 Person, wenige Wiederholungen  
+  - Modelle nur methodische Illustration, keine belastbaren inhaltlichen Aussagen  
+:::
+
+---
+
+## Kernerkenntnisse
+
+- Forschungsdesign als erster Schritt, nicht Endpunkt  
+- Potenziale: Kombination EMA/GEMA + I-MAIHDA  
+- Spannungen: Theorie ↔ Methode, Offenheit ↔ Plattformabhängigkeit  
+- InterMind: modular, offen, aber begrenzt  
+
+::: notes
+- Diese Arbeit liefert keine endgültige Antwort, sondern einen explorativen Versuch  
+- Stärken: Transparenz, Offenheit, Reflexion der Infrastruktur  
+- Grenzen: kleine, homogene Stichprobe → eingeschränkte Validität  
+- Plattformfrage: Offener Code vs. geschlossene App Stores  
+- Forschung ist immer auch von Infrastrukturen geprägt, nicht nur von Methoden  
+:::
+
+---
+
+## Ausblick
+
+- Grössere, diversere Stichproben nötig  
+- Mixed-Methods: Quantitativ + qualitativ  
+- Erweiterungen: GEMA (z. B. Hitzedaten, Lautstärke)  
+- Herausforderungen: Kategorien, Visualisierung, Partizipation  
+
+::: notes
+- Intersektionale Quantifizierung braucht Breite und Tiefe in den Daten  
+- Mixed-Methods entscheidend, um Zahlen in Kontexte einzubetten  
+- Erweiterungen eröffnen Chancen, müssen aber kritisch reflektiert werden (Messpolitik, Ausschlüsse)  
+- Visualisierung intersektionaler Muster bleibt eine grosse methodische Herausforderung  
+- Partizipation: Rückmeldungen an Teilnehmende, Forschung mit Mehrwert für sie  
+:::
+
+---
+
+## Beitrag der Arbeit
+
+- Prototyp *InterMind* als Werkzeug und Denkanstoss  
+- Kritisch-feministische Perspektive auf Methoden und Infrastruktur  
+- Einladung, weiterzudenken und aufzubauen  
+
+::: notes
+- Kein fertiges Endprodukt, sondern ein Forschungsdesign mit Potenzial  
+- Beitrag: Verbindung von Theorie, Methode, Technik und Reflexion  
+- Copyleft und Open Source als bewusste Entscheidung, nicht nur technisches Detail  
+- Arbeit als Angebot: Andere können darauf aufbauen und kritisch weiterentwickeln  
+- Abschlussbotschaft: Intersektionale Forschung braucht neue digitale Werkzeuge, und *InterMind* ist ein erster Schritt in diese Richtung  
+:::
+
+---
+
+## Literatur {.scrollable}
+
+::: {#refs}
+:::
+
+---
+
+## Verteilung der Aktivitäten {visibility="uncounted"}
+
+![Verteilung der Aktivitäten](../Analyse/Plots/cat_dist_activity.png){fig-alt="Verteilung der Aktivitäten"}
+
+---
+
+## Verteilung der Ortskategorien {visibility="uncounted"}
+
+![Verteilung der Ortskategorien](../Analyse/Plots/cat_dist_location_category.png){fig-alt="Verteilung der Ortskategorien"}
+
+---
+
+## Verteilung der Menschen um mich {visibility="uncounted"}
+
+![Verteilung der Menschen um mich](../Analyse/Plots/cat_dist_people_with_you.png){fig-alt="Verteilung der Menschen um mich"}
+
+---
+
+## Effekte pro Stratum {visibility="uncounted"}
+
+![Effekte pro Stratum](../Analyse/Plots/random_slopes_table.png){fig-alt="Effekte pro Stratum"}
+
+::: notes
+– Kontext: Erweiterung von I-MAIHDA  
+  • Klassisch: nur Random Intercepts (Mittelwertsunterschiede zwischen Strata)  
+  • Erweiterung: Random Slopes → Unterschiede in Effekten situativer Faktoren zwischen Strata  
+
+– Idee  
+  • Nicht nur: „haben Gruppen unterschiedliche Durchschnittswerte?“  
+  • Sondern: „reagieren Gruppen unterschiedlich stark auf Umwelteinflüsse?“  
+  • Beispiel: Lärm wirkt für Stratum A stärker negativ als für Stratum B  
+
+– Umsetzung  
+  • Umweltvariablen person-mean-zentriert → intraindividuelle Abweichungen sichtbar  
+  • Schätzung: Veränderung im Wohlbefinden pro +1 SD Abweichung vom persönlichen Mittel  
+  • Modell erlaubt stratum-spezifische Steigungen (Heatmap = visuelle Übersicht)  
+
+– Interpretation der Heatmap  
+  • Zeilen = Strata (Kombination sozialer Achsen)  
+  • Spalten = Kontextfaktoren (Lärm, Natur, Lebhaftigkeit, Angenehmkeit)  
+  • Farbe = Richtung/Stärke des Effekts  
+  • Fett markiert = Konfidenzintervall schliesst 0 aus (signifikant)  
+
+– Einschränkungen  
+  • Sehr kleine, unbalancierte Stichprobe  
+  • Statistisch nicht belastbar → rein methodische Illustration  
+  • Aber: zeigt das Potenzial → genau solche Analysen wären spannend bei grösseren Datensätzen  
+:::

@@ -1,0 +1,52 @@
+<section id="$idprefix$title-slide"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$ class="quarto-title-block">
+    <h1 class="title">$title$</h1>
+    $if(subtitle)$<p class="subtitle">$subtitle$</p>$endif$
+  
+    <div class="quarto-title-authors">
+      $for(by-author)$
+        <div class="quarto-title-author">
+          <div class="quarto-title-author-name">$if(by-author.name.literal)$$by-author.name.literal$$endif$</div>
+          $if(by-author.affiliations)$
+            $for(by-author.affiliations)$
+              <p class="quarto-title-affiliation">$it.name$</p>
+            $endfor$
+          $endif$
+        </div>
+      $endfor$
+    </div>
+  
+    $if(date)$<p class="date">$date$</p>$endif$
+  
+    <!-- Lizenz-Element: wird per Script ins <body> verschoben -->
+    <div id="license-fixed" class="license-fixed" aria-label="License CC BY-SA 4.0">
+      <span class="license-text">CC BY-SA 4.0</span>
+      <i class="fa-brands fa-creative-commons" aria-hidden="true"></i>
+      <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i>
+      <i class="fa-brands fa-creative-commons-sa" aria-hidden="true"></i>
+    </div>
+  
+    <script>
+      (function () {
+        // Element aus dem Slide ins <body> verschieben (einmalig)
+        var el = document.getElementById('license-fixed');
+        if (el && el.parentNode !== document.body) document.body.appendChild(el);
+  
+        function updateVisibility(event) {
+          var body = document.body;
+          var slide = (event && event.currentSlide) || Reveal.getCurrentSlide();
+          var has = slide && slide.dataset && slide.dataset.state &&
+                    slide.dataset.state.split(' ').includes('has-license');
+          if (has) { el.classList.add('show'); body.classList.add('has-license'); }
+          else     { el.classList.remove('show'); body.classList.remove('has-license'); }
+        }
+  
+        if (window.Reveal && Reveal.isReady && Reveal.isReady()) updateVisibility();
+        else window.addEventListener('load', updateVisibility);
+  
+        if (window.Reveal) {
+          Reveal.addEventListener('slidechanged', updateVisibility);
+          Reveal.addEventListener('ready', updateVisibility);
+        }
+      })();
+    </script>
+  </section>
