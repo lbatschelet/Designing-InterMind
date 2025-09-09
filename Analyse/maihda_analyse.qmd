@@ -639,7 +639,8 @@ eq_de     <- c("Very Low"  = "sehr niedrig",
                "Very High" = "sehr hoch",
                "Unknown"   = "—")
 
-strata_overview |>
+# Erstelle die Tabelle
+strata_table <- strata_overview |>
   tidyr::separate(
     col = stratum_id,
     into = c("Gender","Altersgruppe","Sexuelle Orientierung","Äquivalenzeinkommensgruppe"),
@@ -665,7 +666,31 @@ strata_overview |>
   cols_align(
     align = "center",
     columns = c("Anzahl Personen","Anzahl Befragungen","Befragungen pro Person")
-  )
+  ) |>
+  tab_options(
+    table.font.size = px(14),
+    data_row.padding = px(6),
+    table.background.color = "transparent",
+    table.font.names = "Fira Sans Light"
+  ) |>
+  opt_table_font(font = "Fira Sans Light")
+
+# Zeige die Tabelle an
+print(strata_table)
+
+strata_table_transp <- strata_table |>
+  # Tabelle selbst transparent
+  tab_options(table.background.color = "transparent") |>
+  # auch die HTML-Body-Fläche transparent machen
+  opt_css(":root, body { background-color: rgba(0,0,0,0) !important; }")
+
+gtsave(
+  strata_table_transp,
+  filename = "Plots/strata_overview_table.png",
+  vwidth = 1200, vheight = 800, expand = 10
+  # Tipp: je nach gt-Version funktioniert auch:
+  # background = "transparent"
+)
 ```
 
 ## Kontextvariablen
@@ -1288,11 +1313,21 @@ table_plot <- wide |>
   tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = "Angenehmkeit",   rows = sig_Angenehmkeit != "unsicher")) |>
   cols_hide(starts_with("sig_")) |>
   cols_label(`Sex. Orient.` = "Sex. Orient.", `Äquiv.-Eink.` = "Äquiv.-Eink.", Befr. = "Befr.") |>
-  tab_options(table.font.size = px(14), data_row.padding = px(6))
+  tab_options(
+    table.font.size = px(14), 
+    data_row.padding = px(6),
+    table.background.color = "transparent",
+    table.font.names = "Fira Sans Light",
+    heading.title.font.size = px(16),
+    heading.subtitle.font.size = px(12),
+    column_labels.font.size = px(12)
+  ) |>
+  opt_table_font(font = "Fira Sans Light")
 
 # Zeige die Tabelle an
 print(table_plot)
 
-# Speichere als PDF mit besserer Qualität
-gtsave(table_plot, "Plots/random_slopes_table.png")
+# Speichere direkt als PNG
+gtsave(table_plot, "Plots/random_slopes_table.png", 
+       expand = 10, vwidth = 1200, vheight = 800)
 ```
