@@ -397,6 +397,7 @@ Das Ganze ist bewusst ein **MVP**: stabil, dokumentiert, einsatzbereit – und m
 - **Quantifizierung ↔ Intersektionalität**: Risiko der Fixierung von Kategorien  
 - **Infrastruktur**: offener Code ↔ geschlossene Stores  
 - **Methodik**: Skalen, Visualisierung, Kontextdaten (Hitze, Lärm, Luftqualität)
+- **Mehrwert für Teilnehmende**
 
 ::: notes
 - **Datenbasis**: Heute sehr klein und homogen → Modelle nur eingeschränkt belastbar. Grössere, diversere Stichproben nötig, mehr Wiederholungen pro Person.  
@@ -409,10 +410,9 @@ Das Ganze ist bewusst ein **MVP**: stabil, dokumentiert, einsatzbereit – und m
 
 ## Fazit {background-color="aliceblue"}
 
-- Situiertes (Un-)Wohlbefinden **alltagsnah und intersektional** erfassen  
+- Situiertes (Un-)Wohlbefinden muss **alltagsnah und intersektional** erfasst werden
 - Offener Prototyp: App + Fragebogen, Pilot zeigt **Machbarkeit**  
-- I-MAIHDA: Rahmen für quantitative Analyse, in Pilot nur methodische Illustration  
-- Nächste Schritte: grössere Datenbasis, Mixed-Methods, Feedback an Teilnehmende  
+- I-MAIHDA: Rahmen für quantitative Analyse, in Pilot nur methodische Illustration   
 - *InterMind*: Einladung, weiterzudenken und offen aufzubauen
 
 ::: notes
@@ -425,7 +425,7 @@ Das Ganze ist bewusst ein **MVP**: stabil, dokumentiert, einsatzbereit – und m
 
 ---
 
-## Merci!{background-color="black" background-image="images/Titelblatt.png" .center}
+## Merci für die Aufmerksamkeit!{background-color="black" background-image="images/Titelblatt.png" .center}
 
 
 ------------------------------------------------------------------------
