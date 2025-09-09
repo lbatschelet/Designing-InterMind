@@ -425,7 +425,7 @@ Das Ganze ist bewusst ein **MVP**: stabil, dokumentiert, einsatzbereit – und m
 
 ---
 
-## Merci für die Aufmerksamkeit!{background-color="black" background-image="images/Titelblatt.png" .center}
+## Merci!{background-color="black" background-image="images/Titelblatt.png" .center}
 
 
 ------------------------------------------------------------------------
